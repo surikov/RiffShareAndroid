@@ -30,8 +30,12 @@ public class WVHTML5 extends AppCompatActivity {
 		webView.setWebViewClient(new ExWebViewClient());
 		Intent intent = getIntent();
 		Uri uri = intent.getData();
-		System.out.println("intent data " + uri);
-		webView.loadUrl("file:///android_asset/index.html");
+		if (uri == null) {
+			webView.loadUrl("file:///android_asset/index.html");
+		} else {
+			String path = uri.toString().replace("https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html", "file:///android_asset/load.html");
+			webView.loadUrl(path);
+		}
 	}
 
 	void go(String url) {
@@ -40,7 +44,7 @@ public class WVHTML5 extends AppCompatActivity {
 			Intent myIntent = new Intent(Intent.ACTION_VIEW, webpage);
 			startActivity(myIntent);
 		} catch (Throwable e) {
-			Toast.makeText(this, "Ops "+e.getMessage(),  Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Ops " + e.getMessage(), Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 		}
 	}
