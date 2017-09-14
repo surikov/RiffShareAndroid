@@ -28,6 +28,9 @@ public class WVHTML5 extends AppCompatActivity {
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setDomStorageEnabled(true);
 		webView.setWebViewClient(new ExWebViewClient());
+		Intent intent = getIntent();
+		Uri uri = intent.getData();
+		System.out.println("intent data " + uri);
 		webView.loadUrl("file:///android_asset/index.html");
 	}
 

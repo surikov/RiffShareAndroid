@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>RiffShareFlat load</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+		<script src="localstore.js"></script>
+		<script>
+			console.log('load v1.01');
+			function load(){
+				var riff = getUrlVars()['riff'];
+				console.log(riff);
+				decodeState(riff);
+				window.location = "index.html";
+			}
+		</script>
+		<style>
+			html, body {
+				background-color:#000;
+				color: #fff;				
+			}
+			a {
+				color: #99f;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Wait</h1>
+		<p>Return <a href="index.html">back</a></p>
+		<script>
+			load();
+		</script>
+	</body>
+</html>

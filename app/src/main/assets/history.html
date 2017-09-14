@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>RiffShareFlat history</title>
+		<meta charset="utf-8">
+		<script src="WebAudioFontPlayer.js"></script>
+		<script src="0300_LesPaul_sf2_file.js"></script>
+		<script src="0280_LesPaul_sf2_file.js"></script>
+		<script src="0250_Chaos_sf2_file.js"></script>
+		<script src="0170_JCLive_sf2_file.js"></script>
+		<script src="0000_Chaos_sf2_file.js"></script>
+		<script src="0330_SoundBlasterOld_sf2.js"></script>
+		<script src="0390_GeneralUserGS_sf2_file.js"></script>
+		<script src="0480_Aspirin_sf2_file.js"></script>
+		<script src="12835_0_Chaos_sf2_file.js"></script>
+		<script src="12838_22_FluidR3_GM_sf2_file.js"></script>
+		<script src="12841_26_JCLive_sf2_file.js"></script>
+		<script src="12842_26_JCLive_sf2_file.js"></script>
+		<script src="12845_26_JCLive_sf2_file.js"></script>
+		<script src="12846_26_JCLive_sf2_file.js"></script>
+		<script src="12849_26_JCLive_sf2_file.js"></script>
+		<script src="12851_26_JCLive_sf2_file.js"></script>
+		<script src="localstore.js"></script>
+		<script src="set.js"></script>
+		<style>
+			html, body {
+				font-family: 'Gidugu', serif;
+				background-color:#000;
+				color: #fff;	
+				font-size: xx-large;
+				text-align: center;
+			}
+			a {
+				color: #99f;
+				text-decoration: none;
+			}
+			h1 {
+				text-align: center;
+				border-bottom: 1px solid #333;
+			}
+			.ftr {
+				text-align: left;
+				border-top: 1px solid #333;
+			}
+			.cntr {
+				text-align: left;
+				display: inline-block;
+			}
+			@font-face {
+			  font-family: 'Gidugu';
+			  font-style: normal;
+			  font-weight: 400;
+			  src: local('Gidugu'), url(gidugu.woff2) format('woff2');
+			  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>History</h1>
+		<div class='cntr'>
+			<ul id="mnul">
+			</ul>
+		</div>
+		<p class="ftr">Return to <a href="index.html">editor</a></p>
+		<script>
+			var ns = "http://www.w3.org/2000/svg";
+			var h = sureArray(readObjectFromlocalStorage('history'), []);
+			console.log(h);
+			for(var i=h.length-1;i>=0;i--){
+				addEntry(h[i].label, i, h[i].storeDrums, h[i].storeTracks);
+			}
+			function addEntry(label, num, storeDrums, storeTracks) {
+				var svg = entry(label,num);
+				for (var i = 0; i < storeDrums.length; i++) {
+					line(svg, storeDrums[i].beat, 60 + storeDrums[i].drum, storeDrums[i].beat + 1, 60 + storeDrums[i].drum, '#fff');
+				}
+				for (var i = 0; i < storeTracks.length; i++) {
+					line(svg, storeTracks[i].beat, 60 - storeTracks[i].pitch, storeTracks[i].beat + 1+storeTracks[i].length, 60 - storeTracks[i].pitch-storeTracks[i].shift, trackInfo[7 - storeTracks[i].track].color);
+				}
+			}
+			function pop(num) {
+				addStateToHistory(true);
+				removeStateFromHistory(num);
+				window.location='index.html';
+			}
+			function entry(label,num) {
+				var ul = document.getElementById('mnul');
+				var li = document.createElement('li');
+				ul.appendChild(li);
+				var a = document.createElement('a');
+				li.appendChild(a);
+				a.href = "javascript:pop("+num+");";
+				a.appendChild(document.createTextNode(label));
+				a.appendChild(document.createElement('br'));
+				var svg = document.createElementNS(ns, "svg");
+				svg.setAttribute('width', 256);
+				svg.setAttribute('height', 76);
+				a.appendChild(svg);
+				var rect = document.createElementNS(ns, 'rect');
+				rect.setAttribute('x', 0);
+				rect.setAttribute('y', 0);
+				rect.setAttribute('width', 256);
+				rect.setAttribute('height', 76);
+				rect.setAttribute('fill', '#111');
+				svg.appendChild(rect);
+				return svg;
+			}
+			function line(svg, x1, y1, x2, y2, color) {
+				var line = document.createElementNS(ns, 'line');
+				line.setAttribute('x1', x1);
+				line.setAttribute('y1', y1);
+				line.setAttribute('x2', x2);
+				line.setAttribute('y2', y2);
+				line.setAttribute('stroke', color);
+				line.setAttribute('stroke-width', 2);
+				line.setAttribute('stroke-linecap', 'round');
+				svg.appendChild(line);
+			}
+		</script>
+		</script>
+	</body>
+</html>
