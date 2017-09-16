@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.3');
+console.log('riffshareflat v1.0.5');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -45,6 +45,7 @@ RiffShareFlat.prototype.init = function () {
 	//this.bgImage = document.getElementById('bgImage');
 	//this.bgImageWidth = 1280;
 	//this.bgImageHeight = 800;
+	this.inChordDelay = 0.01;
 	this.sentWhen = 0;
 	this.sentMeasure = 0;
 	this.nextBeat = 0;
@@ -75,148 +76,148 @@ RiffShareFlat.prototype.init = function () {
 	for (var i = 0; i < 10; i++) {
 		this.equalizer.push(sureNumeric(readObjectFromlocalStorage('equalizer' + i), -10, 0, 10));
 	}
-	this.drumInfo=drumInfo;
-	this.trackInfo=trackInfo;
+	this.drumInfo = drumInfo;
+	this.trackInfo = trackInfo;
 	/*
 	this.drumInfo = [{
-			sound: _drum_35_0_Chaos_sf2_file,
-			pitch: 36, //36
-			title: 'Bass drum',
-			id: 0,
-			volumeRatio: 0.5,
-			length: 0.5
-		}, {
-			sound: _drum_41_26_JCLive_sf2_file,
-			pitch: 41, //43
-			title: 'Low Tom',
-			id: 1,
-			volumeRatio: 0.5,
-			length: 0.5
-		}, {
-			sound: _drum_38_22_FluidR3_GM_sf2_file,
-			pitch: 38, //40
-			title: 'Snare drum',
-			id: 2,
-			volumeRatio: 0.75,
-			length: 0.5
-		}, {
-			sound: _drum_45_26_JCLive_sf2_file,
-			pitch: 45, //47,48,50
-			title: 'Mid Tom',
-			id: 3,
-			volumeRatio: 0.75,
-			length: 0.5
-		}, {
-			sound: _drum_42_26_JCLive_sf2_file,
-			pitch: 42, //44
-			title: 'Closed Hi-hat',
-			id: 4,
-			volumeRatio: 0.5,
-			length: 1
-		}, {
-			sound: _drum_46_26_JCLive_sf2_file,
-			pitch: 46, //
-			title: 'Open Hi-hat',
-			id: 5,
-			volumeRatio: 0.5,
-			length: 1
-		}, {
-			sound: _drum_51_26_JCLive_sf2_file,
-			pitch: 51, //rest
-			title: 'Ride Cymbal',
-			id: 6,
-			volumeRatio: 0.3,
-			length: 2
-		}, {
-			sound: _drum_49_26_JCLive_sf2_file,
-			pitch: 49, //
-			title: 'Splash Cymbal',
-			id: 7,
-			volumeRatio: 0.3,
-			length: 3
-		}
+	sound: _drum_35_0_Chaos_sf2_file,
+	pitch: 36, //36
+	title: 'Bass drum',
+	id: 0,
+	volumeRatio: 0.5,
+	length: 0.5
+	}, {
+	sound: _drum_41_26_JCLive_sf2_file,
+	pitch: 41, //43
+	title: 'Low Tom',
+	id: 1,
+	volumeRatio: 0.5,
+	length: 0.5
+	}, {
+	sound: _drum_38_22_FluidR3_GM_sf2_file,
+	pitch: 38, //40
+	title: 'Snare drum',
+	id: 2,
+	volumeRatio: 0.75,
+	length: 0.5
+	}, {
+	sound: _drum_45_26_JCLive_sf2_file,
+	pitch: 45, //47,48,50
+	title: 'Mid Tom',
+	id: 3,
+	volumeRatio: 0.75,
+	length: 0.5
+	}, {
+	sound: _drum_42_26_JCLive_sf2_file,
+	pitch: 42, //44
+	title: 'Closed Hi-hat',
+	id: 4,
+	volumeRatio: 0.5,
+	length: 1
+	}, {
+	sound: _drum_46_26_JCLive_sf2_file,
+	pitch: 46, //
+	title: 'Open Hi-hat',
+	id: 5,
+	volumeRatio: 0.5,
+	length: 1
+	}, {
+	sound: _drum_51_26_JCLive_sf2_file,
+	pitch: 51, //rest
+	title: 'Ride Cymbal',
+	id: 6,
+	volumeRatio: 0.3,
+	length: 2
+	}, {
+	sound: _drum_49_26_JCLive_sf2_file,
+	pitch: 49, //
+	title: 'Splash Cymbal',
+	id: 7,
+	volumeRatio: 0.3,
+	length: 3
+	}
 	];
 	this.trackInfo = [{
-			color: 'rgba(255,204,187,1)',
-			shadow: 'rgba(255,204,187,0.4)',
-			title: 'Synth Bass',
-			order: 2,
-			sound: _tone_0390_GeneralUserGS_sf2_file,
-			volume: sureNumeric(readObjectFromlocalStorage('track7'), 0, 70, 100),
-			nn: 7,
-			octave: 3,
-			volumeRatio: 0.5
-		}, {
-			color: 'rgba(204,153,0,1)',
-			shadow: 'rgba(204,153,0,0.4)',
-			title: 'String Ensemble',
-			order: 1,
-			sound: _tone_0480_Aspirin_sf2_file,
-			volume: sureNumeric(readObjectFromlocalStorage('track6'), 0, 70, 100),
-			nn: 6,
-			octave: 3,
-			volumeRatio: 0.6
-		}, {
-			color: 'rgba(204,0,204,1)',
-			shadow: 'rgba(204,0,204,0.4)',
-			title: 'Bass guitar',
-			order: 5,
-			sound: _tone_0330_SoundBlasterOld_sf2,
-			volume: sureNumeric(readObjectFromlocalStorage('track5'), 0, 70, 100),
-			nn: 5,
-			octave: 2,
-			volumeRatio: 0.99
-		}, {
-			color: 'rgba(00,153,255,1)',
-			shadow: 'rgba(00,153,255,0.4)',
-			title: 'Acoustic Piano',
-			order: 3,
-			sound: _tone_0000_Chaos_sf2_file,
-			volume: sureNumeric(readObjectFromlocalStorage('track4'), 0, 70, 100),
-			nn: 4,
-			octave: 3,
-			volumeRatio: 0.9
-		}, {
-			color: 'rgba(153,51,0,1)',
-			shadow: 'rgba(153,51,0,0.4)',
-			title: 'PalmMute guitar',
-			order: 4,
-			sound: _tone_0280_LesPaul_sf2_file,
-			volume: sureNumeric(readObjectFromlocalStorage('track3'), 0, 70, 100),
-			nn: 3,
-			octave: 3,
-			volumeRatio: 0.9
-		}, {
-			color: 'rgba(51,51,255,1)',
-			shadow: 'rgba(51,51,255,0.4)',
-			title: 'Percussive Organ',
-			order: 0,
-			sound: _tone_0170_JCLive_sf2_file,
-			volume: sureNumeric(readObjectFromlocalStorage('track2'), 0, 70, 100),
-			nn: 2,
-			octave: 4,
-			volumeRatio: 0.6
-		}, {
-			color: 'rgba(0,153,0,1)',
-			shadow: 'rgba(0,153,0,0.4)',
-			title: 'Acoustic guitar',
-			order: 6,
-			sound: _tone_0250_Chaos_sf2_file,
-			volume: sureNumeric(readObjectFromlocalStorage('track1'), 0, 70, 100),
-			nn: 1,
-			octave: 3,
-			volumeRatio: 0.75
-		}, {
-			color: 'rgba(255,0,0,1)',
-			shadow: 'rgba(255,0,0,0.4)',
-			title: 'Distortion guitar',
-			order: 7,
-			sound: _tone_0300_LesPaul_sf2_file,
-			volume: sureNumeric(readObjectFromlocalStorage('track0'), 0, 70, 100),
-			nn: 0,
-			octave: 3,
-			volumeRatio: 0.9
-		}
+	color: 'rgba(255,204,187,1)',
+	shadow: 'rgba(255,204,187,0.4)',
+	title: 'Synth Bass',
+	order: 2,
+	sound: _tone_0390_GeneralUserGS_sf2_file,
+	volume: sureNumeric(readObjectFromlocalStorage('track7'), 0, 70, 100),
+	nn: 7,
+	octave: 3,
+	volumeRatio: 0.5
+	}, {
+	color: 'rgba(204,153,0,1)',
+	shadow: 'rgba(204,153,0,0.4)',
+	title: 'String Ensemble',
+	order: 1,
+	sound: _tone_0480_Aspirin_sf2_file,
+	volume: sureNumeric(readObjectFromlocalStorage('track6'), 0, 70, 100),
+	nn: 6,
+	octave: 3,
+	volumeRatio: 0.6
+	}, {
+	color: 'rgba(204,0,204,1)',
+	shadow: 'rgba(204,0,204,0.4)',
+	title: 'Bass guitar',
+	order: 5,
+	sound: _tone_0330_SoundBlasterOld_sf2,
+	volume: sureNumeric(readObjectFromlocalStorage('track5'), 0, 70, 100),
+	nn: 5,
+	octave: 2,
+	volumeRatio: 0.99
+	}, {
+	color: 'rgba(00,153,255,1)',
+	shadow: 'rgba(00,153,255,0.4)',
+	title: 'Acoustic Piano',
+	order: 3,
+	sound: _tone_0000_Chaos_sf2_file,
+	volume: sureNumeric(readObjectFromlocalStorage('track4'), 0, 70, 100),
+	nn: 4,
+	octave: 3,
+	volumeRatio: 0.9
+	}, {
+	color: 'rgba(153,51,0,1)',
+	shadow: 'rgba(153,51,0,0.4)',
+	title: 'PalmMute guitar',
+	order: 4,
+	sound: _tone_0280_LesPaul_sf2_file,
+	volume: sureNumeric(readObjectFromlocalStorage('track3'), 0, 70, 100),
+	nn: 3,
+	octave: 3,
+	volumeRatio: 0.9
+	}, {
+	color: 'rgba(51,51,255,1)',
+	shadow: 'rgba(51,51,255,0.4)',
+	title: 'Percussive Organ',
+	order: 0,
+	sound: _tone_0170_JCLive_sf2_file,
+	volume: sureNumeric(readObjectFromlocalStorage('track2'), 0, 70, 100),
+	nn: 2,
+	octave: 4,
+	volumeRatio: 0.6
+	}, {
+	color: 'rgba(0,153,0,1)',
+	shadow: 'rgba(0,153,0,0.4)',
+	title: 'Acoustic guitar',
+	order: 6,
+	sound: _tone_0250_Chaos_sf2_file,
+	volume: sureNumeric(readObjectFromlocalStorage('track1'), 0, 70, 100),
+	nn: 1,
+	octave: 3,
+	volumeRatio: 0.75
+	}, {
+	color: 'rgba(255,0,0,1)',
+	shadow: 'rgba(255,0,0,0.4)',
+	title: 'Distortion guitar',
+	order: 7,
+	sound: _tone_0300_LesPaul_sf2_file,
+	volume: sureNumeric(readObjectFromlocalStorage('track0'), 0, 70, 100),
+	nn: 0,
+	octave: 3,
+	volumeRatio: 0.9
+	}
 
 	];*/
 	this.setupInput();
@@ -301,7 +302,7 @@ RiffShareFlat.prototype.init = function () {
 	this.resetSize();
 	//setInterval(riffshareflat.moveCounter, 100);
 	setInterval(riffshareflat.moveBeatCounter, 100);
-	
+
 	console.log('done init');
 };
 RiffShareFlat.prototype.saveState = function () {
@@ -857,8 +858,8 @@ RiffShareFlat.prototype.startPlay = function () {
 	this.queueNextPiece(pieceLen/2,when+pieceLen);*/
 	//this.tickID = 0;
 	//this.queueNextPiece(this.audioContext.currentTime, 0);
-	this.nextBeat=0;
-	this.nextWhen=0;
+	this.nextBeat = 0;
+	this.nextWhen = 0;
 	this.queueNextBeats();
 	//this.tickID
 	//this.onAir
@@ -867,18 +868,18 @@ RiffShareFlat.prototype.startPlay = function () {
 RiffShareFlat.prototype.queueNextBeats = function () {
 	//console.log('queueNextBeats', this.nextWhen,this.audioContext.currentTime);
 	if (this.onAir) {
-		var beat16duration = (4 * 60 / this.tempo)/16;
+		var beat16duration = (4 * 60 / this.tempo) / 16;
 		var pieceLen16 = 16 * riffshareflat.cauntMeasures();
-		var t=this.audioContext.currentTime;
-		if(this.nextWhen<t){
-			this.nextWhen=t;
+		var t = this.audioContext.currentTime;
+		if (this.nextWhen < t) {
+			this.nextWhen = t;
 		}
-		while(this.sentWhen<t+this.queueAhead){
+		while (this.sentWhen < t + this.queueAhead) {
 			this.sendNextBeats(this.nextWhen, this.nextBeat, this.nextBeat);
-			this.nextWhen=this.sentWhen+beat16duration;
-			this.nextBeat=this.nextBeat+1;
-			if(this.nextBeat>=pieceLen16){
-				this.nextBeat=0;
+			this.nextWhen = this.sentWhen + beat16duration;
+			this.nextBeat = this.nextBeat + 1;
+			if (this.nextBeat >= pieceLen16) {
+				this.nextBeat = 0;
 			}
 		}
 		//console.log('	envelopes', this.player.envelopes.length);
@@ -945,31 +946,51 @@ RiffShareFlat.prototype.cauntMeasures = function () {
 	return le;
 }
 RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
-	//console.log('sendNextMeasure', when, startBeat, endBeat);
 	this.sentWhen = when;
 	this.sentBeat = startBeat;
 	var N = 4 * 60 / this.tempo;
 	var beatLen = 1 / 16 * N;
-
 	for (var i = 0; i < this.storeDrums.length; i++) {
 		var hit = this.storeDrums[i];
 		if (hit.beat >= startBeat && hit.beat <= endBeat) {
 			var channel = this.drumInfo[hit.drum];
-			this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (hit.beat - startBeat), channel.pitch, channel.length, channel.volumeRatio);
+			var r = 1.1 - Math.random() * 0.2;
+			this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (hit.beat - startBeat), channel.pitch, channel.length, r * channel.volumeRatio);
 		}
 	}
-
+	var notes = [];
 	for (var i = 0; i < this.storeTracks.length; i++) {
 		var note = this.storeTracks[i];
 		if (note.beat >= startBeat && note.beat <= endBeat) {
-			var channel = this.trackInfo[7 - note.track];
-			var shift = [{
-					when: note.length * beatLen,
-					pitch: note.shift + channel.octave * 12 + note.pitch
-				}
-			];
-			this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat), channel.octave * 12 + note.pitch, note.length * beatLen, channel.volumeRatio, shift);
+			notes.push(note);
 		}
+	}
+	notes.sort(function (n1, n2) {
+		var r = 1000 * (n1.beat - n2.beat) + 100000 * (n1.track - n2.track);
+		if (n1.beat == n2.beat) {
+			r = r + (n1.pitch - n2.pitch);
+		}
+		return r;
+	});
+	var currentBeat = -1;
+	var currentTrack = -1;
+	var inChordCount = 0;
+	for (var i = 0; i < notes.length; i++) {
+		var note = notes[i];
+		if (note.beat != currentBeat || note.track != currentTrack) {
+			currentBeat = note.beat;
+			currentTrack = note.track;
+			inChordCount = 0;
+		}
+		var channel = this.trackInfo[7 - note.track];
+		var shift = [{
+				when: note.length * beatLen,
+				pitch: note.shift + channel.octave * 12 + note.pitch
+			}
+		];
+		var r = 1.1 - Math.random() * 0.2;
+		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * this.inChordDelay, channel.octave * 12 + note.pitch, note.length * beatLen, r * channel.volumeRatio, shift);
+		inChordCount++;
 	}
 };
 
@@ -989,7 +1010,7 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			startLabel = 'Stop';
 		}
 		this.tileText(g, 4 * this.tapSize, y + this.tapSize * 9, this.tapSize * 10, startLabel, '#fff');
-		this.addSpot('plybt', 0, 1 * this.tapSize, this.leftMargin  * this.tapSize, this.tapSize * 10, function () {
+		this.addSpot('plybt', 0, 1 * this.tapSize, this.leftMargin * this.tapSize, this.tapSize * 10, function () {
 			if (riffshareflat.onAir) {
 				riffshareflat.stopPlay();
 			} else {
@@ -1003,13 +1024,13 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		window.open('export.html', '_self')
 		});*/
 		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, '#999');
-		this.tileText(g, 3 * this.tapSize, y + this.tapSize * 17, 7*this.tapSize, 'File', '#fff');
-		this.addSpot('flop', 0, 12 * this.tapSize, this.leftMargin * this.tapSize, this.tapSize*6, function () {
+		this.tileText(g, 3 * this.tapSize, y + this.tapSize * 17, 7 * this.tapSize, 'File', '#fff');
+		this.addSpot('flop', 0, 12 * this.tapSize, this.leftMargin * this.tapSize, this.tapSize * 6, function () {
 			window.open('file.html', '_self')
 		});
 		this.tileCircle(g, 3 * this.tapSize, 21 * this.tapSize, 2 * this.tapSize, '#999');
-		this.tileText(g, 2.5 * this.tapSize, y + this.tapSize * 22, 4*this.tapSize, 'Clear all', '#fff');
-		this.addSpot('clrsng', 0, 19 * this.tapSize, this.leftMargin * this.tapSize, 4*this.tapSize, function () {
+		this.tileText(g, 2.5 * this.tapSize, y + this.tapSize * 22, 4 * this.tapSize, 'Clear all', '#fff');
+		this.addSpot('clrsng', 0, 19 * this.tapSize, this.leftMargin * this.tapSize, 4 * this.tapSize, function () {
 			riffshareflat.userActionClearAll();
 		});
 

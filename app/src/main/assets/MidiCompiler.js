@@ -682,10 +682,48 @@ function MidiCompiler() {
 		for (var i = 0; i < midi.length; i++) {
 			dataView.setUint8(i, midi[i]);
 		}
-		saveAs(new Blob([arrayBuffer], {
+		console.log(dataView);
+		var arr=new Uint8Array(arrayBuffer);
+		console.log('arr',arr);
+		console.log('--');
+		console.log(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6],arr[7]);
+		//var blob=new Blob(a, {type: "octet/stream"});
+		var blob=new Blob([arr], {type: "application/octet-stream"});
+		console.log('blob',blob);
+		//var reader = new FileReader();
+       // var out = new Blob([this.response], {type: 'application/pdf'});
+        //reader.onload = function(e){
+          //window.open(reader.result);
+          //console.log(reader.result);
+        //}
+        //reader.readAsDataURL(blob);
+        var url = window.URL.createObjectURL(blob);
+        console.log(url);
+
+
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+
+        a.href = url;
+        a.download = "riffshareexport.mid";
+
+         console.log(a);
+
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+		/*saveAs(new Blob([arrayBuffer], {
 				type : "application/x-midi"
 			}), "export.mid");
+			*/
 		//window.open("data:application/x-midi;charset=utf-8," + "test", "export.mid");
+		 //window.location.href = dataView;
+		 try{
+		    Android5.sendData(midi);
+		 }catch( t){
+		    console.log(t);
+		 }
 	};
 	me.saveFileAs=function(blob,name){
 		saveAs(blob,name);
