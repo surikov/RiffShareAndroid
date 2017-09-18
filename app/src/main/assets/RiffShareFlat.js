@@ -18,7 +18,7 @@ RiffShareFlat.prototype.init = function () {
 	console.log('tapSize', this.tapSize, 'devicePixelRatio', window.devicePixelRatio);
 	this.tickID = -1;
 	this.onAir = false;
-	this.queueAhead = 0.3;
+	this.queueAhead = 0.75;
 	console.log('queueAhead', this.queueAhead);
 	this.svgns = "http://www.w3.org/2000/svg";
 	this.contentDiv = document.getElementById('contentDiv');
