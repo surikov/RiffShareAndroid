@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>RiffShareFlat file</title>
+		<title>RiffShareFlat email</title>
 		<meta charset="utf-8">
 		<script src="localstore.js"></script>
 		<style>
@@ -38,69 +38,29 @@
 		</style>
 	</head>
 	<body>
-<script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1285010274954887',
-      xfbml      : true,
-      version    : 'v2.10'
-    });
-    FB.AppEvents.logPageView();
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
-		<h1>RiffShare v2.14</h1>
+		<h1>Share via email</h1>
 		<div class='cntr'>
 			<ul>
-				<!--<li>Share via <a id='sharemail' href="#">email</a></li>-->
-				<li>Share via <a id="twitButton" class="twitter-share-button" href2="https://twitter.com/share" href="https://twitter.com/intent/tweet?text=#riffshare" data-url2="https://surikov.github.io/riffshare/edit.html" data-text2="#riffshare">Tweet</a></li>
-				<!--<li>Share <a href="email.html">short URL via email</a></li>-->
-				<li><a id='copylink' href="javascript:copyLink();">Copy</a> link into clipboard</li>
-				<li>Show <a href="history.html">history</a></li>
-				<li><a href="import.html">Import</a> from .mid</li>
-				<li><a href="export.html">Export</a> to .mid</li>
-				<li><a href="examples.html">Examples</a></li>
-				<li>GitHub <a href="https://github.com/surikov/RiffShareAndroid">source</a></li>
-				
+				<li><a id='sharemail' href="#">Create message </a>in email client</li>
+				<li><a id='copylink' href="javascript:copyLink();">Copy</a> <span id=short><i>downloading...</i></span> into clipboard</li>
 			</ul>
 		</div>
-<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div>
 		<p class="ftr">Return to <a href="index.html">editor</a></p>
 		<script>
 			var encoded = encodeState();
+			var url="http://tinyurl.com/api-create.php?url=2165136";
+			var xmlHttpRequest = new XMLHttpRequest();
+			
+			console.log(xmlHttpRequest);
+			xmlHttpRequest.onreadystatechange = function () {
+				console.log( xmlHttpRequest.responseText);
+			}
+			xmlHttpRequest.open("GET", url, true);
+			xmlHttpRequest.setRequestHeader("Authorization", "nope"); 
+			xmlHttpRequest.send();
 			//var sharemail = document.getElementById('sharemail');
 			//sharemail.href = "mailto:to@any.body?subject=RiffShare&body=look to https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
-			var twitterurl = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html%3Friff%3D" + encoded;
-			document.getElementById("twitButton").href = "https://twitter.com/intent/tweet?text=#riffshare&url=" + twitterurl;
-			window.twttr = (function (d, s, id) {
-				var js,
-				fjs = d.getElementsByTagName(s)[0],
-				t = window.twttr || {};
-				if (d.getElementById(id))
-					return;
-				js = d.createElement(s);
-				js.id = id;
-				js.src = "https://platform.twitter.com/widgets.js";
-				fjs.parentNode.insertBefore(js, fjs);
-				t._e = [];
-				t.ready = function (f) {
-					t._e.push(f);
-				};
-				return t;
-			}
-				(document, "script", "twitter-wjs"));
+			
 			clipboardDiv = document.createElement('div');
 			clipboardDiv.style.fontSize = '12pt'; // Prevent zooming on iOS
 			// Reset box model
@@ -143,6 +103,7 @@
 				}
 				focused.focus();
 			}
+			
 		</script>
 	</body>
 </html>
