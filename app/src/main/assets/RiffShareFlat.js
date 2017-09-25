@@ -943,6 +943,35 @@ RiffShareFlat.prototype.cauntMeasures = function () {
 		}
 	}
 	var le = Math.ceil((mx + 1) / 16);
+	if (le > 16) {
+		le = 16;
+	}
+	return le;
+}
+RiffShareFlat.prototype.cauntDrumMeasures = function () {
+	var mx = 0;
+	for (var i = 0; i < this.storeDrums.length; i++) {
+		if (mx < this.storeDrums[i].beat) {
+			mx = this.storeDrums[i].beat;
+		}
+	}
+	var le = Math.ceil((mx + 1) / 16);
+	if (le > 16) {
+		le = 16;
+	}
+	return le;
+}
+RiffShareFlat.prototype.cauntToneMeasures = function (nn) {
+	var mx = 0;
+	for (var i = 0; i < this.storeTracks.length; i++) {
+		if (mx < this.storeTracks[i].beat && nn == this.storeTracks[i].track) {
+			mx = this.storeTracks[i].beat;
+		}
+	}
+	var le = Math.ceil((mx + 1) / 16);
+	if (le > 16) {
+		le = 16;
+	}
 	return le;
 }
 RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
@@ -1051,6 +1080,43 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		console.log('trupp');
 		});*/
 
+		var in16 = riffshareflat.cauntToneMeasures(this.findTrackInfo(0).nn);
+
+		var stopX = (16 * in16 + this.marginLeft + 0.5) * this.tapSize;
+		//console.log('len',riffshareflat.cauntMeasures());
+		this.tileCircle(g, stopX, 0.5 * this.tapSize, 0.5 * this.tapSize, '#fff');
+		this.tileText(g, stopX - 0.25 * this.tapSize, 0.75 * this.tapSize, this.tapSize * 1.0, 'Repeat ' + this.findTrackInfo(0).title, this.findTrackInfo(0).color);
+		this.addSpot('rptins', stopX - 0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
+			riffshareflat.userRepeatInstrument();
+		});
+var dr16 = riffshareflat.cauntDrumMeasures();
+stopX = (16 * dr16 + this.marginLeft + 0.5) * this.tapSize;
+		this.tileCircle(g, stopX, (12 * 5 + 8 + 1.5) * this.tapSize, 0.5 * this.tapSize, '#666');
+		this.tileText(g, stopX - 0.25 * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Repeat Drums', '#fff');
+		this.addSpot('rptdrms', stopX - 0.5 * this.tapSize, (12 * 5 + 8 + 1) * this.tapSize, this.tapSize, this.tapSize, function () {
+			//console.log('rptdrms');
+			riffshareflat.userRepeatDrums();
+		});
+		/*
+		for (var i = 0; i < c16; i++) {
+		var tx = (16 * i + this.marginLeft + 0.5) * this.tapSize;
+		var ty = 0.5 * this.tapSize;
+		this.tileCircle(g, tx, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
+		this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx - 0.3 * this.tapSize, ty + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx + 0.3 * this.tapSize, ty + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+		var s=this.addSpot('supins'+i, tx-0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
+		console.log('up'+this.i);
+		});
+		s.i=i;
+		this.tileCircle(g, tx + this.tapSize, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
+		this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 0.7 * this.tapSize, ty - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 1.3 * this.tapSize, ty - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+		s=this.addSpot('sdwnins'+i, tx+0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
+		console.log('down'+this.i);
+		});
+		s.i=i;
+		}
+		 */
 	}
 
 	this.tileEqualizer(left, top, width, height);
@@ -1517,7 +1583,8 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 		 || x1 > x2 + w2 //
 		 || y1 + h1 < y2 //
 		 || y1 > y2 + h2 //
-	) {
+	)
+	{
 		return false;
 	} else {
 		return true;
@@ -1569,7 +1636,25 @@ RiffShareFlat.prototype.tileEllipse = function (g, x, y, rx, ry, fillColor, stro
 		e.setAttributeNS(null, 'stroke-width', strokeWidth);
 	}
 	g.appendChild(e);
+	return e;
 };
+/*RiffShareFlat.prototype.tilePolygon = function (g, x, y, r, fillColor, strokeColor, strokeWidth) {
+var polygon = document.createElementNS(this.svgns, 'polygon');
+polygon.setAttributeNS(null, 'cx', x);
+polygon.setAttributeNS(null, 'cy', y);
+polygon.setAttributeNS(null, 'r', r);
+if (fillColor) {
+polygon.setAttributeNS(null, 'fill', fillColor);
+}
+if (strokeColor) {
+polygon.setAttributeNS(null, 'stroke', strokeColor);
+}
+if (strokeWidth) {
+polygon.setAttributeNS(null, 'stroke-width', strokeWidth);
+}
+g.appendChild(polygon);
+return polygon;
+};*/
 RiffShareFlat.prototype.tileCircle = function (g, x, y, r, fillColor, strokeColor, strokeWidth) {
 	var circle = document.createElementNS(this.svgns, 'circle');
 	circle.setAttributeNS(null, 'cx', x);
@@ -1585,6 +1670,7 @@ RiffShareFlat.prototype.tileCircle = function (g, x, y, r, fillColor, strokeColo
 		circle.setAttributeNS(null, 'stroke-width', strokeWidth);
 	}
 	g.appendChild(circle);
+	return circle
 };
 RiffShareFlat.prototype.tileRectangle = function (g, x, y, w, h, fillColor, strokeColor, strokeWidth, r) {
 	var rect = document.createElementNS(this.svgns, 'rect');
@@ -1630,6 +1716,7 @@ RiffShareFlat.prototype.tileText = function (g, x, y, fontSize, text, bgColor, s
 	}
 	txt.innerHTML = text;
 	g.appendChild(txt);
+	return txt;
 };
 RiffShareFlat.prototype.clearLayerChildren = function (layers) {
 	for (var i = 0; i < layers.length; i++) {
@@ -1865,6 +1952,54 @@ RiffShareFlat.prototype.userActionSwap = function () {
 			riffshareflat.storeTracks = nw;
 			riffshareflat.setTrackOrders(after);
 			riffshareflat.mark = null;
+		}
+	});
+};
+RiffShareFlat.prototype.userRepeatInstrument = function () {
+	var nn = this.findTrackInfo(0).nn;
+	var pre = this.copyTones();
+	var after = this.copyTones();
+	var c16 = 16 * this.cauntToneMeasures(nn);
+	for (var i = 0; i < pre.length; i++) {
+		if (nn == pre[i].track && pre[i].beat + c16 < 16 * 16) {
+			after.push({
+				beat: pre[i].beat + c16,
+				pitch: pre[i].pitch,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		}
+	}
+	riffshareflat.pushAction({
+		caption: 'repeat instrument ' + nn,
+		undo: function () {
+			riffshareflat.storeTracks = pre;
+		},
+		redo: function () {
+			riffshareflat.storeTracks = after;
+		}
+	});
+};
+RiffShareFlat.prototype.userRepeatDrums = function () {
+	var pre = this.copyDrums();
+	var after = this.copyDrums();
+	var c16 = 16 * this.cauntDrumMeasures();
+	for (var i = 0; i < pre.length; i++) {
+		if (pre[i].beat + c16 < 16 * 16) {
+			after.push({
+				beat: pre[i].beat + c16,
+				drum: pre[i].drum
+			});
+		}
+	}
+	riffshareflat.pushAction({
+		caption: 'repeat drums',
+		undo: function () {
+			riffshareflat.storeDrums = pre;
+		},
+		redo: function () {
+			riffshareflat.storeDrums = after;
 		}
 	});
 };
