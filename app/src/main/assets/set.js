@@ -105,17 +105,18 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track3'), 0, 70, 100),
 		nn: 3,
 		octave: 3,
-		volumeRatio: 0.9
+		volumeRatio: 1.5
 	}, {
 		color: 'rgba(51,51,255,1)',
 		shadow: 'rgba(51,51,255,0.4)',
 		title: 'Percussive Organ',
 		order: 0,
-		sound: _tone_0170_JCLive_sf2_file,
+		sound: _tone_0170_SBLive_sf2,
+		//sound: _tone_0170_JCLive_sf2_file,
 		volume: sureNumeric(readObjectFromlocalStorage('track2'), 0, 70, 100),
 		nn: 2,
 		octave: 4,
-		volumeRatio: 0.6
+		volumeRatio: 0.9
 	}, {
 		color: 'rgba(0,153,0,1)',
 		shadow: 'rgba(0,153,0,0.4)',

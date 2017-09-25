@@ -1,15 +1,14 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>RiffShareFlat</title>
+		<title>RiffShareFlat play</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 		<script src="WebAudioFontPlayer.js"></script>
 		<script src="0300_LesPaul_sf2_file.js"></script>
 		<script src="0280_LesPaul_sf2_file.js"></script>
 		<script src="0250_Chaos_sf2_file.js"></script>
-		<script src="0170_SBLive_sf2.js"></script>
-		<!--<script src="0170_JCLive_sf2_file.js"></script>-->
+		<script src="0170_JCLive_sf2_file.js"></script>
 		<script src="0000_Chaos_sf2_file.js"></script>
 		<script src="0330_SoundBlasterOld_sf2.js"></script>
 		<script src="0390_GeneralUserGS_sf2_file.js"></script>
@@ -24,9 +23,9 @@
 		<script src="12851_26_JCLive_sf2_file.js"></script>
 		<script src="localstore.js"></script>
 		<script src="set.js"></script>
-		<script src="RiffShareFlat.js"></script>
+		<script src="play.js"></script>
 		<script>
-			console.log('RiffShare flat v1.02');
+			console.log('play.html v1.01');
 		</script>
 		<style>
 			html, body {
@@ -83,29 +82,12 @@
 		<div id="rakeDiv" style="width:100%; height:100%;  background-color:#0f0; overflow:hidden; padding:0px; margin:0px;" >
 			<div id="contentDiv" style="width:100%; height:100%; background-color:#000; padding:0px; margin:0px;" >
 				<svg id="contentSVG" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="padding:0px; margin:0px;">
-					<!--<g id='bgGroup'>
-						<image id='bgImage' href="bg3.jpg" x="0px" y="0px" width="1280px" height="800px"/>
-					</g>-->
 					<g id='contentGroup'>
-						<g id='counterGroup'/>
-						<g id='paneGroup'/>
-						<g id='linesGroup'/>
-						<g id='textGroup'/>
-						<g id='drumGroup'/>
-						<g id='track1Group'/>
-						<g id='track2Group'/>
-						<g id='track3Group'/>
-						<g id='track4Group'/>
-						<g id='track5Group'/>
-						<g id='track6Group'/>
-						<g id='track7Group'/>
-						<g id='track8Group'/>
-						<g id='upperGroup'/>
+						<g id='bgGroup'/>
 					</g>
 				</svg>
 			</div>
 		</div>
-		<div id="undobutton" class="undob" onclick='riffshareflat.undoLast();'><img id="undoimg" src='undo.png' width='100%' height='100%' /></div>
-		<div id="redobutton" class="redob" onclick='riffshareflat.redoNext();'><img id="redoimg" src='redo.png' width='100%' height='100%' /></div>
+		<div id="undobutton" class="undob" onclick='riffshareflat.undoLast();'>(?)</div>
 	</body>
 </html>
