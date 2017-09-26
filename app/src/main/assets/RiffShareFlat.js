@@ -1116,31 +1116,33 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			//console.log('rptdrms');
 			riffshareflat.userRepeatDrums();
 		});
-		this.tileCircle(g, (this.marginLeft+0.5) * this.tapSize, (12*5+8+1.5) * this.tapSize, 0.5 * this.tapSize, '#666');
-		this.tileText(g, (this.marginLeft+0.5) * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Clear Drums', '#fff');
+		this.tileCircle(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.5) * this.tapSize, 0.5 * this.tapSize, '#666');
+		this.tileText(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Clear Drums', '#fff');
 		this.addSpot('clrdrms', (this.marginLeft) * this.tapSize, (12 * 5 + 8 + 1) * this.tapSize, this.tapSize, this.tapSize, function () {
-        			riffshareflat.userClearDrum();
-        		});
-		/*
-		for (var i = 0; i < c16; i++) {
-		var tx = (16 * i + this.marginLeft + 0.5) * this.tapSize;
-		var ty = 0.5 * this.tapSize;
-		this.tileCircle(g, tx, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
-		this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx - 0.3 * this.tapSize, ty + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx + 0.3 * this.tapSize, ty + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		var s=this.addSpot('supins'+i, tx-0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
-		console.log('up'+this.i);
+			riffshareflat.userClearDrum();
 		});
-		s.i=i;
-		this.tileCircle(g, tx + this.tapSize, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
-		this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 0.7 * this.tapSize, ty - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 1.3 * this.tapSize, ty - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		s=this.addSpot('sdwnins'+i, tx+0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
-		console.log('down'+this.i);
-		});
-		s.i=i;
+
+		for (var i = 0; i < in16; i++) {
+			var tx = (16 * i + this.marginLeft + 0.5) * this.tapSize;
+			var ty = 0.5 * this.tapSize;
+			this.tileCircle(g, tx, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
+			this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx - 0.3 * this.tapSize, ty + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+			this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx + 0.3 * this.tapSize, ty + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+			var s = this.addSpot('supins' + i, tx - 0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
+					//console.log('up' + this.i);
+					riffshareflat.userUpMeasure(this.i);
+				});
+			s.i = i;
+			this.tileCircle(g, tx + this.tapSize, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
+			this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 0.7 * this.tapSize, ty - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+			this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 1.3 * this.tapSize, ty - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+			s = this.addSpot('sdwnins' + i, tx + 0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
+					//console.log('down' + this.i);
+					riffshareflat.userDownMeasure(this.i);
+				});
+			s.i = i;
 		}
-		 */
+
 	}
 
 	this.tileEqualizer(left, top, width, height);
@@ -1984,25 +1986,27 @@ RiffShareFlat.prototype.userUpInstrument = function () {
 	var pre = this.copyTones();
 	var after = [];
 	for (var i = 0; i < pre.length; i++) {
-		if (pre[i].pitch >= 12 * 4  && nn == pre[i].track) {return;}
-			if (nn == pre[i].track) {
-				after.push({
-					beat: pre[i].beat,
-					pitch: pre[i].pitch + 12,
-					track: pre[i].track,
-					shift: pre[i].shift,
-					length: pre[i].length
-				});
-			} else {
-				after.push({
-					beat: pre[i].beat,
-					pitch: pre[i].pitch,
-					track: pre[i].track,
-					shift: pre[i].shift,
-					length: pre[i].length
-				});
-			}
-		
+		if (pre[i].pitch >= 12 * 4 && nn == pre[i].track) {
+			return;
+		}
+		if (nn == pre[i].track) {
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch + 12,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		} else {
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		}
+
 	}
 	riffshareflat.pushAction({
 		caption: 'up instrument ' + nn,
@@ -2022,27 +2026,99 @@ RiffShareFlat.prototype.userDownInstrument = function () {
 		if (pre[i].pitch < 12 && nn == pre[i].track) {
 			return;
 		}
-			if (nn == pre[i].track) {
-				after.push({
-					beat: pre[i].beat,
-					pitch: pre[i].pitch - 12,
-					track: pre[i].track,
-					shift: pre[i].shift,
-					length: pre[i].length
-				});
-			} else {
-				after.push({
-					beat: pre[i].beat,
-					pitch: pre[i].pitch,
-					track: pre[i].track,
-					shift: pre[i].shift,
-					length: pre[i].length
-				});
-			}
-		
+		if (nn == pre[i].track) {
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch - 12,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		} else {
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		}
+
 	}
 	riffshareflat.pushAction({
-		caption: 'up instrument ' + nn,
+		caption: 'down instrument ' + nn,
+		undo: function () {
+			riffshareflat.storeTracks = pre;
+		},
+		redo: function () {
+			riffshareflat.storeTracks = after;
+		}
+	});
+};
+RiffShareFlat.prototype.userUpMeasure = function (msr) {
+	var nn = this.findTrackInfo(0).nn;
+	var pre = this.copyTones();
+	var after = [];
+	for (var i = 0; i < pre.length; i++) {
+		if (pre[i].beat >= msr * 16 && pre[i].beat < (1+msr) * 16  && nn == pre[i].track) {
+			if (pre[i].pitch >= 12 * 5 - 1) {
+				return;
+			}
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch + 1,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		} else {
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		}
+	}
+	riffshareflat.pushAction({
+		caption: 'up measure ' + msr + ' for instrument ' + nn,
+		undo: function () {
+			riffshareflat.storeTracks = pre;
+		},
+		redo: function () {
+			riffshareflat.storeTracks = after;
+		}
+	});
+};
+RiffShareFlat.prototype.userDownMeasure = function (msr) {
+	var nn = this.findTrackInfo(0).nn;
+	var pre = this.copyTones();
+	var after = [];
+	for (var i = 0; i < pre.length; i++) {
+		if (pre[i].beat >= msr * 16 && pre[i].beat < (1+msr )* 16 && nn == pre[i].track) {
+			if (pre[i].pitch < 1) {
+				return;
+			}
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch - 1,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		} else {
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		}
+	}
+	riffshareflat.pushAction({
+		caption: 'down measure ' + msr + ' for instrument ' + nn,
 		undo: function () {
 			riffshareflat.storeTracks = pre;
 		},
