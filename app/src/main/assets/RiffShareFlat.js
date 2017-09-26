@@ -1116,6 +1116,11 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			//console.log('rptdrms');
 			riffshareflat.userRepeatDrums();
 		});
+		this.tileCircle(g, (this.marginLeft+0.5) * this.tapSize, (12*5+8+1.5) * this.tapSize, 0.5 * this.tapSize, '#666');
+		this.tileText(g, (this.marginLeft+0.5) * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Clear Drums', '#fff');
+		this.addSpot('clrdrms', (this.marginLeft) * this.tapSize, (12 * 5 + 8 + 1) * this.tapSize, this.tapSize, this.tapSize, function () {
+        			riffshareflat.userClearDrum();
+        		});
 		/*
 		for (var i = 0; i < c16; i++) {
 		var tx = (16 * i + this.marginLeft + 0.5) * this.tapSize;
@@ -2070,6 +2075,19 @@ RiffShareFlat.prototype.userClearInstrument = function () {
 		},
 		redo: function () {
 			riffshareflat.storeTracks = after;
+		}
+	});
+};
+RiffShareFlat.prototype.userClearDrum = function () {
+	var pre = this.copyDrums();
+	var after = [];
+	riffshareflat.pushAction({
+		caption: 'clear drums',
+		undo: function () {
+			riffshareflat.storeDrums = pre;
+		},
+		redo: function () {
+			riffshareflat.storeDrums = after;
 		}
 	});
 };
