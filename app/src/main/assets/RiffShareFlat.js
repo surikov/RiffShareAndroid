@@ -1222,15 +1222,26 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 	var g = this.rakeGroup(x, y, w, h, 'pnlins', this.linesGroup, left, top, width, height);
 	if (g) {
 		for (var i = 0; i < 5; i++) {
-			this.tileRectangle(g, x, y + this.tapSize * (0 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.1)');
-			this.tileRectangle(g, x, y + this.tapSize * (2 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.1)');
-			this.tileRectangle(g, x, y + this.tapSize * (4 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.1)');
-			this.tileRectangle(g, x, y + this.tapSize * (6 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.1)');
-			this.tileRectangle(g, x, y + this.tapSize * (7 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.1)');
-			this.tileRectangle(g, x, y + this.tapSize * (9 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.1)');
-			this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.1)');
-		}
+			this.tileRectangle(g, x, y + this.tapSize * (0 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
+			this.tileRectangle(g, x, y + this.tapSize * (2 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
+			this.tileRectangle(g, x, y + this.tapSize * (4 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
+			this.tileRectangle(g, x, y + this.tapSize * (6 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
+			this.tileRectangle(g, x, y + this.tapSize * (7 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
+			this.tileRectangle(g, x, y + this.tapSize * (9 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
+			this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
 
+		}
+        //for (var i = 0; i < 5; i++) {
+            //for (var k = 0; k < 16 * 16; k++) {
+                //this.tileText(g, x + this.tapSize * k*16, y + this.tapSize * (i*12+11+0.75), 1.4*this.tapSize, 'C' + (5-i) , '#000');
+                /*this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-2), 1.4*this.tapSize, 'D' , '#000');
+                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-4), 1.4*this.tapSize, 'E' , '#000');
+                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-5), 1.4*this.tapSize, 'F' , '#000');
+                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-7), 1.4*this.tapSize, 'G' , '#000');
+                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-9), 1.4*this.tapSize, 'A' , '#000');
+                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-11), 1.4*this.tapSize, 'B' , '#000');*/
+            //}
+        //}
 		for (var i = 1; i < 16 * 16; i++) {
 			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.03, this.tapSize * 5 * 12, 'rgba(0,0,0,0.75)');
 		}
@@ -1282,13 +1293,16 @@ RiffShareFlat.prototype.addNote = function (beat, pitch, track, length, shift) {
 		shift: shift
 	});
 };
-RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, top, width, height) {
+RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, top, width, height,bottom) {
 	var x = this.tapSize * (this.marginLeft + 16 * measure);
 	var y = this.tapSize * (this.marginTop + 12 * (4 - octave));
 	var w = this.tapSize * 16;
 	var h = this.tapSize * 12;
 	var g = this.rakeGroup(x, y, w, h, 'tnOm' + measure + 'x' + octave + 'x' + track.nn, this.trackGroups[track.order], left, top, width, height);
 	if (g) {
+	    if(bottom){
+	        this.tileText(g, x+0.1*this.tapSize , y +11.7*this.tapSize, 1.2*this.tapSize, 'C' + (octave+1) , '#000');
+	    }
 		for (var i = 0; i < this.storeTracks.length; i++) {
 			var p = this.storeTracks[i];
 			if (p.track == track.nn) {
@@ -1335,7 +1349,7 @@ RiffShareFlat.prototype.tileTones = function (left, top, width, height) {
 	for (var m = 0; m < 16; m++) {
 		for (var o = 0; o < 5; o++) {
 			for (var t = 0; t < 8; t++) {
-				this.tilePartTones(m, o, this.findTrackInfo(7 - t), left, top, width, height);
+				this.tilePartTones(m, o, this.findTrackInfo(7 - t), left, top, width, height,t==0);
 			}
 		}
 	}

@@ -260,7 +260,7 @@ function addStateToHistory(nocut) {
 	if(nocut){
 		//
 	}else{
-		while (hstry.length > 10) {
+		while (hstry.length > 23) {
 			hstry.shift();
 		}
 	}
