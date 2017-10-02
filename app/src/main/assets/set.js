@@ -65,6 +65,7 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track7'), 0, 70, 100),
 		nn: 7,
 		octave: 3,
+		inChordDelay: 0.01,
 		volumeRatio: 0.5
 	}, {
 		color: 'rgba(204,153,0,1)',
@@ -75,6 +76,7 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track6'), 0, 70, 100),
 		nn: 6,
 		octave: 3,
+		inChordDelay: 0,
 		volumeRatio: 0.6
 	}, {
 		color: 'rgba(204,0,204,1)',
@@ -85,6 +87,7 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track5'), 0, 70, 100),
 		nn: 5,
 		octave: 2,
+		inChordDelay: 0.01,
 		volumeRatio: 0.99
 	}, {
 		color: 'rgba(00,153,255,1)',
@@ -95,6 +98,7 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track4'), 0, 70, 100),
 		nn: 4,
 		octave: 3,
+		inChordDelay: 0,
 		volumeRatio: 0.9
 	}, {
 		color: 'rgba(153,51,0,1)',
@@ -105,12 +109,14 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track3'), 0, 70, 100),
 		nn: 3,
 		octave: 3,
+		inChordDelay: 0,
 		volumeRatio: 1.5
 	}, {
 		color: 'rgba(51,51,255,1)',
 		shadow: 'rgba(51,51,255,0.4)',
 		title: 'Percussive Organ',
 		order: 0,
+		inChordDelay: 0,
 		sound: _tone_0170_SBLive_sf2,
 		//sound: _tone_0170_JCLive_sf2_file,
 		volume: sureNumeric(readObjectFromlocalStorage('track2'), 0, 70, 100),
@@ -126,6 +132,7 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track1'), 0, 70, 100),
 		nn: 1,
 		octave: 3,
+		inChordDelay: 0.01,
 		volumeRatio: 0.75
 	}, {
 		color: 'rgba(255,0,0,1)',
@@ -136,6 +143,7 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track0'), 0, 70, 100),
 		nn: 0,
 		octave: 3,
+		inChordDelay: 0.01,
 		volumeRatio: 0.9
 	}
 

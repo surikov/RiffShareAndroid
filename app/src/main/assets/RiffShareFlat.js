@@ -45,7 +45,7 @@ RiffShareFlat.prototype.init = function () {
 	//this.bgImage = document.getElementById('bgImage');
 	//this.bgImageWidth = 1280;
 	//this.bgImageHeight = 800;
-	this.inChordDelay = 0.01;
+	//this.inChordDelay = 0.01;
 	this.sentWhen = 0;
 	this.sentMeasure = 0;
 	this.nextBeat = 0;
@@ -1018,7 +1018,7 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			}
 		];
 		var r = 1.1 - Math.random() * 0.2;
-		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * this.inChordDelay, channel.octave * 12 + note.pitch, note.length * beatLen, r * channel.volumeRatio, shift);
+		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, note.length * beatLen, r * channel.volumeRatio, shift);
 		inChordCount++;
 	}
 };
