@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.5');
+console.log('riffshareflat v1.0.6');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -1073,10 +1073,20 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.tileCircle(g, 2.5 * this.tapSize, 52 * this.tapSize, 0.5 * this.tapSize, this.findTrackInfo(0).color);
 		this.tileCircle(g, 3.5 * this.tapSize, 52 * this.tapSize, 0.5 * this.tapSize, this.findTrackInfo(0).color);
 		this.tileText(g, 4.1 * this.tapSize, y + this.tapSize * 52.3, this.tapSize * 1.0, 'Clear', this.findTrackInfo(0).color);
-		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.3 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.3 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+		
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.25 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.25 * this.tapSize, '#000', 0.1 * this.tapSize);
+		
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.25 * this.tapSize, '#000', 0.1 * this.tapSize);
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.25 * this.tapSize, '#000', 0.1 * this.tapSize);
+		
+		//this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+		//this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
+		
 		this.tileLine(g, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, '#000', 0.1 * this.tapSize);
 		this.tileLine(g, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, '#000', 0.1 * this.tapSize);
 		this.addSpot('octup', 1 * this.tapSize, 51.5 * this.tapSize, this.tapSize, this.tapSize, function () {
@@ -1293,6 +1303,23 @@ RiffShareFlat.prototype.addNote = function (beat, pitch, track, length, shift) {
 		shift: shift
 	});
 };
+RiffShareFlat.prototype.pitchName = function (pitch) {
+	var o=Math.ceil(pitch / 12);
+	var n=pitch % 12;
+	var t='C';
+	if(n==1){t='C#';}
+	if(n==2){t='D';}
+	if(n==3){t='D#';}
+	if(n==4){t='E';}
+	if(n==5){t='F';}
+	if(n==6){t='F#';}
+	if(n==7){t='G';}
+	if(n==8){t='G#';}
+	if(n==9){t='A';}
+	if(n==10){t='A#';}
+	if(n==11){t='B';}
+	return ''+t;
+}
 RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, top, width, height,bottom) {
 	var x = this.tapSize * (this.marginLeft + 16 * measure);
 	var y = this.tapSize * (this.marginTop + 12 * (4 - octave));
@@ -1300,9 +1327,9 @@ RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, 
 	var h = this.tapSize * 12;
 	var g = this.rakeGroup(x, y, w, h, 'tnOm' + measure + 'x' + octave + 'x' + track.nn, this.trackGroups[track.order], left, top, width, height);
 	if (g) {
-	    if(bottom){
+	    /*if(bottom){
 	        this.tileText(g, x+0.1*this.tapSize , y +11.7*this.tapSize, 1.2*this.tapSize, 'C' + (octave+1) , '#000');
-	    }
+	    }*/
 		for (var i = 0; i < this.storeTracks.length; i++) {
 			var p = this.storeTracks[i];
 			if (p.track == track.nn) {
@@ -1319,7 +1346,8 @@ RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, 
 									this.tileLine(g, xx, yy, 1 + xx + this.tapSize * le, yy - this.tapSize * p.shift, track.shadow, r);
 								} else {
 									this.tileLine(g, xx, yy, 1 + xx + this.tapSize * le, yy - this.tapSize * p.shift, track.color, r);
-									this.tileCircle(g, xx, yy, this.tapSize / 5, '#000');
+									//this.tileCircle(g, xx, yy, this.tapSize / 5, '#000');
+									this.tileText(g, xx -0.4*this.tapSize, yy+0.2*this.tapSize, 1.0*this.tapSize, this.pitchName(p.pitch) , '#000');
 								}
 							}
 						}
