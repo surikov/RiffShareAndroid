@@ -848,6 +848,8 @@ RiffShareFlat.prototype.startPlay = function () {
 		return;
 	}
 	console.log('startPlay');
+	//console.log(this.trackInfo);
+	//console.log(this.drumInfo);
 	this.onAir = true;
 	this.resetNodeValues();
 	/*var N = 4 * 60 / this.tempo;
@@ -1491,7 +1493,9 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 						riffshareflat.userActionUpTrack(this.order);
 					});
 				s.order = i;
-				this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				if(this.trackInfo[i].sound.zones[0].buffer){
+				    this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				}
 				/*for (var v = 0; v < 11; v++) {
 				var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
 				riffshareflat.userActionToneVolume(this.track, this.volume);
@@ -1507,7 +1511,9 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				riffshareflat.userActionUpTrack(this.order);
 				});
 				s.order = i;*/
-				this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				if(this.trackInfo[i].sound.zones[0].buffer){
+				    this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				}
 				for (var v = 0; v < 11; v++) {
 					var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
 							riffshareflat.userActionToneVolume(this.track, this.volume);
@@ -1537,7 +1543,9 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 				s.drum = i;
 				s.volume = v * 10;
 			}
-			this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, '#ffffff');
+			if(this.drumInfo[i].sound.zones[0].buffer){
+			    this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, '#ffffff');
+			}
 		}
 		/*
 		this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * 0.75, this.tapSize * 0.9, 'Bass drum', '#ffffff');
