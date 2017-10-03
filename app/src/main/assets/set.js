@@ -94,12 +94,12 @@ var trackInfo = [{
 		shadow: 'rgba(00,153,255,0.4)',
 		title: 'Acoustic Piano',
 		order: 3,
-		sound: _tone_0000_Aspirin_sf2_file,
+		sound: _tone_0001_FluidR3_GM_sf2_file,
 		volume: sureNumeric(readObjectFromlocalStorage('track4'), 0, 70, 100),
 		nn: 4,
 		octave: 3,
 		inChordDelay: 0,
-		volumeRatio: 0.9
+		volumeRatio: 0.99
 	}, {
 		color: 'rgba(153,51,0,1)',
 		shadow: 'rgba(153,51,0,0.4)',
