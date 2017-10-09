@@ -1655,6 +1655,7 @@ RiffShareFlat.prototype.rakeGroup = function (x, y, w, h, id, layer, left, top, 
 	return null;
 };
 RiffShareFlat.prototype.childExists = function (id, layer) {
+    this.msEdgeHook(layer);
 	for (var i = 0; i < layer.children.length; i++) {
 		var t = layer.children[i];
 		if (t.id == id) {
@@ -1806,6 +1807,7 @@ RiffShareFlat.prototype.tileText = function (g, x, y, fontSize, text, bgColor, s
 RiffShareFlat.prototype.clearLayerChildren = function (layers) {
 	for (var i = 0; i < layers.length; i++) {
 		var layer = layers[i];
+		this.msEdgeHook(layer);
 		for (var n = 0; n < layer.children.length; n++) {
 			var g = layer.children[n];
 			while (g.children.length > 0) {
