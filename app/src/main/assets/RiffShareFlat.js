@@ -25,6 +25,7 @@ RiffShareFlat.prototype.init = function () {
 	this.contentSVG = document.getElementById('contentSVG');
 	this.rakeDiv = document.getElementById('rakeDiv');
 	this.contentGroup = document.getElementById('contentGroup');
+	//console.log('this.contentGroup',this.contentGroup);
 	this.paneGroup = document.getElementById('paneGroup');
 	this.linesGroup = document.getElementById('linesGroup');
 	this.textGroup = document.getElementById('textGroup');
@@ -1592,13 +1593,21 @@ RiffShareFlat.prototype.tileEqualizer = function (left, top, width, height) {
 		this.tileText(g, x + this.tapSize * (9 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '16k', '#000');
 	}
 };
+RiffShareFlat.prototype.msEdgeHook = function (g) {
+     if(g.childNodes && (!(g.children))){
+            g.children=g.childNodes;
+            //console.log('try layer.children',layer.children);
+        }
+};
 RiffShareFlat.prototype.clearUselessDetails = function (x, y, w, h, layer) {
+    this.msEdgeHook(layer);
 	for (var i = 0; i < layer.children.length; i++) {
 		var group = layer.children[i];
 		this.clearUselessNodes(x, y, w, h, group);
 	}
 };
 RiffShareFlat.prototype.clearUselessNodes = function (x, y, w, h, layer) {
+    this.msEdgeHook(layer);
 	for (var i = 0; i < layer.children.length; i++) {
 		var t = layer.children[i];
 		if (this.outOfView(t, x, y, w, h)) {
