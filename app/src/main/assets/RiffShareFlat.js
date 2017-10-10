@@ -246,7 +246,7 @@ RiffShareFlat.prototype.init = function () {
 			}
 			if (flatstate.orders) {
 				for (var i = 0; i < 8; i++) {
-					var o = sureNumeric(flatstate.orders[i], 0, i, 7)
+					var o = sureNumeric(flatstate.orders[i], 0, i, 7);
 						riffshareflat.trackInfo[i].order = o;
 				}
 				flatstate.orders.sort();

@@ -5,6 +5,25 @@
 		<meta charset="utf-8">
 		<script src="localstore.js"></script>
 		<script src="MidiCompiler.js"></script>
+		<script src="WebAudioFontPlayer.js"></script>
+		<script src="0300_LesPaul_sf2_file.js"></script>
+		<script src="0280_LesPaul_sf2_file.js"></script>
+		<script src="0250_Chaos_sf2_file.js"></script>
+		<!--<script src="0170_JCLive_sf2_file.js"></script>-->
+		<script src="0170_SBLive_sf2.js"></script>
+		<script src="0001_FluidR3_GM_sf2_file.js"></script>
+		<script src="0340_Aspirin_sf2_file.js"></script>
+		<script src="0390_GeneralUserGS_sf2_file.js"></script>
+		<script src="0480_Aspirin_sf2_file.js"></script>
+		<script src="12835_0_Chaos_sf2_file.js"></script>
+		<script src="12838_22_FluidR3_GM_sf2_file.js"></script>
+		<script src="12841_26_JCLive_sf2_file.js"></script>
+		<script src="12842_26_JCLive_sf2_file.js"></script>
+		<script src="12845_26_JCLive_sf2_file.js"></script>
+		<script src="12846_26_JCLive_sf2_file.js"></script>
+		<script src="12849_26_JCLive_sf2_file.js"></script>
+		<script src="12851_26_JCLive_sf2_file.js"></script>
+		<script src="set.js"></script>
 		<style>
 			html, body {
 				font-family: 'Gidugu', serif;
@@ -39,20 +58,185 @@
 		</style>
 	</head>
 	<body>
-		<h1>Export to .mid</h1>
+		<h1>Export</h1>
 		<div class='cntr'>
 			<ul>
-				<li><a href='javascript:promptExport();'>File name</a></li>
+				<li><a href='javascript:promptExport();'>File name</a> to .mid</li>
+				<li>
+					<span><svg id="contentSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="display:none; padding: 0px; margin: 0px; width: 600px; height: 400px; background:#111">
+
+					</svg></span>
+					<canvas id='wrk' width='600' height='400'></canvas>
+					<!--<br/><div id="pngdiv">-->
+
+				
+				</li>
 			</ul>
 		</div>
 		<p class="ftr">Return to <a href="index.html">editor</a></p>
 		<script>
+			var storeDrums=readObjectFromlocalStorage('storeDrums');
+			var storeTracks=readObjectFromlocalStorage('storeTracks');
+			var flatstate=readObjectFromlocalStorage('flatstate');
+			var mltpl=16;
+			var hh=0;
+			var ww=0;
 			function promptExport(){
 				var compiler = new MidiCompiler();
-				var storeDrums=readObjectFromlocalStorage('storeDrums');
-				var storeTracks=readObjectFromlocalStorage('storeTracks');
+				//var storeDrums=readObjectFromlocalStorage('storeDrums');
+				//var storeTracks=readObjectFromlocalStorage('storeTracks');
 				compiler.exportMidi(storeDrums,storeTracks);
 			}
+			function savePicture() {
+				console.log('savePicture');
+				var contentSVG=document.getElementById('contentSVG');
+				contentSVG.width=ww;
+				contentSVG.height=hh;
+				var svgString = new XMLSerializer().serializeToString(contentSVG);
+				var wrk = document.getElementById("wrk");
+				wrk.width=ww;
+				wrk.height=hh;
+				var ctx = wrk.getContext("2d");
+				var _self = self.URL || self.webkitURL || self;
+				var img = new Image();
+				var svg = new Blob([svgString], {type: "image/svg+xml;charset=utf-8"});
+				var url = _self.createObjectURL(svg);
+				img.onload = function() {
+					ctx.drawImage(img, 0, 0);
+					//var png = wrk.toDataURL("image/png");
+					//document.getElementById('pngdiv').innerHTML = '<img src="'+png+'"/>';
+					//_self.revokeObjectURL(png);
+				};
+				img.src = url;
+			}
+			var ns = "http://www.w3.org/2000/svg";
+			function line(svg, x1, y1, x2, y2, color) {
+				lineStroke(svg, x1, y1, x2, y2, color,mltpl);
+			}
+			function lineStroke(svg, x1, y1, x2, y2, color, strokeWidth) {
+				var line = document.createElementNS(ns, 'line');
+				line.setAttribute('x1', x1);
+				line.setAttribute('y1', y1);
+				line.setAttribute('x2', x2);
+				line.setAttribute('y2', y2);
+				line.setAttribute('stroke', color);
+				line.setAttribute('stroke-width', strokeWidth);
+				line.setAttribute('stroke-linecap', 'round');
+				svg.appendChild(line);
+			}
+			function text(svg, x, y,t) {
+				var txt = document.createElementNS(ns, 'text');
+				txt.setAttributeNS(null, 'x', x-mltpl*0.3);
+				txt.setAttributeNS(null, 'y', y+mltpl*0.3);
+				txt.setAttributeNS(null, 'font-size', mltpl*0.7);
+				txt.setAttributeNS(null, 'fill','#000');
+				txt.innerHTML = t;
+				svg.appendChild(txt);
+			}
+			function pitchName(pitch) {
+				var o=Math.ceil(pitch / 12);
+				var n=pitch % 12;
+				var t='C';
+				if(n==1){t='C#';}
+				if(n==2){t='D';}
+				if(n==3){t='D#';}
+				if(n==4){t='E';}
+				if(n==5){t='F';}
+				if(n==6){t='F#';}
+				if(n==7){t='G';}
+				if(n==8){t='G#';}
+				if(n==9){t='A';}
+				if(n==10){t='A#';}
+				if(n==11){t='B';}
+				return ''+t;
+			}
+			function blackKey(pitch) {
+				var o=Math.ceil(pitch / 12);
+				var n=pitch % 12;
+				if(n==1){return true;}
+				if(n==3){return true;}
+				if(n==6){return true;}
+				if(n==8){return true;}
+				if(n==10){return true;}
+				return false;
+			}
+			function drawPiece(){
+				var svg=document.getElementById('contentSVG');
+				var hasDrums=storeDrums.length>0;
+				var minPitch=12*5;
+				var maxPitch=0;
+				var maxBeat=1;
+				for (var i = 0; i < storeDrums.length; i++) {
+					var b=storeDrums[i].beat;
+					//console.log(b,storeDrums[i]);
+					if(b>maxBeat){
+						maxBeat=b;
+					}
+				}
+				for (var i = 0; i < storeTracks.length; i++) {
+					var b=storeTracks[i].beat+storeTracks[i].length-1;
+					//console.log(b,storeTracks[i]);
+					if(b>maxBeat){
+						maxBeat=b;
+					}
+					var p=storeTracks[i].pitch;
+					if(p>maxPitch){
+						maxPitch=p;
+					}
+					if(p<minPitch){
+						minPitch=p;
+					}
+				}
+				var len=Math.floor(maxBeat/16)+1;
+				//console.log(hasDrums,len,maxBeat,minPitch,maxPitch);
+				ww=len*16*mltpl;
+				hh=0;
+				if(hasDrums){
+					hh=hh+8*mltpl;
+				}
+				if(maxPitch>=minPitch){
+					hh=hh+(maxPitch-minPitch+1)*mltpl;
+				}
+				if(hh>0){
+					for(var i=0;i<maxPitch-minPitch+1;i++){
+						if(!blackKey(maxPitch-i)){
+							lineStroke(svg, 0,  (i+0.5)*mltpl, ww, (i+0.5)*mltpl, '#222',0.8*mltpl);
+						}
+					}
+					for(var i=16*mltpl;i<ww;i=i+16*mltpl){
+						lineStroke(svg, i,  0, i, hh, '#000',1);
+					}
+
+					if(hasDrums){
+						lineStroke(svg, 0,  hh-8*mltpl, ww, hh-8*mltpl, '#000',1);
+						for (var i = 0; i < storeDrums.length; i++) {
+							var x1=storeDrums[i].beat*mltpl+0.5*mltpl;
+							var y1= hh-8*mltpl+storeDrums[i].drum*mltpl+0.5*mltpl;
+							line(svg, x1,  y1, x1+1, y1, '#fff');
+						}
+					}
+					for (var i = 0; i < 8; i++) {
+						var o = sureNumeric(flatstate.orders[i], 0, i, 7);
+						trackInfo[i].order = o;
+					}
+
+
+					for(var o=0;o<8;o++){
+						for (var i = 0; i < storeTracks.length; i++) {
+							if(trackInfo[7 - storeTracks[i].track].order==7-o){
+								var x1=storeTracks[i].beat*mltpl+0.5*mltpl;
+								var y1=(maxPitch - storeTracks[i].pitch)*mltpl+0.5*mltpl;
+								var x2=x1+1+(storeTracks[i].length-1)*mltpl;
+								var y2=y1-storeTracks[i].shift*mltpl;
+								line(svg, x1,y1 , x2, y2, trackInfo[7 - storeTracks[i].track].color);
+								text(svg,x1,y1,pitchName(storeTracks[i].pitch));
+							}
+						}
+					}
+				}
+			}
+			drawPiece();
+			savePicture();
 		</script>
 	</body>
 </html>
