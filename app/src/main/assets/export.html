@@ -111,7 +111,7 @@
 			}
 			var ns = "http://www.w3.org/2000/svg";
 			function line(svg, x1, y1, x2, y2, color) {
-				lineStroke(svg, x1, y1, x2, y2, color,mltpl);
+				lineStroke(svg, x1, y1, x2, y2, color,mltpl*0.8);
 			}
 			function lineStroke(svg, x1, y1, x2, y2, color, strokeWidth) {
 				var line = document.createElementNS(ns, 'line');
@@ -206,9 +206,13 @@
 					for(var i=16*mltpl;i<ww;i=i+16*mltpl){
 						lineStroke(svg, i,  0, i, hh, '#000',1);
 					}
-
+					for(var i=1*mltpl;i<ww;i=i+1*mltpl){
+						lineStroke(svg, i,  0, i, hh, '#000',0.25);
+					}
 					if(hasDrums){
-						lineStroke(svg, 0,  hh-8*mltpl, ww, hh-8*mltpl, '#000',1);
+						for(var i=0;i<8;i++){
+							lineStroke(svg, 0,  hh-(8-i)*mltpl, ww, hh-(8-i)*mltpl, '#000',0.25);
+						}
 						for (var i = 0; i < storeDrums.length; i++) {
 							var x1=storeDrums[i].beat*mltpl+0.5*mltpl;
 							var y1= hh-8*mltpl+storeDrums[i].drum*mltpl+0.5*mltpl;
