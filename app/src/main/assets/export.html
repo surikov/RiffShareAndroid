@@ -69,9 +69,9 @@
 			<!--<span><svg id="contentSVG" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" style="display2:none; padding: 0px; margin: 0px; width: 600px; height: 400px; background:#111">
 					</svg></span>
 					-->
-			<canvas id='cnvs' width='600' height='400' style="display:none;"></canvas>
+			<canvas id='cnvs' style="display:none;"></canvas>
 		</div>
-		<div id="pngdiv" style='width: 100%;'><img id="rsltimg" width="100%"/></div>
+		<div id="pngdiv" style='width: 100%;'><img id="rsltimg" /></div>
 		<p class="ftr">Return to <a href="index.html">editor</a></p>
 		<script>
 			var storeDrums = readObjectFromlocalStorage('storeDrums');
@@ -445,14 +445,16 @@
 			function drawImage() {
 				var cnvs = document.getElementById("cnvs");
 				var rsltimg = document.getElementById('rsltimg');
+
+				//console.log(ww,window.innerWidth);
+				var dataURL = cnvs.toDataURL();
+				rsltimg.src = dataURL;
+
 				if(ww<window.innerWidth){
 					rsltimg.style.width = ww+'px';
 				}else{
 					rsltimg.style.width = '100%';
 				}
-				//console.log(ww,window.innerWidth);
-				var dataURL = cnvs.toDataURL();
-				rsltimg.src = dataURL;
 			}
 			drawCanvas();
 			drawImage();
