@@ -423,8 +423,12 @@
 			function drawImage() {
 				var cnvs = document.getElementById("cnvs");
 				var rsltimg = document.getElementById('rsltimg');
-				//rsltimg.style.height = ww+'px';
-				//rsltimg.style.width = hh+'px';
+				if(ww<window.innerWidth){
+					rsltimg.style.width = ww+'px';
+				}else{
+					rsltimg.style.width = '100%';
+				}
+				console.log(ww,window.innerWidth);
 				var dataURL = cnvs.toDataURL();
 				rsltimg.src = dataURL;
 			}
