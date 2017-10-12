@@ -14,7 +14,7 @@
 		<script src="0001_FluidR3_GM_sf2_file.js"></script>
 		<script src="0340_Aspirin_sf2_file.js"></script>
 		<script src="0390_GeneralUserGS_sf2_file.js"></script>
-		<script src="0480_Aspirin_sf2_file.js"></script>
+		<script src="0490_Chaos_sf2_file.js"></script>
 		<script src="12835_0_Chaos_sf2_file.js"></script>
 		<script src="12838_22_FluidR3_GM_sf2_file.js"></script>
 		<script src="12841_26_JCLive_sf2_file.js"></script>
@@ -419,7 +419,7 @@
 								var y1 = (maxPitch - storeTracks[i].pitch) * mltpl + 0.5 * mltpl;
 								var x2 = x1 + 1 + (storeTracks[i].length - 1) * mltpl;
 								var y2 = y1 - storeTracks[i].shift * mltpl;
-								drawNoteLine(context2D, x1, y1, x2, y2, trackInfo[7 - storeTracks[i].track].color);
+								drawNoteLine(context2D, x1+(7-o), y1+(7-o), x2+(7-o), y2+(7-o), trackInfo[7 - storeTracks[i].track].color);
 								if(o==7){
 									drawText(context2D, x1, y1, pitchName(storeTracks[i].pitch));
 								}

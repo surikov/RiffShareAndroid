@@ -72,12 +72,12 @@ var trackInfo = [{
 		shadow: 'rgba(204,153,0,0.4)',
 		title: 'String Ensemble',
 		order: 1,
-		sound: _tone_0480_Aspirin_sf2_file,
+		sound: _tone_0490_Chaos_sf2_file,
 		volume: sureNumeric(readObjectFromlocalStorage('track6'), 0, 70, 100),
 		nn: 6,
 		octave: 3,
 		inChordDelay: 0,
-		volumeRatio: 0.6
+		volumeRatio: 0.5
 	}, {
 		color: 'rgba(204,0,204,1)',
 		shadow: 'rgba(204,0,204,0.4)',
