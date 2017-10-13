@@ -57,8 +57,10 @@ var drumInfo = [{
 	}
 ];
 var trackInfo = [{
-		color: 'rgba(255,204,187,1)',
-		shadow: 'rgba(255,204,187,0.4)',
+		color: 'rgb(255,185,115)',
+		shadow: 'rgba(255,185,115,0.4)',
+		//color: 'rgba(255,204,187,1)',
+		//shadow: 'rgba(255,204,187,0.4)',
 		title: 'Synth Bass',
 		order: 2,
 		sound: _tone_0390_GeneralUserGS_sf2_file,
@@ -68,8 +70,10 @@ var trackInfo = [{
 		inChordDelay: 0.01,
 		volumeRatio: 0.5
 	}, {
-		color: 'rgba(204,153,0,1)',
-		shadow: 'rgba(204,153,0,0.4)',
+		color: 'rgb(255,255,77)',
+		shadow: 'rgba(255,255,77,0.4)',
+		//color: 'rgba(204,153,0,1)',
+		//shadow: 'rgba(204,153,0,0.4)',
 		title: 'String Ensemble',
 		order: 1,
 		sound: _tone_0490_Chaos_sf2_file,
@@ -79,8 +83,10 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 0.5
 	}, {
-		color: 'rgba(204,0,204,1)',
-		shadow: 'rgba(204,0,204,0.4)',
+		color: 'rgb(191,38,255)',
+		shadow: 'rgba(191,38,255,0.4)',
+		//color: 'rgba(204,0,204,1)',
+		//shadow: 'rgba(204,0,204,0.4)',
 		title: 'Bass guitar',
 		order: 5,
 		sound: _tone_0340_Aspirin_sf2_file,
@@ -90,8 +96,10 @@ var trackInfo = [{
 		inChordDelay: 0.01,
 		volumeRatio: 0.99
 	}, {
-		color: 'rgba(00,153,255,1)',
-		shadow: 'rgba(00,153,255,0.4)',
+		color: 'rgb(38,201,255)',
+		shadow: 'rgba(38,201,255,0.4)',
+		//color: 'rgba(00,153,255,1)',
+		//shadow: 'rgba(00,153,255,0.4)',
 		title: 'Acoustic Piano',
 		order: 3,
 		sound: _tone_0001_FluidR3_GM_sf2_file,
@@ -101,8 +109,10 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 0.99
 	}, {
-		color: 'rgba(153,51,0,1)',
-		shadow: 'rgba(153,51,0,0.4)',
+		color: 'rgb(255,64,0)',
+		shadow: 'rgba(255,64,0,0.4)',
+		//color: 'rgba(153,51,0,1)',
+		//shadow: 'rgba(153,51,0,0.4)',
 		title: 'PalmMute guitar',
 		order: 4,
 		sound: _tone_0280_LesPaul_sf2_file,
@@ -112,8 +122,10 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 1.5
 	}, {
-		color: 'rgba(51,51,255,1)',
-		shadow: 'rgba(51,51,255,0.4)',
+		color: 'rgb(77,77,255)',
+		shadow: 'rgba(77,77,255,0.4)',
+		//color: 'rgba(51,51,255,1)',
+		//shadow: 'rgba(51,51,255,0.4)',
 		title: 'Percussive Organ',
 		order: 0,
 		inChordDelay: 0,
@@ -124,8 +136,10 @@ var trackInfo = [{
 		octave: 4,
 		volumeRatio: 0.9
 	}, {
-		color: 'rgba(0,153,0,1)',
-		shadow: 'rgba(0,153,0,0.4)',
+		color: 'rgb(127,255,0)',
+		shadow: 'rgba(127,255,0,0.4)',
+		//color: 'rgba(0,153,0,1)',
+		//shadow: 'rgba(0,153,0,0.4)',
 		title: 'Acoustic guitar',
 		order: 6,
 		sound: _tone_0250_Chaos_sf2_file,
@@ -135,8 +149,10 @@ var trackInfo = [{
 		inChordDelay: 0.01,
 		volumeRatio: 0.75
 	}, {
-		color: 'rgba(255,0,0,1)',
-		shadow: 'rgba(255,0,0,0.4)',
+		color: 'rgb(255,38,38)',
+		shadow: 'rgba(255,38,38,0.4)',
+		//color: 'rgba(255,0,0,1)',
+		//shadow: 'rgba(255,0,0,0.4)',
 		title: 'Distortion guitar',
 		order: 7,
 		sound: _tone_0300_LesPaul_sf2_file,

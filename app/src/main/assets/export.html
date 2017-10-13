@@ -78,7 +78,7 @@
 			var storeTracks = readObjectFromlocalStorage('storeTracks');
 			var flatstate = readObjectFromlocalStorage('flatstate');
 			var mltpl = 16;
-			var lvlsh = 1.2;
+			var lvlsh = 0.75;
 			var hh = 0;
 			var ww = 0;
 			function promptExport() {
@@ -420,7 +420,7 @@
 								var y1 = (maxPitch - storeTracks[i].pitch) * mltpl+0.5*mltpl ;
 								var x2 = x1 + 1 + (storeTracks[i].length - 1) * mltpl;
 								var y2 = y1 - storeTracks[i].shift * mltpl;
-								lvlsh = 0.75;
+								//lvlsh = 0.75;
 								drawNoteLine(context2D, x1+(7-o)*lvlsh, y1-(7-o)*lvlsh, x2+(7-o)*lvlsh, y2-(7-o)*lvlsh, trackInfo[7 - storeTracks[i].track].color);
 								if(o==7){
 									
