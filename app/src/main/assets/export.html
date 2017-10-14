@@ -62,7 +62,7 @@
 		<div class='cntr'>
 			<ul>
 				<li><a href='javascript:promptExport();'>Export to .mid</a></li>
-				<li>Work area screenshot:</li>
+				<li>Work area screenshot <!--<a href='javascript:setBgMode(0);'>dark</a> | <a href='javascript:setBgMode(1);'>silver</a> | <a href='javascript:setBgMode(2);'>light</a>-->:</li>
 			</ul>
 		</div>
 		<div>
@@ -77,10 +77,30 @@
 			var storeDrums = readObjectFromlocalStorage('storeDrums');
 			var storeTracks = readObjectFromlocalStorage('storeTracks');
 			var flatstate = readObjectFromlocalStorage('flatstate');
+			var bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0,1,2]);
 			var mltpl = 16;
 			var lvlsh = 0.75;
 			var hh = 0;
 			var ww = 0;
+			/*function setBgMode(bg) {
+				console.log('setBgMode',bg);
+				saveText2localStorage('bgMode', '' + this.tempo);
+			}*/
+			function modeDrumColor() {
+				if(bgMode==2){
+					return '#222';
+				}
+				return '#eee';
+			}
+			function modeBackground  () {
+				if(bgMode==1){
+					return '#31424C';
+				}
+				if(bgMode==2){
+					return '#C8D1D2';
+				}
+				return '#000609';
+			};
 			function promptExport() {
 				var compiler = new MidiCompiler();
 				//var storeDrums=readObjectFromlocalStorage('storeDrums');
@@ -366,32 +386,37 @@
 				cnvs.width = ww;
 				cnvs.height = hh;
 				var context2D = cnvs.getContext("2d");
-				context2D.fillStyle = "#111111";
+				context2D.fillStyle = modeBackground();
 				context2D.fillRect(0, 0, ww, hh);
 
 				if (hh > 0) {
 					for (var i = 0; i < maxPitch - minPitch + 1; i++) {
-						if (!blackKey(maxPitch - i)) {
-							drawLine(context2D, 0, (i + 0.5) * mltpl, ww, (i + 0.5) * mltpl, '#222', 0.8 * mltpl);
+						if (blackKey(maxPitch - i)) {
+							drawLine(context2D, 0, (i + 0.5) * mltpl, ww, (i + 0.5) * mltpl, 'rgba(0,0,0,0.15)',  mltpl*0.9);
+						}else{
+							drawLine(context2D, 0, (i + 0.5) * mltpl, ww, (i + 0.5) * mltpl, 'rgba(255,255,255,0.15)',  mltpl*0.9);
 						}
 					}
 					for (var i = 16 * mltpl; i < ww; i = i + 16 * mltpl) {
-						drawLine(context2D, i, 0, i, hh, '#000', 1);
+						drawLine(context2D, i, 0, i, hh,  modeBackground(), 2);
 					}
 					for (var i = 1 * mltpl; i < ww; i = i + 1 * mltpl) {
-						drawLine(context2D, i, 0, i, hh, '#000', 0.5);
+						drawLine(context2D, i, 0, i, hh, modeBackground(), 0.5);
 					}
 					
 					if (hasDrums) {
 						//drawText(context2D, 0.5*mltpl, (0.2+maxPitch - minPitch+1)*mltpl, "test 123");
 						for (var i = 0; i < drCount; i++) {
-							drawLine(context2D, 0, hh - (drCount - i) * mltpl, ww, hh - (drCount - i) * mltpl, '#000', 0.5);
+							drawLine(context2D, 0, hh - (drCount - i) * mltpl, ww, hh - (drCount - i) * mltpl, '#666', 0.15);
+						}
+						for (var i = 1 * mltpl; i < ww; i = i + 1 * mltpl) {
+							drawLine(context2D, i, hh - drCount  * mltpl, i, hh, '#666', 0.15);
 						}
 						
 						for (var i = 0; i < storeDrums.length; i++) {
 							var x1 = storeDrums[i].beat * mltpl + 0.5 * mltpl;
 							var y1 = hh - drCount * mltpl + drumUses[storeDrums[i].drum] * mltpl - 0.5 * mltpl;
-							drawNoteLine(context2D, x1, y1, x1 + 1, y1, '#ccc');
+							drawNoteLine(context2D, x1, y1, x1 + 1, y1,  modeDrumColor());
 						}
 						
 						

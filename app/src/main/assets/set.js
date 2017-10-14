@@ -70,8 +70,8 @@ var trackInfo = [{
 		inChordDelay: 0.01,
 		volumeRatio: 0.5
 	}, {
-		color: 'rgb(255,255,77)',
-		shadow: 'rgba(255,255,77,0.4)',
+		color: 'rgb(178,178,0)',
+		shadow: 'rgba(178,178,0,0.4)',
 		//color: 'rgba(204,153,0,1)',
 		//shadow: 'rgba(204,153,0,0.4)',
 		title: 'String Ensemble',
@@ -96,8 +96,8 @@ var trackInfo = [{
 		inChordDelay: 0.01,
 		volumeRatio: 0.99
 	}, {
-		color: 'rgb(38,201,255)',
-		shadow: 'rgba(38,201,255,0.4)',
+		color: 'rgb(0,127,255)',
+		shadow: 'rgba(0,127,255,0.4)',
 		//color: 'rgba(00,153,255,1)',
 		//shadow: 'rgba(00,153,255,0.4)',
 		title: 'Acoustic Piano',
@@ -136,8 +136,8 @@ var trackInfo = [{
 		octave: 4,
 		volumeRatio: 0.9
 	}, {
-		color: 'rgb(127,255,0)',
-		shadow: 'rgba(127,255,0,0.4)',
+		color: 'rgb(45,178,0)',
+		shadow: 'rgba(45,178,0,0.4)',
 		//color: 'rgba(0,153,0,1)',
 		//shadow: 'rgba(0,153,0,0.4)',
 		title: 'Acoustic guitar',
@@ -149,8 +149,8 @@ var trackInfo = [{
 		inChordDelay: 0.01,
 		volumeRatio: 0.75
 	}, {
-		color: 'rgb(255,38,38)',
-		shadow: 'rgba(255,38,38,0.4)',
+		color: 'rgb(255,0,0)',
+		shadow: 'rgba(255,0,0,0.4)',
 		//color: 'rgba(255,0,0,1)',
 		//shadow: 'rgba(255,0,0,0.4)',
 		title: 'Distortion guitar',
