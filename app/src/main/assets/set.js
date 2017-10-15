@@ -57,8 +57,8 @@ var drumInfo = [{
 	}
 ];
 var trackInfo = [{
-		color: 'rgb(255,185,115)',
-		shadow: 'rgba(255,185,115,0.4)',
+		color: 'rgb(255,166,77)',
+		shadow: 'rgba(255,166,77,0.4)',
 		//color: 'rgba(255,204,187,1)',
 		//shadow: 'rgba(255,204,187,0.4)',
 		title: 'Synth Bass',
@@ -109,8 +109,8 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 0.99
 	}, {
-		color: 'rgb(255,64,0)',
-		shadow: 'rgba(255,64,0,0.4)',
+		color: 'rgb(140,35,0)',
+		shadow: 'rgba(140,35,0,0.4)',
 		//color: 'rgba(153,51,0,1)',
 		//shadow: 'rgba(153,51,0,0.4)',
 		title: 'PalmMute guitar',
@@ -122,8 +122,8 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 1.5
 	}, {
-		color: 'rgb(77,77,255)',
-		shadow: 'rgba(77,77,255,0.4)',
+		color: 'rgb(128,0,255)',
+		shadow: 'rgba(128,0,255,0.4)',
 		//color: 'rgba(51,51,255,1)',
 		//shadow: 'rgba(51,51,255,0.4)',
 		title: 'Percussive Organ',
