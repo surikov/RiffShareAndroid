@@ -1463,7 +1463,8 @@ RiffShareFlat.prototype.tileColorMode = function (left, top, width, height) {
 			this.tileRectangle(g, x + this.tapSize * cw * i, y , this.tapSize * (cw-0.1), this.tapSize * 0.9, this.modeBackground(i));
 			var s = this.addSpot('colorscheme'+i, x + this.tapSize * cw * i, y, this.tapSize * cw, this.tapSize, function () {
 					console.log('spot',this);
-					riffshareflat.setModeBackground(this.bgm)
+					//riffshareflat.setModeBackground(this.bgm)
+					riffshareflat.userActionChangeScheme(this.bgm);
 				});
 			s.bgm = i ;
 		}
@@ -2336,6 +2337,19 @@ RiffShareFlat.prototype.userActionClearAll = function () {
 			riffshareflat.storeDrums = [];
 			riffshareflat.storeTracks = [];
 			riffshareflat.mark = null;
+		}
+	});
+};
+RiffShareFlat.prototype.userActionChangeScheme = function (nn) {
+	var olds=this.bgMode;
+	var news=nn;
+	riffshareflat.pushAction({
+		caption: 'Change background mode '+nn,
+		undo: function () {
+			riffshareflat.setModeBackground(olds)
+		},
+		redo: function () {
+			riffshareflat.setModeBackground(news)
 		}
 	});
 };
