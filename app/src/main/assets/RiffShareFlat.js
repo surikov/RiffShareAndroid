@@ -1437,9 +1437,9 @@ RiffShareFlat.prototype.setModeBackground = function (bgMode) {
 };
 RiffShareFlat.prototype.modeDrumColor = function (bgMode) {
 	if(bgMode==2){
-		return '#222';
+		return '#333';
 	}
-	return '#eee';
+	return '#ccc';
 };
 RiffShareFlat.prototype.modeBackground = function (bgMode) {
 	if(bgMode==1){

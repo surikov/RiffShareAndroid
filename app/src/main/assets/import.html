@@ -148,13 +148,41 @@
 			var ns = "http://www.w3.org/2000/svg";
 			var h = sureArray(readObjectFromlocalStorage('history'), []);
 			console.log(h);
+			var bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0,1,2]);
+			var bg='#000609';
+			var fg='fff';
+			if(bgMode==1){
+				bg='#31424C';
+				fg='fff';
+			}
+			if(bgMode==2){
+				bg='#C8D1D2';
+				fg='ccc';
+			}
+			for(var ss=0;ss<document.styleSheets.length;ss++){
+				var stylrSheet=document.styleSheets[ss];
+				for(var ru=0;ru<stylrSheet.cssRules.length;ru++){
+					var cssRule=stylrSheet.cssRules[ru];
+					if(cssRule.selectorText){
+						if(cssRule.selectorText.includes('html')){
+							cssRule.style.setProperty('background-color',bg,null);
+							cssRule.style.setProperty('color',fg,null);
+						}
+					}
+				}
+			}
 			for(var i=h.length-1;i>=0;i--){
 				addEntry(h[i].label, i, h[i].storeDrums, h[i].storeTracks);
 			}
+			
 			function addEntry(label, num, storeDrums, storeTracks) {
 				var svg = entry(label,num);
 				for (var i = 0; i < storeDrums.length; i++) {
-					line(svg, storeDrums[i].beat, 60 + storeDrums[i].drum, storeDrums[i].beat + 1, 60 + storeDrums[i].drum, '#fff');
+					if(bgMode==2){
+						line(svg, storeDrums[i].beat, 60 + storeDrums[i].drum, storeDrums[i].beat + 1, 60 + storeDrums[i].drum, '#333');
+					}else{
+						line(svg, storeDrums[i].beat, 60 + storeDrums[i].drum, storeDrums[i].beat + 1, 60 + storeDrums[i].drum, '#fff');
+					}
 				}
 				for (var i = 0; i < storeTracks.length; i++) {
 					line(svg, storeTracks[i].beat, 60 - storeTracks[i].pitch, storeTracks[i].beat + 1+storeTracks[i].length, 60 - storeTracks[i].pitch-storeTracks[i].shift, trackInfo[7 - storeTracks[i].track].color);
@@ -183,7 +211,7 @@
 				rect.setAttribute('y', 0);
 				rect.setAttribute('width', 256);
 				rect.setAttribute('height', 76);
-				rect.setAttribute('fill', '#111');
+				rect.setAttribute('fill', bg);
 				svg.appendChild(rect);
 				return svg;
 			}
