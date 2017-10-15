@@ -82,6 +82,23 @@
 				}
 				return p;
 			}
+			function noDrum(drums,d,b){
+				for(var i=0;i<drums.length;i++){
+					if(drums[i].drum==d && drums[i].beat==b){
+						return false;
+					}
+				}
+				return true;
+			}
+			function noTone(tones,t,b,p){
+				//console.log(tones);
+				for(var i=0;i<tones.length;i++){//console.log(tones,t,b,p);
+					if(tones[i].track==t && tones[i].beat==b && tones[i].pitch==p){
+						return false;
+					}
+				}
+				return true;
+			}
 			function openSong(evt) {
 				console.log("openSong",evt);
 				//console.log(encodeState());
@@ -98,7 +115,8 @@
 							var midiParser = new MidiParser(arrayBuffer);
 							midiParser.parse();
 							console.log('slice from',skp);
-							storeDrums=[];
+							//storeDrums=[];
+							var storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
 							for(var b=skp;b<midiParser.songBeatSteps.length;b++){
 								if(b>(skp+255))break;
 								var beat=midiParser.songBeatSteps[b];
@@ -111,11 +129,14 @@
 									if(beat[c]==42 || beat[c]==44){n=4;}
 									if(beat[c]==46){n=5;}
 									if(beat[c]==49){n=7;}
-									storeDrums.push({drum:n,beat:b-skp});
+									if(noDrum(storeDrums,n,b-skp)){
+										storeDrums.push({drum:n,beat:b-skp});
+									}
 								}
 							}
 							saveObject2localStorage('storeDrums',storeDrums);
-							storeTracks=[];
+							//storeTracks=[];
+							var storeTracks = sureArray(readObjectFromlocalStorage('storeTracks'), []);
 							for(var b=skp;b<midiParser.songTuneSteps.length;b++){
 								if(b>(skp+255))break;
 								var beat=midiParser.songTuneSteps[b];
@@ -132,7 +153,10 @@
 									if(beat[c].instrument+1>=39 && beat[c].instrument+1<=40){n=7;}
 									var u=1*note.length;//-1;
 									if(u<1)u=1;
-									storeTracks.push({track:n,beat:b-skp,pitch:adjustPitch(note.pitch),length:u,shift:note.glissando});
+									//console.log(note.length,{track:n,beat:b-skp,pitch:adjustPitch(note.pitch),length:u,shift:note.glissando});
+									if(noTone(storeTracks,n,b-skp,adjustPitch(note.pitch))){
+										storeTracks.push({track:n,beat:b-skp,pitch:adjustPitch(note.pitch),length:u,shift:note.glissando});
+									}
 								}
 							}
 							saveObject2localStorage('storeTracks',storeTracks);

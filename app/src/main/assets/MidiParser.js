@@ -1378,7 +1378,7 @@ function MidiParser(arrayBuffer) {
 				tt = me.readString(len);
 				break;
 			default:
-				//
+				console.log('wrong event',kind);
 				break;
 			}
 			//console.log("status == 0xff: 0x" + kind.toString(16) + ": " + tt+port);
@@ -1434,6 +1434,7 @@ function MidiParser(arrayBuffer) {
 									// System.out.println("\t\t=noteOff");
 									//console.log("stopNote channel: "+me.currentEventChannel+", pitch: "+ n2+", stopDelta: "+ delta+", gliss: "+ -Math.floor(me.currentBend[me.currentEventChannel] * 1.01));
 									me.stopNote(me.currentEventChannel, n2, me.lastStep, -Math.floor(me.currentBend[me.currentEventChannel] * 1.01));
+									//console.log('n3',n3);
 								} else {
 									/*if (n3 < 70) {
 									prg = prg + 128;
@@ -1625,7 +1626,7 @@ function MidiParser(arrayBuffer) {
 	 */
 	this.startTune = function (channel, step, pitch, instrument) {
 		//if(eventCount<eventCountStop)console.log("startTune channel: "+channel+", step: "+step+", pitch: "+pitch+", instr: "+instrument+", cache "+me.notePitches.length);
-
+		console.log('startTune channel',channel, 'step',step, 'pitch',pitch, 'instrument',instrument);
 		if (!me.findTune(step, pitch, instrument)) {
 			var chord = me.songTuneSteps[step];
 			var point = new MIDINote();
@@ -1640,6 +1641,7 @@ function MidiParser(arrayBuffer) {
 		}
 	};
 	this.stopTune = function (channel, step, pitch, instrument, length, glissando) {
+		console.log('stopTune channel',channel, 'step',step, 'pitch',pitch, 'instrument',instrument,'length', length, 'glissando',glissando);
 		//if(eventCount<eventCountStop)console.log("     stopTune channel: "+channel+", step: "+step+", pitch: "+pitch+", instr: "+instrument+", len: "+length+", gliss: "+glissando+", cache "+me.notePitches.length);
 		//me.notePitches[me.notePitches.length] = pitch;
 		//me.noteChannels[me.noteChannels.length] = channel;
@@ -1687,6 +1689,7 @@ function MidiParser(arrayBuffer) {
 	};
 
 	this.stopNote = function (channel, pitch, stopStep, glissando) {
+		console.log('stopNote channel',channel, 'pitch',pitch, 'stopStep',stopStep, 'glissando',glissando);
 		//if(eventCount<eventCountStop)console.log("       stopNote channel: "+channel+", step: "+stopStep+", pitch: "+ pitch+", instr: ?, len: ?, gliss: "+ glissando+" ("+me.notePitches.length+")");
 
 		//if(glissando!=0)console.log(glissando);
@@ -1727,7 +1730,7 @@ function MidiParser(arrayBuffer) {
 		}
 		if (notFound) {
 			if (eventCount < eventCountStop)
-				console.log("              stopNote! no tune channel: " + channel + ", step: " + stopStep + ", pitch: " + pitch + ", instr: ?, len: ?, gliss: " + glissando + " (" + me.notePitches.length + ")");
+				console.log("              stopNote! no tune channel: " + channel + ", step: " + stopStep + ", pitch: " + pitch + ",gliss: " + glissando + " (" + me.notePitches.length + ")");
 		}
 	};
 	this.readTimeDelta = function () {
