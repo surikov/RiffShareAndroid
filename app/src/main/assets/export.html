@@ -444,8 +444,9 @@
 						
 						var s = maxPitch - minPitch;
 						if (s < 0) {
-							s = -0.5;
+							s = -1.0;
 						}
+						
 						for (var i = 0; i < 8; i++) {
 							if (drumUses[i]) {
 								drawBTx(context2D, 0.5 * mltpl, (0.75 + s + drumUses[i]) * mltpl, drumInfo[i].title);
