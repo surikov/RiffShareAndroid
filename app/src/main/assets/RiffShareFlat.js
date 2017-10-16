@@ -1266,7 +1266,11 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 			this.tileRectangle(g, x, y + this.tapSize * (11.94 + i * 12), w, this.tapSize * 0.03, track.color);
 		}
 		for (var i = 16; i < 16 * 16; i = i + 16) {
-			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.03, this.tapSize * (8 + 5 * 12), track.color);
+			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.05, this.tapSize * (8 + 5 * 12), track.color);
+		}
+		for (var i = 0; i < 16 * 16; i = i + 16) {
+			
+			this.tileRectangle(g, x + this.tapSize * (i+8.05), y, this.tapSize * 0.007, this.tapSize * (8 + 5 * 12), track.color);//this.modeBackground(this.bgMode));
 		}
 	}
 };
