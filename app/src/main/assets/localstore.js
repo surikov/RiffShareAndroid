@@ -236,7 +236,7 @@ function encodeState() {
 				}
 			}
 		}
-		txt = txt + 's' + pitchData;
+		txt = txt + '-' + pitchData;
 	} catch (ex) {
 		console.log(ex);
 	}
