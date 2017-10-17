@@ -236,10 +236,11 @@ function encodeState() {
 				}
 			}
 		}
-		txt = txt + '-' + pitchData;
+		txt = txt +'-'+pitchData;
 	} catch (ex) {
 		console.log(ex);
 	}
+	console.log(txt);
 	return txt;
 }
 function addStateToHistory(nocut) {
