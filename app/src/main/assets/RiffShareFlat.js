@@ -69,8 +69,8 @@ RiffShareFlat.prototype.init = function () {
 	this.marginTop = 1;
 	this.marginBottom = 1;
 	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
-	this.bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0,1,2]);
-	this.contentDiv.style.background=this.modeBackground(this.bgMode);
+	this.bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
+	this.contentDiv.style.background = this.modeBackground(this.bgMode);
 	this.drumVolumes = [];
 	for (var i = 0; i < 8; i++) {
 		this.drumVolumes.push(sureNumeric(readObjectFromlocalStorage('drum' + i), 0, 70, 100));
@@ -249,7 +249,7 @@ RiffShareFlat.prototype.init = function () {
 			if (flatstate.orders) {
 				for (var i = 0; i < 8; i++) {
 					var o = sureNumeric(flatstate.orders[i], 0, i, 7);
-						riffshareflat.trackInfo[i].order = o;
+					riffshareflat.trackInfo[i].order = o;
 				}
 				flatstate.orders.sort();
 				for (var i = 0; i < 8; i++) {
@@ -1078,20 +1078,20 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.tileCircle(g, 2.5 * this.tapSize, 52 * this.tapSize, 0.5 * this.tapSize, this.findTrackInfo(0).color);
 		this.tileCircle(g, 3.5 * this.tapSize, 52 * this.tapSize, 0.5 * this.tapSize, this.findTrackInfo(0).color);
 		this.tileText(g, 4.1 * this.tapSize, y + this.tapSize * 52.3, this.tapSize * 1.0, 'Clear', this.findTrackInfo(0).color);
-		
+
 		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		
+
 		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		
+
 		//this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
 		//this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
-		
+
 		this.tileLine(g, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.tileLine(g, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.addSpot('octup', 1 * this.tapSize, 51.5 * this.tapSize, this.tapSize, this.tapSize, function () {
@@ -1160,6 +1160,7 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 
 	}
 
+	//this.tileFrets(left, top, width, height);
 	this.tileEqualizer(left, top, width, height);
 	this.tileDrumVolumes(left, top, width, height);
 	this.tileToneVolumes(left, top, width, height);
@@ -1247,17 +1248,17 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 			this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
 
 		}
-        //for (var i = 0; i < 5; i++) {
-            //for (var k = 0; k < 16 * 16; k++) {
-                //this.tileText(g, x + this.tapSize * k*16, y + this.tapSize * (i*12+11+0.75), 1.4*this.tapSize, 'C' + (5-i) , '#000');
-                /*this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-2), 1.4*this.tapSize, 'D' , '#000');
-                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-4), 1.4*this.tapSize, 'E' , '#000');
-                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-5), 1.4*this.tapSize, 'F' , '#000');
-                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-7), 1.4*this.tapSize, 'G' , '#000');
-                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-9), 1.4*this.tapSize, 'A' , '#000');
-                this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-11), 1.4*this.tapSize, 'B' , '#000');*/
-            //}
-        //}
+		//for (var i = 0; i < 5; i++) {
+		//for (var k = 0; k < 16 * 16; k++) {
+		//this.tileText(g, x + this.tapSize * k*16, y + this.tapSize * (i*12+11+0.75), 1.4*this.tapSize, 'C' + (5-i) , '#000');
+		/*this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-2), 1.4*this.tapSize, 'D' , '#000');
+		this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-4), 1.4*this.tapSize, 'E' , '#000');
+		this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-5), 1.4*this.tapSize, 'F' , '#000');
+		this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-7), 1.4*this.tapSize, 'G' , '#000');
+		this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-9), 1.4*this.tapSize, 'A' , '#000');
+		this.tileText(g, x + this.tapSize * (0.2+k*16), y + this.tapSize * (i*12+11+0.75-11), 1.4*this.tapSize, 'B' , '#000');*/
+		//}
+		//}
 		for (var i = 1; i < 16 * 16; i++) {
 			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.03, this.tapSize * 5 * 12, this.modeBackground(this.bgMode));
 		}
@@ -1266,11 +1267,11 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 			this.tileRectangle(g, x, y + this.tapSize * (11.94 + i * 12), w, this.tapSize * 0.03, track.color);
 		}
 		for (var i = 16; i < 16 * 16; i = i + 16) {
-			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.05, this.tapSize * (8 + 5 * 12), track.color);
+			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.05, this.tapSize * (8 + 5 * 12 + 1 ), track.color);
 		}
 		for (var i = 0; i < 16 * 16; i = i + 16) {
-			
-			this.tileRectangle(g, x + this.tapSize * (i+8.05), y, this.tapSize * 0.007, this.tapSize * (8 + 5 * 12), track.color);//this.modeBackground(this.bgMode));
+
+			this.tileRectangle(g, x + this.tapSize * (i + 8.05), y, this.tapSize * 0.007, this.tapSize * (8 + 5 * 12  ), track.color); //this.modeBackground(this.bgMode));
 		}
 	}
 };
@@ -1314,32 +1315,54 @@ RiffShareFlat.prototype.addNote = function (beat, pitch, track, length, shift) {
 	});
 };
 RiffShareFlat.prototype.pitchName = function (pitch) {
-	var o=Math.ceil(pitch / 12);
-	var n=pitch % 12;
-	var t='C';
-	if(n==1){t='C#';}
-	if(n==2){t='D';}
-	if(n==3){t='D#';}
-	if(n==4){t='E';}
-	if(n==5){t='F';}
-	if(n==6){t='F#';}
-	if(n==7){t='G';}
-	if(n==8){t='G#';}
-	if(n==9){t='A';}
-	if(n==10){t='A#';}
-	if(n==11){t='B';}
-	return ''+t;
+	var o = Math.ceil(pitch / 12);
+	var n = pitch % 12;
+	var t = 'C';
+	if (n == 1) {
+		t = 'C#';
+	}
+	if (n == 2) {
+		t = 'D';
+	}
+	if (n == 3) {
+		t = 'D#';
+	}
+	if (n == 4) {
+		t = 'E';
+	}
+	if (n == 5) {
+		t = 'F';
+	}
+	if (n == 6) {
+		t = 'F#';
+	}
+	if (n == 7) {
+		t = 'G';
+	}
+	if (n == 8) {
+		t = 'G#';
+	}
+	if (n == 9) {
+		t = 'A';
+	}
+	if (n == 10) {
+		t = 'A#';
+	}
+	if (n == 11) {
+		t = 'B';
+	}
+	return '' + t;
 }
-RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, top, width, height,bottom) {
+RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, top, width, height, bottom) {
 	var x = this.tapSize * (this.marginLeft + 16 * measure);
 	var y = this.tapSize * (this.marginTop + 12 * (4 - octave));
 	var w = this.tapSize * 16;
 	var h = this.tapSize * 12;
 	var g = this.rakeGroup(x, y, w, h, 'tnOm' + measure + 'x' + octave + 'x' + track.nn, this.trackGroups[track.order], left, top, width, height);
 	if (g) {
-	    /*if(bottom){
-	        this.tileText(g, x+0.1*this.tapSize , y +11.7*this.tapSize, 1.2*this.tapSize, 'C' + (octave+1) , '#000');
-	    }*/
+		/*if(bottom){
+		this.tileText(g, x+0.1*this.tapSize , y +11.7*this.tapSize, 1.2*this.tapSize, 'C' + (octave+1) , '#000');
+		}*/
 		for (var i = 0; i < this.storeTracks.length; i++) {
 			var p = this.storeTracks[i];
 			if (p.track == track.nn) {
@@ -1357,7 +1380,7 @@ RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, 
 								} else {
 									this.tileLine(g, xx, yy, 1 + xx + this.tapSize * le, yy - this.tapSize * p.shift, track.color, r);
 									//this.tileCircle(g, xx, yy, this.tapSize / 5, '#000');
-									this.tileText(g, xx -0.4*this.tapSize, yy+0.2*this.tapSize, 1.0*this.tapSize, this.pitchName(p.pitch) , '#000');
+									this.tileText(g, xx - 0.4 * this.tapSize, yy + 0.2 * this.tapSize, 1.0 * this.tapSize, this.pitchName(p.pitch), '#000');
 								}
 							}
 						}
@@ -1387,7 +1410,7 @@ RiffShareFlat.prototype.tileTones = function (left, top, width, height) {
 	for (var m = 0; m < 16; m++) {
 		for (var o = 0; o < 5; o++) {
 			for (var t = 0; t < 8; t++) {
-				this.tilePartTones(m, o, this.findTrackInfo(7 - t), left, top, width, height,t==0);
+				this.tilePartTones(m, o, this.findTrackInfo(7 - t), left, top, width, height, t == 0);
 			}
 		}
 	}
@@ -1434,29 +1457,29 @@ RiffShareFlat.prototype.tileTones = function (left, top, width, height) {
 	});
 };
 RiffShareFlat.prototype.setModeBackground = function (bgMode) {
-	this.bgMode=bgMode;
+	this.bgMode = bgMode;
 	saveText2localStorage('bgMode', '' + bgMode);
 	//console.log(this.bgMode,this.modeBackground(this.bgMode));
-	this.contentDiv.style.background=this.modeBackground(this.bgMode);
+	this.contentDiv.style.background = this.modeBackground(this.bgMode);
 };
 RiffShareFlat.prototype.modeDrumColor = function (bgMode) {
-	if(bgMode==2){
+	if (bgMode == 2) {
 		return '#333';
 	}
 	return '#ccc';
 };
 RiffShareFlat.prototype.modeBackground = function (bgMode) {
-	if(bgMode==1){
+	if (bgMode == 1) {
 		return '#31424C';
 	}
-	if(bgMode==2){
+	if (bgMode == 2) {
 		return '#C8D1D2';
 	}
 	return '#000609';
 };
 RiffShareFlat.prototype.tileColorMode = function (left, top, width, height) {
 	var x = this.tapSize * (this.marginLeft - 12);
-	var y = this.tapSize * (this.marginTop + 12 * 5 - 36 + 1-2);
+	var y = this.tapSize * (this.marginTop + 12 * 5 - 36 + 1 - 2);
 	var w = this.tapSize * 12;
 	var h = this.tapSize * 2;
 	var g = this.rakeGroup(x, y, w, h, 'colorscheme', this.textGroup, left, top, width, height);
@@ -1464,13 +1487,13 @@ RiffShareFlat.prototype.tileColorMode = function (left, top, width, height) {
 	if (g) {
 		this.tileText(g, x - this.tapSize * 5.5, y + this.tapSize * 0.75, this.tapSize, 'Background mode', this.modeDrumColor(this.bgMode));
 		for (var i = 0; i < 3; i++) {
-			this.tileRectangle(g, x + this.tapSize * cw * i, y , this.tapSize * (cw-0.1), this.tapSize * 0.9, this.modeBackground(i));
-			var s = this.addSpot('colorscheme'+i, x + this.tapSize * cw * i, y, this.tapSize * cw, this.tapSize, function () {
-					console.log('spot',this);
+			this.tileRectangle(g, x + this.tapSize * cw * i, y, this.tapSize * (cw - 0.1), this.tapSize * 0.9, this.modeBackground(i));
+			var s = this.addSpot('colorscheme' + i, x + this.tapSize * cw * i, y, this.tapSize * cw, this.tapSize, function () {
+					console.log('spot', this);
 					//riffshareflat.setModeBackground(this.bgm)
 					riffshareflat.userActionChangeScheme(this.bgm);
 				});
-			s.bgm = i ;
+			s.bgm = i;
 		}
 	}
 };
@@ -1543,8 +1566,8 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 						riffshareflat.userActionUpTrack(this.order);
 					});
 				s.order = i;
-				if(this.trackInfo[i].sound.zones[0].buffer){
-				    this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				if (this.trackInfo[i].sound.zones[0].buffer) {
+					this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
 				}
 				/*for (var v = 0; v < 11; v++) {
 				var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
@@ -1561,8 +1584,8 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				riffshareflat.userActionUpTrack(this.order);
 				});
 				s.order = i;*/
-				if(this.trackInfo[i].sound.zones[0].buffer){
-				    this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				if (this.trackInfo[i].sound.zones[0].buffer) {
+					this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
 				}
 				for (var v = 0; v < 11; v++) {
 					var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
@@ -1593,8 +1616,8 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 				s.drum = i;
 				s.volume = v * 10;
 			}
-			if(this.drumInfo[i].sound.zones[0].buffer){
-			    this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, this.modeDrumColor(this.bgMode));
+			if (this.drumInfo[i].sound.zones[0].buffer) {
+				this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, this.modeDrumColor(this.bgMode));
 			}
 		}
 		/*
@@ -1609,6 +1632,27 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 		 */
 	}
 };
+RiffShareFlat.prototype.tileFrets = function (left, top, width, height) {
+	var x = this.tapSize * (this.marginLeft - 0);
+	var y = this.tapSize * (this.marginTop + 12 * 5 + 8 + 1);
+	var w = this.tapSize * 16;
+	var h = this.tapSize * 6;
+	for (var m = 0; m < 16; m++) {
+		var g = this.rakeGroup(x + m * 16 * this.tapSize, y, w, h, 'frts' + m, this.textGroup, left, top, width, height);
+		if (g) {
+			for (var i = 0; i < 6; i++) {
+				this.tileRectangle(g, x + m * 16 * this.tapSize, y + (1 + i) * this.tapSize//
+					, w , this.tapSize * (0.01 + i / 100)//
+					, this.modeDrumColor(this.bgMode));
+			}
+			for (var i = 1; i < 16; i++) {
+				this.tileRectangle(g, x + (i+m * 16) * this.tapSize, y+1* this.tapSize//
+					,  0.005 * this.tapSize, h-1* this.tapSize//
+					, this.modeDrumColor(this.bgMode));
+			}
+		}
+	}
+}
 RiffShareFlat.prototype.tileEqualizer = function (left, top, width, height) {
 	var x = this.tapSize * (this.marginLeft - 17.5);
 	var y = this.tapSize * (this.marginTop + 12 * 5 - 34 + 1);
@@ -1643,20 +1687,20 @@ RiffShareFlat.prototype.tileEqualizer = function (left, top, width, height) {
 	}
 };
 RiffShareFlat.prototype.msEdgeHook = function (g) {
-     if(g.childNodes && (!(g.children))){
-            g.children=g.childNodes;
-            //console.log('try layer.children',layer.children);
-        }
+	if (g.childNodes && (!(g.children))) {
+		g.children = g.childNodes;
+		//console.log('try layer.children',layer.children);
+	}
 };
 RiffShareFlat.prototype.clearUselessDetails = function (x, y, w, h, layer) {
-    this.msEdgeHook(layer);
+	this.msEdgeHook(layer);
 	for (var i = 0; i < layer.children.length; i++) {
 		var group = layer.children[i];
 		this.clearUselessNodes(x, y, w, h, group);
 	}
 };
 RiffShareFlat.prototype.clearUselessNodes = function (x, y, w, h, layer) {
-    this.msEdgeHook(layer);
+	this.msEdgeHook(layer);
 	for (var i = 0; i < layer.children.length; i++) {
 		var t = layer.children[i];
 		if (this.outOfView(t, x, y, w, h)) {
@@ -1704,7 +1748,7 @@ RiffShareFlat.prototype.rakeGroup = function (x, y, w, h, id, layer, left, top, 
 	return null;
 };
 RiffShareFlat.prototype.childExists = function (id, layer) {
-    this.msEdgeHook(layer);
+	this.msEdgeHook(layer);
 	for (var i = 0; i < layer.children.length; i++) {
 		var t = layer.children[i];
 		if (t.id == id) {
@@ -1718,8 +1762,7 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 		 || x1 > x2 + w2 //
 		 || y1 + h1 < y2 //
 		 || y1 > y2 + h2 //
-	)
-	{
+	) {
 		return false;
 	} else {
 		return true;
@@ -1728,7 +1771,7 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 };
 RiffShareFlat.prototype.resetSize = function () {
 	this.innerWidth = (this.marginLeft + this.marginRight + 16 * 16) * this.tapSize;
-	this.innerHeight = (this.marginTop + this.marginBottom + 8 + 5 * 12) * this.tapSize;
+	this.innerHeight = (this.marginTop + this.marginBottom + 8 + 5 * 12 ) * this.tapSize;
 	this.contentSVG.style.width = this.contentDiv.clientWidth + 'px';
 	this.contentSVG.style.height = this.contentDiv.clientHeight + 'px';
 	document.getElementById('undobutton').style.width = this.tapSize + 'px';
@@ -2170,7 +2213,7 @@ RiffShareFlat.prototype.userUpMeasure = function (msr) {
 	var pre = this.copyTones();
 	var after = [];
 	for (var i = 0; i < pre.length; i++) {
-		if (pre[i].beat >= msr * 16 && pre[i].beat < (1+msr) * 16  && nn == pre[i].track) {
+		if (pre[i].beat >= msr * 16 && pre[i].beat < (1 + msr) * 16 && nn == pre[i].track) {
 			if (pre[i].pitch >= 12 * 5 - 1) {
 				return;
 			}
@@ -2206,7 +2249,7 @@ RiffShareFlat.prototype.userDownMeasure = function (msr) {
 	var pre = this.copyTones();
 	var after = [];
 	for (var i = 0; i < pre.length; i++) {
-		if (pre[i].beat >= msr * 16 && pre[i].beat < (1+msr )* 16 && nn == pre[i].track) {
+		if (pre[i].beat >= msr * 16 && pre[i].beat < (1 + msr) * 16 && nn == pre[i].track) {
 			if (pre[i].pitch < 1) {
 				return;
 			}
@@ -2345,10 +2388,10 @@ RiffShareFlat.prototype.userActionClearAll = function () {
 	});
 };
 RiffShareFlat.prototype.userActionChangeScheme = function (nn) {
-	var olds=this.bgMode;
-	var news=nn;
+	var olds = this.bgMode;
+	var news = nn;
 	riffshareflat.pushAction({
-		caption: 'Change background mode '+nn,
+		caption: 'Change background mode ' + nn,
 		undo: function () {
 			riffshareflat.setModeBackground(olds)
 		},

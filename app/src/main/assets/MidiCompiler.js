@@ -266,6 +266,7 @@ function MidiCompiler() {
 		for (var step = 0; step < 256; step++) {
 			//var one = beat[step];
 			var one = me.beatChord(storeDrums,step);
+			//console.log(step,one);
 			for (var i = 0; i < one.length; i++) {
 				var midiNum = me.midiDrumN(one[i].drum);
 				me.writeNoteOffEvent(trackData, timeShift, 9, midiNum);

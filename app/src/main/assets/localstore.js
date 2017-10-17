@@ -230,11 +230,13 @@ function encodeState() {
 				var shift = 64 + storeTracks[i].shift;
 				var track = storeTracks[i].track;
 				if (beat == bi) {
-					pitchData = pitchData + pad0(beat.toString(16), 2) + track.toString(16) + pad0(length.toString(16), 2) + pad0(pitch.toString(16), 2) + pad0(shift.toString(16), 2);
+					var nd=pad0(beat.toString(16), 2) + track.toString(16) + pad0(length.toString(16), 2) + pad0(pitch.toString(16), 2) + pad0(shift.toString(16), 2);
+					pitchData = pitchData + nd;
+					//console.log(beat,track.toString(16),shift,nd);
 				}
 			}
 		}
-		txt = txt + '-' + pitchData;
+		txt = txt + 's' + pitchData;
 	} catch (ex) {
 		console.log(ex);
 	}
