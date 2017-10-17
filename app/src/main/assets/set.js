@@ -122,8 +122,8 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 1.5
 	}, {
-		color: 'rgb(51,127,140)',
-		shadow: 'rgba(51,127,140,0.4)',
+		color: 'rgb(35,51,255)',
+		shadow: 'rgba(35,51,255,0.4)',
 		//color: 'rgba(51,51,255,1)',
 		//shadow: 'rgba(51,51,255,0.4)',
 		title: 'Percussive Organ',
