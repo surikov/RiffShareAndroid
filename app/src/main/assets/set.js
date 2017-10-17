@@ -83,8 +83,8 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 0.5
 	}, {
-		color: 'rgb(191,38,255)',
-		shadow: 'rgba(191,38,255,0.4)',
+		color: 'rgb(140,0,64)',
+		shadow: 'rgba(140,0,64,0.4)',
 		//color: 'rgba(204,0,204,1)',
 		//shadow: 'rgba(204,0,204,0.4)',
 		title: 'Bass guitar',
@@ -122,8 +122,8 @@ var trackInfo = [{
 		inChordDelay: 0,
 		volumeRatio: 1.5
 	}, {
-		color: 'rgb(128,0,255)',
-		shadow: 'rgba(128,0,255,0.4)',
+		color: 'rgb(51,127,140)',
+		shadow: 'rgba(51,127,140,0.4)',
 		//color: 'rgba(51,51,255,1)',
 		//shadow: 'rgba(51,51,255,0.4)',
 		title: 'Percussive Organ',
