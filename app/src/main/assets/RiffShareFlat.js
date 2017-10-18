@@ -1023,7 +1023,7 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			}
 		];
 		var r = 1.1 - Math.random() * 0.2;
-		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, (0.5+note.length) * beatLen, r * channel.volumeRatio, shift);
+		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, (0.75+note.length) * beatLen, r * channel.volumeRatio, shift);
 		inChordCount++;
 	}
 };
