@@ -1538,8 +1538,8 @@ RiffShareFlat.prototype.tileTempo = function (left, top, width, height) {
 	var g = this.rakeGroup(x, y, w, h, 'tmpo', this.textGroup, left, top, width, height);
 	var cw = 11 / 8;
 	if (g) {
-		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * 11, this.tapSize * 0.9, 'rgba(255,255,255,0.5)');
-		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * cw * (this.tempo - 60) / 20, this.tapSize * 0.9, 'rgba(255,255,255,0.9)');
+		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * 11, this.tapSize * 0.9, modeDrumShadow(this.bgMode));
+		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * cw * (this.tempo - 60) / 20, this.tapSize * 0.9, modeDrumColor(this.bgMode));
 		this.tileText(g, x - this.tapSize * 5.5, y + this.tapSize * 0.75, this.tapSize, 'Tempo ' + this.tempo + ' bpm', modeDrumColor(this.bgMode));
 		for (var i = 0; i < 8; i++) {
 			var s = this.addSpot('tempo' + i, x + this.tapSize * cw * i, y, this.tapSize * cw, this.tapSize, function () {
