@@ -1445,7 +1445,7 @@ RiffShareFlat.prototype.tileTones = function (left, top, width, height) {
 		var h = this.tapSize;
 		var g = this.rakeGroup(x, y, w, h, 'mrk', this.upperGroup, left, top, width, height);
 		if (g) {
-			this.tileCircle(g, x + this.tapSize * 0.5, y + this.tapSize * 0.5, this.tapSize / 3, '#fff');
+			this.tileCircle(g, x + this.tapSize * 0.5, y + this.tapSize * 0.5, this.tapSize / 3, 'rgba(127,127,127,0.5)');
 		}
 	}
 	this.addSpot('toneSpot', this.tapSize * this.marginLeft, this.tapSize * this.marginTop, this.tapSize * 16 * 17, this.tapSize * 12 * 5, function () {
