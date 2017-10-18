@@ -126,5 +126,22 @@
 			</ul>
 		</div>
 		<p class="ftr">Return to <a href="index.html">editor</a></p>
+		<script>
+			var bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0,1,2]);
+			var bg=modeBackground(bgMode);
+			var fg=modeDrumColor(bgMode);
+			for(var ss=0;ss<document.styleSheets.length;ss++){
+				var stylrSheet=document.styleSheets[ss];
+				for(var ru=0;ru<stylrSheet.cssRules.length;ru++){
+					var cssRule=stylrSheet.cssRules[ru];
+					if(cssRule.selectorText){
+						if(cssRule.selectorText.includes('html')){
+							cssRule.style.setProperty('background-color',bg,null);
+							cssRule.style.setProperty('color',fg,null);
+						}
+					}
+				}
+			}
+		</script>
 	</body>
 </html>
