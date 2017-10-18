@@ -70,7 +70,7 @@ RiffShareFlat.prototype.init = function () {
 	this.marginBottom = 1;
 	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
 	this.bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
-	this.contentDiv.style.background = this.modeBackground(this.bgMode);
+	this.contentDiv.style.background = modeBackground(this.bgMode);
 	this.drumVolumes = [];
 	for (var i = 0; i < 8; i++) {
 		this.drumVolumes.push(sureNumeric(readObjectFromlocalStorage('drum' + i), 0, 70, 100));
@@ -1038,12 +1038,12 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		//this.tileRectangle(g, 0, 0, this.innerWidth, this.innerHeight, 'rgba(0,0,0,0.8)');
 		//this.tileText(g, x - this.tapSize * 0.5, y + this.tapSize * 4, this.tapSize * 7, 'RiffShare', '#333');
 
-		this.tileCircle(g, 6 * this.tapSize, 6 * this.tapSize, 5 * this.tapSize, '#999');
+		this.tileCircle(g, 6 * this.tapSize, 6 * this.tapSize, 5 * this.tapSize, modeDrumShadow(this.bgMode));
 		var startLabel = 'Play';
 		if (this.onAir) {
 			startLabel = 'Stop';
 		}
-		this.tileText(g, 4 * this.tapSize, y + this.tapSize * 9, this.tapSize * 10, startLabel, '#fff');
+		this.tileText(g, 4 * this.tapSize, y + this.tapSize * 9, this.tapSize * 10, startLabel, modeDrumColor(this.bgMode));
 		this.addSpot('plybt', 0, 1 * this.tapSize, this.leftMargin * this.tapSize, this.tapSize * 10, function () {
 			if (riffshareflat.onAir) {
 				riffshareflat.stopPlay();
@@ -1057,13 +1057,13 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.addSpot('svsh', 1 * this.tapSize, (8.5 + 1.5 * 1) * this.tapSize, (this.leftMargin - 2) * this.tapSize, this.tapSize, function () {
 		window.open('export.html', '_self')
 		});*/
-		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, '#999');
-		this.tileText(g, 3 * this.tapSize, y + this.tapSize * 17, 7 * this.tapSize, 'File', '#fff');
+		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, modeDrumShadow(this.bgMode));
+		this.tileText(g, 3 * this.tapSize, y + this.tapSize * 17, 7 * this.tapSize, 'File', modeDrumColor(this.bgMode));
 		this.addSpot('flop', 0, 12 * this.tapSize, this.leftMargin * this.tapSize, this.tapSize * 6, function () {
 			window.open('file.html', '_self')
 		});
-		this.tileCircle(g, 3 * this.tapSize, 21 * this.tapSize, 2 * this.tapSize, '#999');
-		this.tileText(g, 2.5 * this.tapSize, y + this.tapSize * 22, 4 * this.tapSize, 'Clear all', '#fff');
+		this.tileCircle(g, 3 * this.tapSize, 21 * this.tapSize, 2 * this.tapSize, modeDrumShadow(this.bgMode));
+		this.tileText(g, 2.5 * this.tapSize, y + this.tapSize * 22, 4 * this.tapSize, 'Clear all', modeDrumColor(this.bgMode));
 		this.addSpot('clrsng', 0, 19 * this.tapSize, this.leftMargin * this.tapSize, 4 * this.tapSize, function () {
 			riffshareflat.userActionClearAll();
 		});
@@ -1079,21 +1079,21 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.tileCircle(g, 3.5 * this.tapSize, 52 * this.tapSize, 0.5 * this.tapSize, this.findTrackInfo(0).color);
 		this.tileText(g, 4.1 * this.tapSize, y + this.tapSize * 52.3, this.tapSize * 1.0, 'Clear', this.findTrackInfo(0).color);
 
-		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.35 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 1.5 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, 1.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
 
-		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.05 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.25 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.35 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize + 0.05 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.15 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.15 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
 
 		//this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize - 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
 		//this.tileLine(g, 2.5 * this.tapSize, 52 * this.tapSize + 0.3 * this.tapSize, 2.5 * this.tapSize + 0.3 * this.tapSize, 52 * this.tapSize - 0.1 * this.tapSize, '#000', 0.1 * this.tapSize);
 
-		this.tileLine(g, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-		this.tileLine(g, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+		this.tileLine(g, 3.5 * this.tapSize + 0.2 * this.tapSize, 52 * this.tapSize - 0.2 * this.tapSize, 3.5 * this.tapSize - 0.2 * this.tapSize, 52 * this.tapSize + 0.2 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
 		this.addSpot('octup', 1 * this.tapSize, 51.5 * this.tapSize, this.tapSize, this.tapSize, function () {
 			riffshareflat.userUpInstrument();
 		});
@@ -1118,21 +1118,21 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 
 		var stopX = (16 * in16 + this.marginLeft + 0.5) * this.tapSize;
 		//console.log('len',riffshareflat.cauntMeasures());
-		this.tileCircle(g, stopX, 0.5 * this.tapSize, 0.5 * this.tapSize, this.modeDrumColor(this.bgMode));
+		this.tileCircle(g, stopX, 0.5 * this.tapSize, 0.5 * this.tapSize, modeDrumShadow(this.bgMode));
 		this.tileText(g, stopX - 0.25 * this.tapSize, 0.75 * this.tapSize, this.tapSize * 1.0, 'Repeat ' + this.findTrackInfo(0).title, this.findTrackInfo(0).color);
 		this.addSpot('rptins', stopX - 0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
 			riffshareflat.userRepeatInstrument();
 		});
 		var dr16 = riffshareflat.cauntDrumMeasures();
 		stopX = (16 * dr16 + this.marginLeft + 0.5) * this.tapSize;
-		this.tileCircle(g, stopX, (12 * 5 + 8 + 1.5) * this.tapSize, 0.5 * this.tapSize, '#666');
-		this.tileText(g, stopX - 0.25 * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Repeat Drums', this.modeDrumColor(this.bgMode));
+		this.tileCircle(g, stopX, (12 * 5 + 8 + 1.5) * this.tapSize, 0.5 * this.tapSize, modeDrumShadow(this.bgMode));
+		this.tileText(g, stopX - 0.25 * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Repeat Drums', modeDrumColor(this.bgMode));
 		this.addSpot('rptdrms', stopX - 0.5 * this.tapSize, (12 * 5 + 8 + 1) * this.tapSize, this.tapSize, this.tapSize, function () {
 			//console.log('rptdrms');
 			riffshareflat.userRepeatDrums();
 		});
-		this.tileCircle(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.5) * this.tapSize, 0.5 * this.tapSize, '#666');
-		this.tileText(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Clear Drums', this.modeDrumColor(this.bgMode));
+		this.tileCircle(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.5) * this.tapSize, 0.5 * this.tapSize, modeDrumShadow(this.bgMode));
+		this.tileText(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Clear Drums', modeDrumColor(this.bgMode));
 		this.addSpot('clrdrms', (this.marginLeft) * this.tapSize, (12 * 5 + 8 + 1) * this.tapSize, this.tapSize, this.tapSize, function () {
 			riffshareflat.userClearDrum();
 		});
@@ -1141,16 +1141,16 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			var tx = (16 * i + this.marginLeft + 0.5) * this.tapSize;
 			var ty = 0.5 * this.tapSize;
 			this.tileCircle(g, tx, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
-			this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx - 0.3 * this.tapSize, ty + 0.1 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-			this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx + 0.3 * this.tapSize, ty + 0.1 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
+			this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx - 0.3 * this.tapSize, ty + 0.1 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+			this.tileLine(g, tx, ty - 0.3 * this.tapSize, tx + 0.3 * this.tapSize, ty + 0.1 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
 			var s = this.addSpot('supins' + i, tx - 0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
 					//console.log('up' + this.i);
 					riffshareflat.userUpMeasure(this.i);
 				});
 			s.i = i;
 			this.tileCircle(g, tx + this.tapSize, ty, 0.5 * this.tapSize, this.findTrackInfo(0).color);
-			this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 0.7 * this.tapSize, ty - 0.1 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
-			this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 1.3 * this.tapSize, ty - 0.1 * this.tapSize, this.modeBackground(this.bgMode), 0.1 * this.tapSize);
+			this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 0.7 * this.tapSize, ty - 0.1 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+			this.tileLine(g, tx + this.tapSize, ty + 0.3 * this.tapSize, tx + 1.3 * this.tapSize, ty - 0.1 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
 			s = this.addSpot('sdwnins' + i, tx + 0.5 * this.tapSize, 0, this.tapSize, this.tapSize, function () {
 					//console.log('down' + this.i);
 					riffshareflat.userDownMeasure(this.i);
@@ -1190,20 +1190,26 @@ RiffShareFlat.prototype.tileDrumMeasure = function (n, left, top, width, height)
 		var track = this.findTrackInfo(0);
 		this.tileText(g, x + this.tapSize * 13, y + this.tapSize * 2.5, this.tapSize * 3, '' + (n + 1), track.color);
 		for (var i = 0; i < 8; i++) {
-			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 0 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.05)');
-			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 0 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.10)');
-			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 1 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.15)');
-			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 1 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.20)');
-			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 2 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.25)');
-			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 2 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.30)');
-			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 3 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.35)');
-			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 3 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(255,255,255,0.40)');
+			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 0 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.05)');
+			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 0 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.10)');
+			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 1 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.15)');
+			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 1 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.20)');
+			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 2 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.25)');
+			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 2 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.30)');
+			this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + 3 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.35)');
+			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 3 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.40)');
 		}
+		/*for (var i = 0; i < 8; i++) {
+			for (var k = 0; k < 4; k++) {
+				this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + k * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.55)');
+				this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + k * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.55)');
+			}
+		}*/
 		for (var i = 0; i < this.storeDrums.length; i++) {
 			if (this.storeDrums[i].beat >= n * 16 && this.storeDrums[i].beat < (n + 1) * 16) {
 				var xx = x + this.tapSize * (0.5 + this.storeDrums[i].beat - n * 16);
 				var yy = y + this.tapSize * (0.5 + this.storeDrums[i].drum);
-				this.tileLine(g, xx, yy, 1 + xx, yy, this.modeDrumColor(this.bgMode), this.tapSize);
+				this.tileLine(g, xx, yy, 1 + xx, yy, modeDrumColor(this.bgMode), this.tapSize);
 			}
 		}
 	}
@@ -1238,16 +1244,34 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 	var h = this.tapSize * 12 * 5;
 	var g = this.rakeGroup(x, y, w, h, 'pnlins', this.linesGroup, left, top, width, height);
 	if (g) {
-		for (var i = 0; i < 5; i++) {
-			this.tileRectangle(g, x, y + this.tapSize * (0 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
-			this.tileRectangle(g, x, y + this.tapSize * (2 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
-			this.tileRectangle(g, x, y + this.tapSize * (4 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
-			this.tileRectangle(g, x, y + this.tapSize * (6 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
-			this.tileRectangle(g, x, y + this.tapSize * (7 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
-			this.tileRectangle(g, x, y + this.tapSize * (9 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
-			this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.15)');
-
+		if(this.bgMode==2){
+			for (var i = 0; i < 5; i++) {
+				this.tileRectangle(g, x, y + this.tapSize * (10 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (8 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (7 + i * 12), w, this.tapSize * 0.05, 'rgba(0,0,0,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (5 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (3 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (1 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				//this.tileRectangle(g, x, y + this.tapSize * (0 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				//this.tileRectangle(g, x, y + this.tapSize * (2 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				//this.tileRectangle(g, x, y + this.tapSize * (4 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				//this.tileRectangle(g, x, y + this.tapSize * (6 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				//this.tileRectangle(g, x, y + this.tapSize * (7 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				//this.tileRectangle(g, x, y + this.tapSize * (9 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+				//this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
+			}
+		}else{
+			for (var i = 0; i < 5; i++) {
+				this.tileRectangle(g, x, y + this.tapSize * (0 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (2 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (4 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (6 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (7 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (9 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
+				this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
+			}
 		}
+		
 		//for (var i = 0; i < 5; i++) {
 		//for (var k = 0; k < 16 * 16; k++) {
 		//this.tileText(g, x + this.tapSize * k*16, y + this.tapSize * (i*12+11+0.75), 1.4*this.tapSize, 'C' + (5-i) , '#000');
@@ -1260,7 +1284,7 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 		//}
 		//}
 		for (var i = 1; i < 16 * 16; i++) {
-			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.03, this.tapSize * 5 * 12, this.modeBackground(this.bgMode));
+			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.03, this.tapSize * 5 * 12, modeBackground(this.bgMode));
 		}
 		var track = this.findTrackInfo(0);
 		for (var i = 0; i < 4; i++) {
@@ -1271,7 +1295,7 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 		}
 		for (var i = 0; i < 16 * 16; i = i + 16) {
 
-			this.tileRectangle(g, x + this.tapSize * (i + 8.05), y, this.tapSize * 0.007, this.tapSize * (8 + 5 * 12  ), track.color); //this.modeBackground(this.bgMode));
+			this.tileRectangle(g, x + this.tapSize * (i + 8.05), y, this.tapSize * 0.007, this.tapSize * (8 + 5 * 12  ), track.color); //modeBackground(this.bgMode));
 		}
 	}
 };
@@ -1380,7 +1404,7 @@ RiffShareFlat.prototype.tilePartTones = function (measure, octave, track, left, 
 								} else {
 									this.tileLine(g, xx, yy, 1 + xx + this.tapSize * le, yy - this.tapSize * p.shift, track.color, r);
 									//this.tileCircle(g, xx, yy, this.tapSize / 5, '#000');
-									this.tileText(g, xx - 0.4 * this.tapSize, yy + 0.2 * this.tapSize, 1.0 * this.tapSize, this.pitchName(p.pitch), '#000');
+									this.tileText(g, xx - 0.4 * this.tapSize, yy + 0.2 * this.tapSize, 1.0 * this.tapSize, this.pitchName(p.pitch), modeNoteName(this.bgMode));
 								}
 							}
 						}
@@ -1459,24 +1483,32 @@ RiffShareFlat.prototype.tileTones = function (left, top, width, height) {
 RiffShareFlat.prototype.setModeBackground = function (bgMode) {
 	this.bgMode = bgMode;
 	saveText2localStorage('bgMode', '' + bgMode);
-	//console.log(this.bgMode,this.modeBackground(this.bgMode));
-	this.contentDiv.style.background = this.modeBackground(this.bgMode);
+	//console.log(this.bgMode,modeBackground(this.bgMode));
+	this.contentDiv.style.background = modeBackground(this.bgMode);
 };
+/*
 RiffShareFlat.prototype.modeDrumColor = function (bgMode) {
 	if (bgMode == 2) {
-		return '#333';
+		return '#033';
 	}
 	return '#ccc';
+};
+RiffShareFlat.prototype.modeDrumShadow = function (bgMode) {
+	if (bgMode == 2) {
+		return '#9a9';
+	}
+	return '#666';
 };
 RiffShareFlat.prototype.modeBackground = function (bgMode) {
 	if (bgMode == 1) {
 		return '#31424C';
 	}
 	if (bgMode == 2) {
-		return '#C8D1D2';
+		//return '#C8D1D2';
+		return '#eef';
 	}
 	return '#000609';
-};
+};*/
 RiffShareFlat.prototype.tileColorMode = function (left, top, width, height) {
 	var x = this.tapSize * (this.marginLeft - 12);
 	var y = this.tapSize * (this.marginTop + 12 * 5 - 36 + 1 - 2);
@@ -1485,9 +1517,9 @@ RiffShareFlat.prototype.tileColorMode = function (left, top, width, height) {
 	var g = this.rakeGroup(x, y, w, h, 'colorscheme', this.textGroup, left, top, width, height);
 	var cw = 11 / 3;
 	if (g) {
-		this.tileText(g, x - this.tapSize * 5.5, y + this.tapSize * 0.75, this.tapSize, 'Background mode', this.modeDrumColor(this.bgMode));
+		this.tileText(g, x - this.tapSize * 5.5, y + this.tapSize * 0.75, this.tapSize, 'Background mode', modeDrumColor(this.bgMode));
 		for (var i = 0; i < 3; i++) {
-			this.tileRectangle(g, x + this.tapSize * cw * i, y, this.tapSize * (cw - 0.1), this.tapSize * 0.9, this.modeBackground(i));
+			this.tileRectangle(g, x + this.tapSize * cw * i, y, this.tapSize * (cw - 0.1), this.tapSize * 0.9, modeBackground(i));
 			var s = this.addSpot('colorscheme' + i, x + this.tapSize * cw * i, y, this.tapSize * cw, this.tapSize, function () {
 					console.log('spot', this);
 					//riffshareflat.setModeBackground(this.bgm)
@@ -1508,7 +1540,7 @@ RiffShareFlat.prototype.tileTempo = function (left, top, width, height) {
 	if (g) {
 		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * 11, this.tapSize * 0.9, 'rgba(255,255,255,0.5)');
 		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * cw * (this.tempo - 60) / 20, this.tapSize * 0.9, 'rgba(255,255,255,0.9)');
-		this.tileText(g, x - this.tapSize * 5.5, y + this.tapSize * 0.75, this.tapSize, 'Tempo ' + this.tempo + ' bpm', this.modeDrumColor(this.bgMode));
+		this.tileText(g, x - this.tapSize * 5.5, y + this.tapSize * 0.75, this.tapSize, 'Tempo ' + this.tempo + ' bpm', modeDrumColor(this.bgMode));
 		for (var i = 0; i < 8; i++) {
 			var s = this.addSpot('tempo' + i, x + this.tapSize * cw * i, y, this.tapSize * cw, this.tapSize, function () {
 					riffshareflat.userActionTempo(this.tempo);
@@ -1561,7 +1593,7 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				sk = 2;
 				//this.tileRectangle(g, x + this.tapSize * (0 + 6), y + this.tapSize * (i + sk), this.tapSize * 11, this.tapSize * 0.9, 'rgba(255,255,255,0.3)');
 				this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * (i + sk), this.tapSize * (1 + track.volume / 10), this.tapSize * 0.9, track.color);
-				this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5 + sk), this.tapSize * 0.5, this.modeDrumColor(this.bgMode));
+				this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5 + sk), this.tapSize * 0.5, modeDrumShadow(this.bgMode));
 				var s = this.addSpot('up' + i, x + this.tapSize * 0.0, y + this.tapSize * (i + 0.2 + sk), this.tapSize * 17, this.tapSize * 1, function () {
 						riffshareflat.userActionUpTrack(this.order);
 					});
@@ -1577,9 +1609,9 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				s.volume = v * 10;
 				}*/
 			} else {
-				this.tileRectangle(g, x + this.tapSize * (0 + 6), y + this.tapSize * (i + sk), this.tapSize * 11, this.tapSize * 0.9, 'rgba(255,255,255,0.3)');
+				this.tileRectangle(g, x + this.tapSize * (0 + 6), y + this.tapSize * (i + sk), this.tapSize * 11, this.tapSize * 0.9, modeDrumShadow(this.bgMode));
 				this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * (i + sk), this.tapSize * (1 + track.volume / 10), this.tapSize * 0.9, track.color);
-				this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5 + sk), this.tapSize * 0.5, this.modeDrumColor(this.bgMode));
+				this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5 + sk), this.tapSize * 0.5, modeDrumShadow(this.bgMode));
 				/*var s = this.addSpot('up' + i, x + this.tapSize * 0.0, y + this.tapSize * (i + 0.2 + sk), this.tapSize * 5, this.tapSize * 1, function () {
 				riffshareflat.userActionUpTrack(this.order);
 				});
@@ -1606,9 +1638,9 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 	var g = this.rakeGroup(x, y, w, h, 'drvlm', this.textGroup, left, top, width, height);
 	if (g) {
 		for (var i = 0; i < 8; i++) {
-			this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * i, this.tapSize * 11, this.tapSize * 0.9, 'rgba(255,255,255,0.3)');
+			this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * i, this.tapSize * 11, this.tapSize * 0.9, modeDrumShadow(this.bgMode));
 			var n = this.drumVolumes[i] / 10;
-			this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * i, this.tapSize * (1 + n), this.tapSize * 0.9, 'rgba(255,255,255,0.9)');
+			this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * i, this.tapSize * (1 + n), this.tapSize * 0.9, modeDrumColor(this.bgMode));
 			for (var v = 0; v < 11; v++) {
 				var s = this.addSpot('voldru' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * i, this.tapSize, this.tapSize, function () {
 						riffshareflat.userActionDrumVolume(this.drum, this.volume);
@@ -1617,7 +1649,7 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 				s.volume = v * 10;
 			}
 			if (this.drumInfo[i].sound.zones[0].buffer) {
-				this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, this.modeDrumColor(this.bgMode));
+				this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, modeDrumColor(this.bgMode));
 			}
 		}
 		/*
@@ -1643,12 +1675,12 @@ RiffShareFlat.prototype.tileFrets = function (left, top, width, height) {
 			for (var i = 0; i < 6; i++) {
 				this.tileRectangle(g, x + m * 16 * this.tapSize, y + (1 + i) * this.tapSize//
 					, w , this.tapSize * (0.01 + i / 100)//
-					, this.modeDrumColor(this.bgMode));
+					, modeDrumColor(this.bgMode));
 			}
 			for (var i = 1; i < 16; i++) {
 				this.tileRectangle(g, x + (i+m * 16) * this.tapSize, y+1* this.tapSize//
 					,  0.005 * this.tapSize, h-1* this.tapSize//
-					, this.modeDrumColor(this.bgMode));
+					, modeDrumColor(this.bgMode));
 			}
 		}
 	}
@@ -1662,10 +1694,10 @@ RiffShareFlat.prototype.tileEqualizer = function (left, top, width, height) {
 	var g = this.rakeGroup(x, y, w, h, 'eqlzr', this.textGroup, left, top, width, height);
 	if (g) {
 		for (var i = 0; i < 10; i++) {
-			this.tileRectangle(g, x + this.tapSize * i * sz, y, this.tapSize * 0.95 * sz, this.tapSize * 21, 'rgba(255,255,255,0.3)');
+			this.tileRectangle(g, x + this.tapSize * i * sz, y, this.tapSize * 0.95 * sz, this.tapSize * 21, modeDrumShadow(this.bgMode));
 			var n = this.equalizer[i];
 			var ey = n < 0 ? y + this.tapSize * 10 : y + this.tapSize * 10 - this.tapSize * n;
-			this.tileRectangle(g, x + this.tapSize * i * sz, ey, this.tapSize * 0.95 * sz, this.tapSize * (1 + Math.abs(n)), 'rgba(255,255,255,0.9)');
+			this.tileRectangle(g, x + this.tapSize * i * sz, ey, this.tapSize * 0.95 * sz, this.tapSize * (1 + Math.abs(n)), modeDrumColor(this.bgMode));
 			for (var v = -10; v <= 10; v++) {
 				var s = this.addSpot('eq' + i + 'x' + v, x + this.tapSize * i * sz, y - this.tapSize * (v - 10), this.tapSize * 0.95 * sz, this.tapSize, function () {
 						riffshareflat.userActionEqualizer(this.band, this.volume);
@@ -1674,16 +1706,16 @@ RiffShareFlat.prototype.tileEqualizer = function (left, top, width, height) {
 				s.volume = v;
 			}
 		}
-		this.tileText(g, x + this.tapSize * (0 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '65', '#000');
-		this.tileText(g, x + this.tapSize * (1 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '125', '#000');
-		this.tileText(g, x + this.tapSize * (2 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '250', '#000');
-		this.tileText(g, x + this.tapSize * (3 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '500', '#000');
-		this.tileText(g, x + this.tapSize * (4 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '1k', '#000');
-		this.tileText(g, x + this.tapSize * (5 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '1k', '#000');
-		this.tileText(g, x + this.tapSize * (6 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '2k', '#000');
-		this.tileText(g, x + this.tapSize * (7 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '4k', '#000');
-		this.tileText(g, x + this.tapSize * (8 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '8k', '#000');
-		this.tileText(g, x + this.tapSize * (9 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '16k', '#000');
+		this.tileText(g, x + this.tapSize * (0 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '65', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (1 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '125', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (2 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '250', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (3 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '500', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (4 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '1k', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (5 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '1k', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (6 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '2k', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (7 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '4k', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (8 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '8k', modeBackground(this.bgMode));
+		this.tileText(g, x + this.tapSize * (9 * sz + 0.3), y + this.tapSize * 10.75, this.tapSize * 0.75, '16k', modeBackground(this.bgMode));
 	}
 };
 RiffShareFlat.prototype.msEdgeHook = function (g) {

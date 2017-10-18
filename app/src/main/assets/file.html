@@ -56,7 +56,7 @@
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 </script>
-		<h1>RiffShare v2.68</h1>
+		<h1>RiffShare v2.69</h1>
 		<div class='cntr'>
 			<ul>
 				<!--<li>Share via <a id='sharemail' href="#">email</a></li>-->
@@ -148,16 +148,8 @@
 				focused.focus();
 			}
 			var bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0,1,2]);
-			var bg='#000609';
-			var fg='fff';
-			if(bgMode==1){
-				bg='#31424C';
-				fg='fff';
-			}
-			if(bgMode==2){
-				bg='#C8D1D2';
-				fg='ccc';
-			}
+			var bg=modeBackground(bgMode);
+			var fg=modeDrumColor(bgMode);
 			for(var ss=0;ss<document.styleSheets.length;ss++){
 				var stylrSheet=document.styleSheets[ss];
 				for(var ru=0;ru<stylrSheet.cssRules.length;ru++){

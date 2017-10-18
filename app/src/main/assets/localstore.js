@@ -288,3 +288,32 @@ function removeStateFromHistory(n) {
 		}
 	}
 }
+
+function modeDrumColor  (bgMode) {
+	if (bgMode == 2) {
+		return '#233';
+	}
+	return '#ccc';
+}
+function modeDrumShadow  (bgMode) {
+	if (bgMode == 2) {
+		return '#9a9';
+	}
+	return '#566';
+}
+function modeNoteName  (bgMode) {
+	if (bgMode == 0) {
+		return '#000';
+	}
+	return '#fff';
+}
+function modeBackground  (bgMode) {
+	if (bgMode == 1) {
+		return '#31424C';
+	}
+	if (bgMode == 2) {
+		//return '#C8D1D2';
+		return '#eef';
+	}
+	return '#000609';
+}

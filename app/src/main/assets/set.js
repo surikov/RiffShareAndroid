@@ -57,8 +57,8 @@ var drumInfo = [{
 	}
 ];
 var trackInfo = [{
-		color: 'rgb(255,166,77)',
-		shadow: 'rgba(255,166,77,0.4)',
+		color: 'rgb(255,127,77)',
+		shadow: 'rgba(255,127,77,0.4)',
 		//color: 'rgba(255,204,187,1)',
 		//shadow: 'rgba(255,204,187,0.4)',
 		title: 'Synth Bass',

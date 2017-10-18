@@ -82,16 +82,9 @@
 			var lvlsh = 0.75;
 			var hh = 0;
 			var ww = 0;
-			var bg='#000609';
-			var fg='fff';
-			if(bgMode==1){
-				bg='#31424C';
-				fg='fff';
-			}
-			if(bgMode==2){
-				bg='#C8D1D2';
-				fg='ccc';
-			}
+			var bg=modeBackground(bgMode);
+			var fg=modeDrumColor(bgMode);
+			var ntColor=modeNoteName(bgMode);
 			for(var ss=0;ss<document.styleSheets.length;ss++){
 				var stylrSheet=document.styleSheets[ss];
 				for(var ru=0;ru<stylrSheet.cssRules.length;ru++){
@@ -108,7 +101,7 @@
 				console.log('setBgMode',bg);
 				saveText2localStorage('bgMode', '' + this.tempo);
 			}*/
-			function modeDrumColor() {
+			/*function modeDrumColor() {
 				if(bgMode==2){
 					return '#333';
 				}
@@ -122,7 +115,7 @@
 					return '#C8D1D2';
 				}
 				return '#000609';
-			};
+			};*/
 			function promptExport() {
 				var compiler = new MidiCompiler();
 				//var storeDrums=readObjectFromlocalStorage('storeDrums');
@@ -182,7 +175,7 @@
 				txt.setAttributeNS(null, 'x', x - mltpl * 0.3);
 				txt.setAttributeNS(null, 'y', y + mltpl * 0.3);
 				txt.setAttributeNS(null, 'font-size', mltpl * 0.7);
-				txt.setAttributeNS(null, 'fill', '#000');
+				txt.setAttributeNS(null, 'fill', ntColor);
 				txt.innerHTML = t;
 				svg.appendChild(txt);
 			}
@@ -339,7 +332,7 @@
 				context2D.font =   "bold 9px sans-serif";
 				//context2D.fillStyle = "#ffffff";
 				//context2D.fillText(t, x - 0.25 * mltpl + 1, y + 0.25 * mltpl + 1);
-				context2D.fillStyle = "#000000";
+				context2D.fillStyle = ntColor;
 				context2D.fillText(t, x - 0.25 * mltpl, y + 0.25 * mltpl);
 			}
 			function drawBTx(context2D, x, y, t) {
@@ -408,7 +401,7 @@
 				cnvs.width = ww;
 				cnvs.height = hh;
 				var context2D = cnvs.getContext("2d");
-				context2D.fillStyle = modeBackground();
+				context2D.fillStyle = bg;
 				context2D.fillRect(0, 0, ww, hh);
 
 				if (hh > 0) {
@@ -420,10 +413,10 @@
 						}
 					}
 					for (var i = 16 * mltpl; i < ww; i = i + 16 * mltpl) {
-						drawLine(context2D, i, 0, i, hh,  modeBackground(), 2);
+						drawLine(context2D, i, 0, i, hh,  bg, 2);
 					}
 					for (var i = 1 * mltpl; i < ww; i = i + 1 * mltpl) {
-						drawLine(context2D, i, 0, i, hh, modeBackground(), 0.5);
+						drawLine(context2D, i, 0, i, hh,bg, 0.5);
 					}
 					
 					if (hasDrums) {
@@ -438,7 +431,7 @@
 						for (var i = 0; i < storeDrums.length; i++) {
 							var x1 = storeDrums[i].beat * mltpl + 0.5 * mltpl;
 							var y1 = hh - drCount * mltpl + drumUses[storeDrums[i].drum] * mltpl - 0.5 * mltpl;
-							drawNoteLine(context2D, x1, y1, x1 + 1, y1,  modeDrumColor());
+							drawNoteLine(context2D, x1, y1, x1 + 1, y1,  fg);
 						}
 						
 						
