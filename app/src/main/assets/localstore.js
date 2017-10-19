@@ -72,7 +72,7 @@ function getUrlVars() {
 }
 function decodeState(encoded) {
 	try {
-		addStateToHistory();
+		//addStateToHistory();
 		var strings = encoded.split('-');
 		var tempo = parseInt(strings[0], 16);
 		//console.log('tempo',tempo);

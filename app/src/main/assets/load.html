@@ -10,6 +10,7 @@
 			function load(){
 				var riff = getUrlVars()['riff'];
 				console.log(riff);
+				addStateToHistory();
 				saveObject2localStorage('storeDrums', []);
 				saveObject2localStorage('storeTracks', []);
 				decodeState(riff);
