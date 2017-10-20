@@ -87,6 +87,7 @@
 			//var sharemail = document.getElementById('sharemail');
 			//sharemail.href = "mailto:to@any.body?subject=RiffShare&body=look to https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
 			var twitterurl = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html%3Friff%3D" + encoded;
+			console.log('twitButton href',twitterurl);
 			document.getElementById("twitButton").href = "https://twitter.com/intent/tweet?text=#riffshare&url=" + twitterurl;
 			window.twttr = (function (d, s, id) {
 				var js,

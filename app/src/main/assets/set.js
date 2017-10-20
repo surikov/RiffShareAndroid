@@ -1,9 +1,10 @@
+console.log('set 1.24');
 var drumInfo = [{
 		sound: _drum_35_0_Chaos_sf2_file,
 		pitch: 36, //36
 		title: 'Bass drum',
 		id: 0,
-		volumeRatio: 0.75,
+		volumeRatio: 0.95,
 		length: 0.5
 	}, {
 		sound: _drum_41_26_JCLive_sf2_file,
@@ -68,7 +69,7 @@ var trackInfo = [{
 		nn: 7,
 		octave: 3,
 		inChordDelay: 0.01,
-		volumeRatio: 0.5
+		volumeRatio: 0.3
 	}, {
 		color: 'rgb(178,178,0)',
 		shadow: 'rgba(178,178,0,0.4)',
@@ -81,7 +82,7 @@ var trackInfo = [{
 		nn: 6,
 		octave: 3,
 		inChordDelay: 0,
-		volumeRatio: 0.5
+		volumeRatio: 0.3
 	}, {
 		color: 'rgb(140,0,64)',
 		shadow: 'rgba(140,0,64,0.4)',
@@ -94,7 +95,7 @@ var trackInfo = [{
 		nn: 5,
 		octave: 2,
 		inChordDelay: 0.01,
-		volumeRatio: 0.99
+		volumeRatio: 0.75
 	}, {
 		color: 'rgb(0,127,255)',
 		shadow: 'rgba(0,127,255,0.4)',
@@ -107,7 +108,7 @@ var trackInfo = [{
 		nn: 4,
 		octave: 3,
 		inChordDelay: 0,
-		volumeRatio: 0.99
+		volumeRatio: 0.5
 	}, {
 		color: 'rgb(140,35,0)',
 		shadow: 'rgba(140,35,0,0.4)',
@@ -120,7 +121,7 @@ var trackInfo = [{
 		nn: 3,
 		octave: 3,
 		inChordDelay: 0,
-		volumeRatio: 1.5
+		volumeRatio: 1.0
 	}, {
 		color: 'rgb(35,51,255)',
 		shadow: 'rgba(35,51,255,0.4)',
@@ -134,7 +135,7 @@ var trackInfo = [{
 		volume: sureNumeric(readObjectFromlocalStorage('track2'), 0, 70, 100),
 		nn: 2,
 		octave: 4,
-		volumeRatio: 0.9
+		volumeRatio: 0.7
 	}, {
 		color: 'rgb(45,178,0)',
 		shadow: 'rgba(45,178,0,0.4)',
@@ -147,7 +148,7 @@ var trackInfo = [{
 		nn: 1,
 		octave: 3,
 		inChordDelay: 0.01,
-		volumeRatio: 0.75
+		volumeRatio: 0.5
 	}, {
 		color: 'rgb(255,0,0)',
 		shadow: 'rgba(255,0,0,0.4)',
@@ -160,7 +161,7 @@ var trackInfo = [{
 		nn: 0,
 		octave: 3,
 		inChordDelay: 0.01,
-		volumeRatio: 0.9
+		volumeRatio: 0.7
 	}
 
 ];
