@@ -1,4 +1,4 @@
-console.log('set 1.24');
+console.log('set 1.25');
 var drumInfo = [{
 		sound: _drum_35_0_Chaos_sf2_file,
 		pitch: 36, //36
@@ -69,7 +69,7 @@ var trackInfo = [{
 		nn: 7,
 		octave: 3,
 		inChordDelay: 0.01,
-		volumeRatio: 0.3
+		volumeRatio: 0.5
 	}, {
 		color: 'rgb(178,178,0)',
 		shadow: 'rgba(178,178,0,0.4)',

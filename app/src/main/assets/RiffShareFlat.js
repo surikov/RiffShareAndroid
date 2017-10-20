@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.8');
+console.log('riffshareflat v1.0.9');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -1022,7 +1022,7 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 				pitch: note.shift + channel.octave * 12 + note.pitch
 			}
 		];
-		var r = 1.1 - Math.random() * 0.2;
+		var r = 0.9 - Math.random() * 0.2;
 		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, 0.075+note.length * beatLen, r * channel.volumeRatio, shift);
 		inChordCount++;
 	}
