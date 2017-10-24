@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>fretload</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+		<script src="localstore.js"></script>
+		<script>
+			console.log('load v1.01');
+			function load(){
+				try{
+					var riff = getUrlVars()['riff'];
+					console.log(riff);
+					var strings = riff.split('-');
+					saveText2localStorage('fretchan', '' +strings[0]);
+					var notes=[];
+					for(var i=0;i<strings[1].length;i=i+5){
+						var o=strings[1].substring(i,i+5);
+						
+						var note={
+							beat:   parseInt(strings[1].substring(0+i , 0+i  + 2), 16),
+							string: parseInt(strings[1].substring(2+i , 2+i  + 1), 16),
+							fret:   parseInt(strings[1].substring(3+i , 3+i  + 1), 16),
+							length: parseInt(strings[1].substring(4+i , 4+i  + 1), 16)
+						};
+						//console.log(o,note);
+						notes.push(note);
+					}
+					for(var i=0;i<strings[2].length;i++){
+						beats[i]=1*strings[2].substring(i , i+1);
+					}
+					//console.log(notes);
+					saveObject2localStorage('storeFrets', notes);
+					saveObject2localStorage('storeBeats', beats);
+				}catch(e){
+					console.log(e);
+				}
+				window.location = "fretboard.html";
+			}
+		</script>
+		<style>
+			html, body {
+				background-color:#000;
+				color: #fff;				
+			}
+			a {
+				color: #99f;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Wait</h1>
+		<p>Return <a href="index.html">back</a></p>
+		<script>
+			load();
+		</script>
+	</body>
+</html>

@@ -1,30 +1,15 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>RiffShare</title>
+		<title>FretShare</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 		<script src="WebAudioFontPlayer.js"></script>
-		<script src="0300_LesPaul_sf2_file.js"></script>
-		<script src="0280_LesPaul_sf2_file.js"></script>
-		<script src="0250_Chaos_sf2_file.js"></script>
-		<script src="0170_SBLive_sf2.js"></script>
-		<!--<script src="0170_JCLive_sf2_file.js"></script>-->
-		<script src="0001_FluidR3_GM_sf2_file.js"></script>
-		<script src="0340_Aspirin_sf2_file.js"></script>
-		<script src="0390_GeneralUserGS_sf2_file.js"></script>
-		<script src="0490_Chaos_sf2_file.js"></script>
-		<script src="12835_0_Chaos_sf2_file.js"></script>
-		<script src="12838_22_FluidR3_GM_sf2_file.js"></script>
-		<script src="12841_26_JCLive_sf2_file.js"></script>
-		<script src="12842_26_JCLive_sf2_file.js"></script>
-		<script src="12845_26_JCLive_sf2_file.js"></script>
-		<script src="12846_26_JCLive_sf2_file.js"></script>
-		<script src="12849_26_JCLive_sf2_file.js"></script>
-		<script src="12851_26_JCLive_sf2_file.js"></script>
 		<script src="localstore.js"></script>
-		<script src="set.js"></script>
-		<script src="RiffShareFlat.js"></script>
+		<script src="0250_Chaos_sf2_file.js"></script>
+<script src="0300_LesPaul_sf2_file.js"></script>
+<script src="0340_Aspirin_sf2_file.js"></script>		
+		<script src="Fretboard.js"></script>
 		<script>
 			console.log('RiffShare flat v1.02');
 		</script>
@@ -105,7 +90,7 @@
 				</svg>
 			</div>
 		</div>
-		<div id="undobutton" class="undob" onclick='riffshareflat.undoLast();'><img id="undoimg" src='undo.png' width='100%' height='100%' /></div>
-		<div id="redobutton" class="redob" onclick='riffshareflat.redoNext();'><img id="redoimg" src='redo.png' width='100%' height='100%' /></div>
+		<div id="undobutton" class="undob" onclick='fretshare.undoLast();'><img id="undoimg" src='undo.png' width='100%' height='100%' /></div>
+		<div id="redobutton" class="redob" onclick='fretshare.redoNext();'><img id="redoimg" src='redo.png' width='100%' height='100%' /></div>
 	</body>
 </html>
