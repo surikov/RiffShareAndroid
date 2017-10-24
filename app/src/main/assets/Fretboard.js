@@ -1456,15 +1456,15 @@ FretShare.prototype.tileNoteChooser = function (left, top, width, height) {
 		var x = this.tapSize * (this.marginLeft + this.mark.beat);
 		var y = this.tapSize * (this.marginTop + this.mark.string);
 		var w = 16 * this.tapSize;
-		var h = 13 * this.tapSize;
+		var h = 16 * this.tapSize;
 		var g = this.rakeGroup(x, y, w, h, 'chsrmark', this.upperGroup, left, top, width, height);
 		if (g) {
 			this.tileRectangle(g, x, y, w, h, 'rgba(127,127,127,0.95)');
-			for (var p = 1; p < 13; p++) {
+			for (var p = 1; p < 16; p++) {
 				this.tileLine(g, x, y + p * this.tapSize, x + 16 * this.tapSize, y + p * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
 			}
 			for (var b = 1; b < 17; b++) {
-				this.tileLine(g, x + b * this.tapSize, y, x + b * this.tapSize, y + 13 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+				this.tileLine(g, x + b * this.tapSize, y, x + b * this.tapSize, y + 16 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
 			}
 			this.tileText(g, x + 0.15 * this.tapSize, y + this.tapSize * 0.8, this.tapSize * 1, '*', '#000');
 			this.tileText(g, x + 0.15 * this.tapSize, y + this.tapSize * 3.8, this.tapSize * 1, 'III', '#222');
