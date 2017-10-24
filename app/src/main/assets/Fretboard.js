@@ -2260,7 +2260,7 @@ FretShare.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 };
 FretShare.prototype.resetSize = function () {
 	this.innerWidth = (this.marginLeft + this.marginRight + 16 * 16) * this.tapSize;
-	this.innerHeight = (this.marginTop + this.marginBottom + 6 + 12) * this.tapSize;
+	this.innerHeight = (this.marginTop + this.marginBottom + 6 + 15) * this.tapSize;
 	this.contentSVG.style.width = this.contentDiv.clientWidth + 'px';
 	this.contentSVG.style.height = this.contentDiv.clientHeight + 'px';
 	document.getElementById('undobutton').style.width = this.tapSize + 'px';
