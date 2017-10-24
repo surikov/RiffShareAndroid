@@ -1,4 +1,4 @@
-console.log('fretshare v1.0.12');
+console.log('fretshare v1.0.13');
 function FretShare() {
 	window.fretshare = this;
 	return this;
