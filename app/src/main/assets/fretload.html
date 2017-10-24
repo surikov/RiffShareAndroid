@@ -13,22 +13,23 @@
 					console.log(riff);
 					var strings = riff.split('-');
 					saveText2localStorage('fretchan', '' +strings[0]);
+					saveText2localStorage('frettempo', '' +strings[1]);
 					var notes=[];
-					for(var i=0;i<strings[1].length;i=i+5){
-						var o=strings[1].substring(i,i+5);
+					for(var i=0;i<strings[2].length;i=i+5){
+						var o=strings[2].substring(i,i+5);
 						
 						var note={
-							beat:   parseInt(strings[1].substring(0+i , 0+i  + 2), 16),
-							string: parseInt(strings[1].substring(2+i , 2+i  + 1), 16),
-							fret:   parseInt(strings[1].substring(3+i , 3+i  + 1), 16),
-							length: parseInt(strings[1].substring(4+i , 4+i  + 1), 16)
+							beat:   parseInt(strings[2].substring(0+i , 0+i  + 2), 16),
+							string: parseInt(strings[2].substring(2+i , 2+i  + 1), 16),
+							fret:   parseInt(strings[2].substring(3+i , 3+i  + 1), 16),
+							length: parseInt(strings[2].substring(4+i , 4+i  + 1), 16)
 						};
 						//console.log(o,note);
 						notes.push(note);
 					}
 					var beats=[];
-					for(var i=0;i<strings[2].length;i++){
-						beats[i]=1*strings[2].substring(i , i+1);
+					for(var i=0;i<strings[3].length;i++){
+						beats[i]=1*strings[3].substring(i , i+1);
 					}
 					//console.log(notes);
 					saveObject2localStorage('storeFrets', notes);
