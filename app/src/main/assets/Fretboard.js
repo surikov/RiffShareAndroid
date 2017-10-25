@@ -1,4 +1,4 @@
-console.log('fretshare v1.0.13');
+console.log('fretshare v1.0.14');
 function FretShare() {
 	window.fretshare = this;
 	return this;
@@ -54,6 +54,22 @@ FretShare.prototype.init = function () {
 			octave: 3,
 			inChordDelay: 0.01,
 			volumeRatio: 0.7
+		}
+		, {
+			title: 'PalmMute distortion',
+			sound: _tone_0280_LesPaul_sf2_file,
+			volume: 70,
+			octave: 3,
+			inChordDelay: 0.01,
+			volumeRatio: 0.5
+		}
+		, {
+			title: 'PalmMute clean',
+			sound: _tone_0280_JCLive_sf2_file,
+			volume: 70,
+			octave: 3,
+			inChordDelay: 0.01,
+			volumeRatio: 0.5
 		}
 	];
 	this.strings = [28, 23, 19, 14, 9, 4];
@@ -1136,7 +1152,7 @@ FretShare.prototype.cauntToneMeasures = function (nn) {
 	return le;
 }
 FretShare.prototype.sendNextBeats = function (when, startBeat, endBeat) {
-	var channel = this.trackInfo[this.selchan];
+	
 	this.sentWhen = when;
 	this.sentBeat = startBeat;
 	var N = 4 * 60 / this.tempo;
@@ -1179,7 +1195,13 @@ FretShare.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			//currentTrack = note.track;
 			inChordCount = 0;
 		}
-
+		var channel = this.trackInfo[this.selchan];
+		if (this.beats[note.beat] == 3 && this.selchan == 1) {
+			channel = this.trackInfo[4];
+		}
+		if (this.beats[note.beat] == 3 && this.selchan == 2) {
+			channel = this.trackInfo[3];
+		}
 		var r = 0.6 - Math.random() * 0.2;
 		var pitch = channel.octave * 12 + note.fret + this.strings[note.string];
 		var duration = 0.075 + note.length * beatLen;
@@ -1542,6 +1564,9 @@ FretShare.prototype.tileeatLabelX = function (g, x, y) {
 	this.tileLine(g, x + 0.3 * this.tapSize, y + 0.3 * this.tapSize, x + 0.7 * this.tapSize, y + 0.7 * this.tapSize, modeBackground(this.bgMode), this.tapSize / 10);
 	this.tileLine(g, x + 0.3 * this.tapSize, y + 0.7 * this.tapSize, x + 0.7 * this.tapSize, y + 0.3 * this.tapSize, modeBackground(this.bgMode), this.tapSize / 10);
 }
+FretShare.prototype.tileeatLabelPM = function (g, x, y) {
+	this.tileLine(g, x + 0.2 * this.tapSize, y + 0.8 * this.tapSize, x + 0.8 * this.tapSize, y + 0.2 * this.tapSize, modeBackground(this.bgMode), this.tapSize / 10);
+}
 FretShare.prototype.tileBarNumbers = function (left, top, width, height) {
 	var x = this.tapSize * this.marginLeft;
 	var y = this.tapSize * this.marginTop;
@@ -1565,10 +1590,14 @@ FretShare.prototype.tileBarNumbers = function (left, top, width, height) {
 				this.tileText(g, x + ( i + 0.25) * this.tapSize, y + this.tapSize * 7.2, this.tapSize * 1.25, lbl , modeDrumColor(this.bgMode));
 				 */
 				if (this.beats[i]) {
-					if (this.beats[i] == 2) {
-						this.tileeatLabelX(g, x + this.tapSize * i, y + this.tapSize * 6.5);
+					if (this.beats[i] == 3) {
+						this.tileeatLabelPM(g, x + this.tapSize * i, y + this.tapSize * 6.5);
 					} else {
-						this.tileeatLabelUp(g, x + this.tapSize * i, y + this.tapSize * 6.5);
+						if (this.beats[i] == 2) {
+							this.tileeatLabelX(g, x + this.tapSize * i, y + this.tapSize * 6.5);
+						} else {
+							this.tileeatLabelUp(g, x + this.tapSize * i, y + this.tapSize * 6.5);
+						}
 					}
 				} else {
 					this.tileeatLabelDown(g, x + this.tapSize * i, y + this.tapSize * 6.5);
@@ -2251,7 +2280,8 @@ FretShare.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 		 || x1 > x2 + w2 //
 		 || y1 + h1 < y2 //
 		 || y1 > y2 + h2 //
-	) {
+	)
+	{
 		return false;
 	} else {
 		return true;
@@ -2990,6 +3020,9 @@ FretShare.prototype.userActionToggleBeatMode = function (beat) {
 		news = 2;
 	}
 	if (olds == 2) {
+		news = 3;
+	}
+	if (olds == 3) {
 		news = 0;
 	}
 	fretshare.pushAction({

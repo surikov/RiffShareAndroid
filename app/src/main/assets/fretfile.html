@@ -403,13 +403,17 @@
 			function drawStrike(context2D, beat,mode) {
 				//drawBTx(context2D, (beat+0.5)*mltpl, 6.5*mltpl, ''+mode);
 				if(mode){
-					if(mode==2){
-						drawLine(context2D, (0.3+beat)*mltpl, 6.3*mltpl, (0.7+beat)*mltpl, 6.7*mltpl, fg, 1);
-						drawLine(context2D, (0.3+beat)*mltpl, 6.7*mltpl, (0.7+beat)*mltpl, 6.3*mltpl, fg, 1);
+					if(mode==3){
+						drawLine(context2D, (0.2+beat)*mltpl, 6.7*mltpl, (0.8+beat)*mltpl, 6.3*mltpl, fg, 1);
 					}else{
-						drawLine(context2D, (0.5+beat)*mltpl, 6.3*mltpl, (0.5+beat)*mltpl, 6.7*mltpl, fg, 1);
-						drawLine(context2D, (0.5+beat)*mltpl, 6.3*mltpl, (0.3+beat)*mltpl, 6.5*mltpl, fg, 1);
-						drawLine(context2D, (0.5+beat)*mltpl, 6.3*mltpl, (0.7+beat)*mltpl, 6.5*mltpl, fg, 1);
+						if(mode==2){
+							drawLine(context2D, (0.3+beat)*mltpl, 6.3*mltpl, (0.7+beat)*mltpl, 6.7*mltpl, fg, 1);
+							drawLine(context2D, (0.3+beat)*mltpl, 6.7*mltpl, (0.7+beat)*mltpl, 6.3*mltpl, fg, 1);
+						}else{
+							drawLine(context2D, (0.5+beat)*mltpl, 6.3*mltpl, (0.5+beat)*mltpl, 6.7*mltpl, fg, 1);
+							drawLine(context2D, (0.5+beat)*mltpl, 6.3*mltpl, (0.3+beat)*mltpl, 6.5*mltpl, fg, 1);
+							drawLine(context2D, (0.5+beat)*mltpl, 6.3*mltpl, (0.7+beat)*mltpl, 6.5*mltpl, fg, 1);
+							}
 					}
 				}else{
 					drawLine(context2D, (0.5+beat)*mltpl, 6.3*mltpl, (0.5+beat)*mltpl, 6.7*mltpl, fg, 1);
