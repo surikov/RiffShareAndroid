@@ -1,4 +1,4 @@
-console.log('fretshare v1.0.14');
+console.log('fretshare v1.0.15');
 function FretShare() {
 	window.fretshare = this;
 	return this;
@@ -69,7 +69,7 @@ FretShare.prototype.init = function () {
 			volume: 70,
 			octave: 3,
 			inChordDelay: 0.01,
-			volumeRatio: 0.5
+			volumeRatio: 0.75
 		}
 	];
 	this.strings = [28, 23, 19, 14, 9, 4];
