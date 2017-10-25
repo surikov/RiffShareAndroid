@@ -60,12 +60,12 @@
 		<div id="pngdiv" style='width: 100%;'><img id="rsltimg" /></div>
 		<p class="ftr">Return to <a href="fretboard.html">Fretboard</a></p>
 		<script>
-			console.log('fretfile v1.0');
+			console.log('fretfile v1.01');
 			var notes = readObjectFromlocalStorage('storeFrets');
 			var beats = sureArray(readObjectFromlocalStorage('storeBeats'), []);
 			var selchan = sureInList(readTextFromlocalStorage('fretchan'), 1, [0, 1, 2]);
 			var tempo = sureInList(readTextFromlocalStorage('frettempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
-		
+			//console.log(notes,beats);
 			//var storeDrums = readObjectFromlocalStorage('storeDrums');
 			//var storeTracks = readObjectFromlocalStorage('storeTracks');
 			//var flatstate = readObjectFromlocalStorage('flatstate');
@@ -129,7 +129,7 @@
 					}
 				}
 				r=r+'-';
-				for(var i=0;i<mx;i++){
+				for(var i=0;i<=mx;i++){
 					var m=0;
 					
 					if(beats[i]==1){
@@ -142,6 +142,7 @@
 						m=3;
 					}
 					r=r+''+m;
+					//console.log(i,m);
 				}
 				return r;
 			}
@@ -150,6 +151,7 @@
 				copyHtmlToClipboard('https://surikov.github.io/RiffShareAndroid/app/src/main/assets/fretload.html?riff=' + r);
 			}
 			function copyHtmlToClipboard(html) {
+				console.log(html);
 				clipboardDiv.innerHTML = html;
 				var focused = document.activeElement;
 				clipboardDiv.focus();
