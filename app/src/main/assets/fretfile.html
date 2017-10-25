@@ -60,6 +60,7 @@
 		<div id="pngdiv" style='width: 100%;'><img id="rsltimg" /></div>
 		<p class="ftr">Return to <a href="fretboard.html">Fretboard</a></p>
 		<script>
+			console.log('fretfile v1.0');
 			var notes = readObjectFromlocalStorage('storeFrets');
 			var beats = sureArray(readObjectFromlocalStorage('storeBeats'), []);
 			var selchan = sureInList(readTextFromlocalStorage('fretchan'), 1, [0, 1, 2]);
@@ -136,6 +137,9 @@
 					}
 					if(beats[i]==2){
 						m=2;
+					}
+					if(beats[i]==3){
+						m=3;
 					}
 					r=r+''+m;
 				}
