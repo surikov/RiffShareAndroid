@@ -1,4 +1,4 @@
-console.log('fretshare v1.0.15');
+console.log('fretshare v1.0.16');
 function FretShare() {
 	window.fretshare = this;
 	return this;
@@ -39,6 +39,7 @@ FretShare.prototype.init = function () {
 			volume: 70,
 			octave: 2,
 			inChordDelay: 0.01,
+			inChordLoudness: 0.02,
 			volumeRatio: 0.75
 		}, {
 			title: 'Acoustic guitar',
@@ -46,6 +47,7 @@ FretShare.prototype.init = function () {
 			volume: 70,
 			octave: 3,
 			inChordDelay: 0.01,
+			inChordLoudness: 0.02,
 			volumeRatio: 0.5
 		}, {
 			title: 'Distortion guitar',
@@ -53,6 +55,7 @@ FretShare.prototype.init = function () {
 			volume: 70,
 			octave: 3,
 			inChordDelay: 0.01,
+			inChordLoudness: 0.02,
 			volumeRatio: 0.7
 		}
 		, {
@@ -61,6 +64,7 @@ FretShare.prototype.init = function () {
 			volume: 70,
 			octave: 3,
 			inChordDelay: 0.01,
+			inChordLoudness: 0.02,
 			volumeRatio: 0.5
 		}
 		, {
@@ -69,6 +73,7 @@ FretShare.prototype.init = function () {
 			volume: 70,
 			octave: 3,
 			inChordDelay: 0.01,
+			inChordLoudness: 0.02,
 			volumeRatio: 0.75
 		}
 	];
@@ -1210,7 +1215,12 @@ FretShare.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			duration = 0.05;
 			volume = volume * 1.5;
 		}
-		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, pitch, duration, volume);
+		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound
+		, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay
+		, pitch
+		, duration
+		, volume-inChordCount *channel.inChordLoudness
+		);
 		inChordCount++;
 	}
 };
