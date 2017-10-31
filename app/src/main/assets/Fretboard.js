@@ -1,4 +1,4 @@
-console.log('fretshare v1.0.16');
+console.log('fretshare v1.0.17');
 function FretShare() {
 	window.fretshare = this;
 	return this;
@@ -75,6 +75,15 @@ FretShare.prototype.init = function () {
 			inChordDelay: 0.01,
 			inChordLoudness: 0.02,
 			volumeRatio: 0.75
+		}
+		, {
+			title: 'Jazz guitar',
+			sound: _tone_0260_Chaos_sf2_file,
+			volume: 70,
+			octave: 3,
+			inChordDelay: 0.01,
+			inChordLoudness: 0.02,
+			volumeRatio: 0.5
 		}
 	];
 	this.strings = [28, 23, 19, 14, 9, 4];
@@ -192,8 +201,8 @@ FretShare.prototype.init = function () {
 	this.translateZ = 1;
 	this.innerWidth = 3000;
 	this.innerHeight = 2000;
-	this.minZoom = 1;
-	this.maxZoom = 20;
+	this.minZoom = 0.5;
+	this.maxZoom = 5;
 	this.spots = [];
 	this.timeOutID = 0;
 	this.marginLeft = 18.5;
@@ -201,7 +210,7 @@ FretShare.prototype.init = function () {
 	this.marginTop = 1;
 	this.marginBottom = 1;
 	this.tempo = sureInList(readTextFromlocalStorage('frettempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
-	this.selchan = sureInList(readTextFromlocalStorage('fretchan'), 1, [0, 1, 2]);
+	this.selchan = sureInList(readTextFromlocalStorage('fretchan'), 1, [0, 1, 2,5]);
 	this.bgMode = sureInList(readTextFromlocalStorage('fretbgMode'), 0, [0, 1, 2]);
 	this.contentDiv.style.background = modeBackground(this.bgMode);
 	//this.drumVolumes = [];
@@ -1207,6 +1216,9 @@ FretShare.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 		if (this.beats[note.beat] == 3 && this.selchan == 2) {
 			channel = this.trackInfo[3];
 		}
+		if (this.beats[note.beat] == 3 && this.selchan == 5) {
+			channel = this.trackInfo[3];
+		}
 		var r = 0.6 - Math.random() * 0.2;
 		var pitch = channel.octave * 12 + note.fret + this.strings[note.string];
 		var duration = 0.075 + note.length * beatLen;
@@ -1286,6 +1298,12 @@ FretShare.prototype.addSmallTiles = function (left, top, width, height) {
 		this.tileText(g, 2.5 * this.tapSize, y + this.tapSize * 13.75, 1 * this.tapSize, this.trackInfo[2].title, modeDrumColor(this.bgMode));
 		this.addSpot('ins2', 1 * this.tapSize, 13 * this.tapSize, (this.marginLeft - 2) * this.tapSize, 1 * this.tapSize, function () {
 			fretshare.userActionChangeChannel(2);
+		});
+		
+		this.tileCircle(g, 1.5 * this.tapSize, 15 * this.tapSize, 0.5 * this.tapSize, this.selchan == 5 ? modeDrumColor(this.bgMode) : modeDrumShadow(this.bgMode));
+		this.tileText(g, 2.5 * this.tapSize, y + this.tapSize * 15.25, 1 * this.tapSize, this.trackInfo[5].title, modeDrumColor(this.bgMode));
+		this.addSpot('ins5', 1 * this.tapSize, 14.5 * this.tapSize, (this.marginLeft - 2) * this.tapSize, 1 * this.tapSize, function () {
+			fretshare.userActionChangeChannel(5);
 		});
 
 		/*
