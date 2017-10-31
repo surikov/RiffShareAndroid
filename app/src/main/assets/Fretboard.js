@@ -1217,7 +1217,7 @@ FretShare.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			channel = this.trackInfo[3];
 		}
 		if (this.beats[note.beat] == 3 && this.selchan == 5) {
-			channel = this.trackInfo[3];
+			channel = this.trackInfo[4];
 		}
 		var r = 0.6 - Math.random() * 0.2;
 		var pitch = channel.octave * 12 + note.fret + this.strings[note.string];
