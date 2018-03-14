@@ -920,19 +920,19 @@ RiffShareFlat.prototype.stopPlay = function () {
 };
 RiffShareFlat.prototype.resetNodeValues = function () {
 	for (var i = 0; i < 8; i++) {
-		this.trackInfo[i].audioNode.gain.value = this.trackInfo[i].volume / 100;
-		this.drumInfo[i].audioNode.gain.value = this.drumVolumes[i] / 100;
+		this.trackInfo[i].audioNode.gain.setValueAtTime( this.trackInfo[i].volume / 100,0);
+		this.drumInfo[i].audioNode.gain.setValueAtTime( this.drumVolumes[i] / 100,0);
 	}
-	this.master.band32.gain.value = this.equalizer[0];
-	this.master.band64.gain.value = this.equalizer[1];
-	this.master.band128.gain.value = this.equalizer[2];
-	this.master.band256.gain.value = this.equalizer[3];
-	this.master.band512.gain.value = this.equalizer[4];
-	this.master.band1k.gain.value = this.equalizer[5];
-	this.master.band2k.gain.value = this.equalizer[6];
-	this.master.band4k.gain.value = this.equalizer[7];
-	this.master.band8k.gain.value = this.equalizer[8];
-	this.master.band16k.gain.value = this.equalizer[9];
+	this.master.band32.gain.setValueAtTime(this.equalizer[0],0);
+	this.master.band64.gain.setValueAtTime(this.equalizer[1],0);
+	this.master.band128.gain.setValueAtTime(this.equalizer[2],0);
+	this.master.band256.gain.setValueAtTime(this.equalizer[3],0);
+	this.master.band512.gain.setValueAtTime(this.equalizer[4],0);
+	this.master.band1k.gain.setValueAtTime(this.equalizer[5],0);
+	this.master.band2k.gain.setValueAtTime(this.equalizer[6],0);
+	this.master.band4k.gain.setValueAtTime(this.equalizer[7],0);
+	this.master.band8k.gain.setValueAtTime(this.equalizer[8],0);
+	this.master.band16k.gain.setValueAtTime(this.equalizer[9],0);
 	//this.master.output.gain.value = 0.1;
 };
 RiffShareFlat.prototype.cauntMeasures = function () {
@@ -1057,9 +1057,20 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.addSpot('svsh', 1 * this.tapSize, (8.5 + 1.5 * 1) * this.tapSize, (this.marginLeft - 2) * this.tapSize, this.tapSize, function () {
 		window.open('export.html', '_self')
 		});*/
+		this.tileCircle(g, 11 * this.tapSize, 13 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
+		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
+		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
+			riffshareflat.saveState();
+			var encoded = encodeState();
+			var url = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
+			var tiny='https://tinyurl.com/create.php?url='+url;
+			window.open(tiny, '_self')
+		});
+		
+		
 		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, modeDrumShadow(this.bgMode));
 		this.tileText(g, 3 * this.tapSize, y + this.tapSize * 17, 7 * this.tapSize, 'File', modeDrumColor(this.bgMode));
-		this.addSpot('flop', 0, 12 * this.tapSize, this.marginLeft * this.tapSize, this.tapSize * 6, function () {
+		this.addSpot('flop', 0, 12 * this.tapSize, 10 * this.tapSize, this.tapSize * 6, function () {
 			window.open('file.html', '_self')
 		});
 		this.tileCircle(g, 3 * this.tapSize, 21 * this.tapSize, 2 * this.tapSize, modeDrumShadow(this.bgMode));
