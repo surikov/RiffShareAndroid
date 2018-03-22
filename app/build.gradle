@@ -7,8 +7,8 @@ android {
         applicationId "surikov.riffshareii"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 231
-        versionName "2.31"
+        versionCode 237
+        versionName "2.37"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
