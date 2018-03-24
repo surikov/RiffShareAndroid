@@ -57,7 +57,7 @@ RiffShareFlat.prototype.init = function () {
 	this.undoSize = 99;
 	this.translateX = 0;
 	this.translateY = 0;
-	this.translateZ = 1;
+	this.translateZ = 4;
 	this.innerWidth = 3000;
 	this.innerHeight = 2000;
 	this.minZoom = 1;
@@ -1058,7 +1058,8 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		window.open('export.html', '_self')
 		});*/
 		this.tileCircle(g, 11 * this.tapSize, 13 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
-		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
+		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
+		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+this.translateZ, modeDrumColor(this.bgMode));
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
 			riffshareflat.saveState();
 			var encoded = encodeState();
