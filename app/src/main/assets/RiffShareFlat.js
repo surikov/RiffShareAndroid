@@ -18,10 +18,10 @@ RiffShareFlat.prototype.init = function () {
 	console.log('tapSize', this.tapSize, 'devicePixelRatio', window.devicePixelRatio);
 	this.tickID = -1;
 	this.onAir = false;
-	this.queueAhead = 0.75;
+	//this.queueAhead = 0.75;
 	this.tickerDelay = 1;
 	this.tickerStep = 0;
-	console.log('queueAhead', this.queueAhead);
+	//console.log('queueAhead', this.queueAhead);
 	this.svgns = "http://www.w3.org/2000/svg";
 	this.contentDiv = document.getElementById('contentDiv');
 	this.contentSVG = document.getElementById('contentSVG');
@@ -896,6 +896,10 @@ RiffShareFlat.prototype.startPlay = function () {
 		return;
 	}
 	console.log('startPlay');
+	//var N = 4 * 60 / this.tempo;
+	//var beatLen = 1 / 16 * N;
+	//this.queueAhead=beatLen;
+	//console.log('queueAhead', this.queueAhead);
 	//console.log(this.trackInfo);
 	//console.log(this.drumInfo);
 	this.onAir = true;
@@ -924,7 +928,8 @@ RiffShareFlat.prototype.queueNextBeats = function () {
 		if (this.nextWhen < t) {
 			this.nextWhen = t;
 		}
-		while (this.sentWhen < t + this.queueAhead) {
+		//while (this.sentWhen < t + this.queueAhead) {
+		while (this.sentWhen < t + beat16duration) {
 			this.sendNextBeats(this.nextWhen, this.nextBeat, this.nextBeat);
 			this.nextWhen = this.sentWhen + beat16duration;
 			this.nextBeat = this.nextBeat + 1;
@@ -949,7 +954,7 @@ RiffShareFlat.prototype.queueNextBeats = function () {
 RiffShareFlat.prototype.moveBeatCounter = function () {
 	if (this.onAir) {
 		if (this.counterLine) {
-			console.log('moveBeatCounter');
+			//console.log('moveBeatCounter');
 			var N = 4 * 60 / this.tempo;
 			var beatLen = 1 / 16 * N;
 			var c16 = 16 * this.cauntMeasures();
@@ -1032,7 +1037,7 @@ RiffShareFlat.prototype.cauntToneMeasures = function (nn) {
 	return le;
 }
 RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
-	console.log('sendNextBeats', when, startBeat, endBeat, this.player.envelopes.length);
+	console.log('sendNextBeats',  startBeat,'at',when,'count', this.player.envelopes.length);
 	this.sentWhen = when;
 	this.sentBeat = startBeat;
 	var N = 4 * 60 / this.tempo;
