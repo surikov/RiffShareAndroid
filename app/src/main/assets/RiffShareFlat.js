@@ -249,12 +249,12 @@ RiffShareFlat.prototype.init = function () {
 	//console.log(flatstate);
 	if (flatstate) {
 		try {
-			if(flatstate.svcntr){
+			/*if(flatstate.svcntr){
 				this.svcntr=flatstate.svcntr;
 			}else{
 				this.svcntr=0;
 			}
-			this.svcntr++;
+			this.svcntr++;*/
 			if (flatstate.tx) {
 				this.translateX = flatstate.tx;
 			}
@@ -334,8 +334,8 @@ RiffShareFlat.prototype.saveState = function () {
 		tz: this.translateZ,
 		orders: []
 	};
-	this.svcntr++;
-	flatstate.svcntr=this.svcntr;
+	//this.svcntr++;
+	//flatstate.svcntr=this.svcntr;
 	for (var i = 0; i < 8; i++) {
 		flatstate.orders.push(this.trackInfo[i].order);
 	}	
@@ -1078,8 +1078,8 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		window.open('export.html', '_self')
 		});*/
 		this.tileCircle(g, 11 * this.tapSize, 13 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
-		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
-		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+this.svcntr, modeDrumColor(this.bgMode));
+		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
+		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+this.svcntr, modeDrumColor(this.bgMode));
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
 			riffshareflat.saveState();
 			var encoded = encodeState();
