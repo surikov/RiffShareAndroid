@@ -378,7 +378,13 @@ FretShare.prototype.init = function () {
 	window.onpagehide = function () {
 		fretshare.saveState();
 	};
+	window.pagehide = function () {
+		fretshare.saveState();
+	};
 	window.onunload = function () {
+		fretshare.saveState();
+	};
+	window.unload = function () {
 		fretshare.saveState();
 	};
 	var flatstate = readObjectFromlocalStorage('fretflatstate');

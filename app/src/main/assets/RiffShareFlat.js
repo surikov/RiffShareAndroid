@@ -230,7 +230,13 @@ RiffShareFlat.prototype.init = function () {
 	window.onunload = function () {
 		riffshareflat.saveState();
 	};
+	window.unload = function () {
+		riffshareflat.saveState();
+	};
 	window.onpagehide = function () {
+		riffshareflat.saveState();
+	};
+	window.pagehide = function () {
 		riffshareflat.saveState();
 	};
 	window.onbeforeunload = function () {
