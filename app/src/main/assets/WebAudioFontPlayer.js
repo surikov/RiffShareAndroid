@@ -559,7 +559,7 @@ function WebAudioFontPlayer() {
 					envelope.duration = 0;
 				}
 			};
-			console.log('create',when);
+			//console.log('create',when);
 			this.envelopes.push(envelope);
 		}
 		return envelope;
