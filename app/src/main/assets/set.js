@@ -5,56 +5,56 @@ var drumInfo = [{
 		title: 'Bass drum',
 		id: 0,
 		volumeRatio: 0.95,
-		length: 0.5
+		length: 0.15
 	}, {
 		sound: _drum_41_26_JCLive_sf2_file,
 		pitch: 41, //43
 		title: 'Low Tom',
 		id: 1,
 		volumeRatio: 0.5,
-		length: 0.5
+		length: 0.15
 	}, {
 		sound: _drum_38_22_FluidR3_GM_sf2_file,
 		pitch: 38, //40
 		title: 'Snare drum',
 		id: 2,
 		volumeRatio: 1.0,
-		length: 0.5
+		length: 0.15
 	}, {
 		sound: _drum_45_26_JCLive_sf2_file,
 		pitch: 45, //47,48,50
 		title: 'Mid Tom',
 		id: 3,
 		volumeRatio: 0.75,
-		length: 0.5
+		length: 0.15
 	}, {
 		sound: _drum_42_26_JCLive_sf2_file,
 		pitch: 42, //44
 		title: 'Closed Hi-hat',
 		id: 4,
 		volumeRatio: 0.5,
-		length: 1
+		length: 0.5
 	}, {
 		sound: _drum_46_26_JCLive_sf2_file,
 		pitch: 46, //
 		title: 'Open Hi-hat',
 		id: 5,
 		volumeRatio: 0.5,
-		length: 1
+		length: 0.5
 	}, {
 		sound: _drum_51_26_JCLive_sf2_file,
 		pitch: 51, //rest
 		title: 'Ride Cymbal',
 		id: 6,
 		volumeRatio: 0.3,
-		length: 2
+		length: 1
 	}, {
 		sound: _drum_49_26_JCLive_sf2_file,
 		pitch: 49, //
 		title: 'Splash Cymbal',
 		id: 7,
 		volumeRatio: 0.3,
-		length: 3
+		length: 2
 	}
 ];
 var trackInfo = [{

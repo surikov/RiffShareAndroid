@@ -1022,6 +1022,7 @@ RiffShareFlat.prototype.cauntToneMeasures = function (nn) {
 	return le;
 }
 RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
+	//console.log('sendNextBeats',when, startBeat, endBeat,this.player.envelopes.length);
 	this.sentWhen = when;
 	this.sentBeat = startBeat;
 	var N = 4 * 60 / this.tempo;
