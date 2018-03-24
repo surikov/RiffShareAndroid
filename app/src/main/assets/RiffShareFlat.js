@@ -19,7 +19,7 @@ RiffShareFlat.prototype.init = function () {
 	this.tickID = -1;
 	this.onAir = false;
 	this.queueAhead = 0.75;
-	this.tickerDelay = 3;
+	this.tickerDelay = 3333;
 	this.tickerStep=0;
 	console.log('queueAhead', this.queueAhead);
 	this.svgns = "http://www.w3.org/2000/svg";
