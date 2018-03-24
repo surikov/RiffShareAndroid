@@ -250,9 +250,9 @@ RiffShareFlat.prototype.init = function () {
 	if (flatstate) {
 		try {
 			/*if(flatstate.svcntr){
-				this.svcntr=flatstate.svcntr;
+			this.svcntr=flatstate.svcntr;
 			}else{
-				this.svcntr=0;
+			this.svcntr=0;
 			}
 			this.svcntr++;*/
 			if (flatstate.tx) {
@@ -304,10 +304,32 @@ RiffShareFlat.prototype.init = function () {
 	var AudioContextFunc = window.AudioContext || window.webkitAudioContext;
 	this.audioContext = new AudioContextFunc();
 	this.player = new WebAudioFontPlayer();
-	this.reverberator = new WebAudioFontReverberator(this.audioContext);
-	this.reverberator.output.connect(this.audioContext.destination);
 	this.master = new WebAudioFontChannel(this.audioContext);
-	this.master.output.connect(this.reverberator.input);
+	this.echoOn = false;
+	try {
+		var usrAgnt = navigator.userAgent || navigator.vendor || window.opera;
+		if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i//
+			.test(usrAgnt) //
+			 || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i//
+			.test(usrAgnt.substr(0, 4))) {
+			this.echoOn = false;
+			document.title='Mobile RiffShare';
+		} else {
+			this.echoOn = true;
+			document.title='Desktop RiffShare';
+		}
+	} catch (noch) {
+		console.log(noch);
+	}
+	if (this.echoOn) {
+		console.log('init WebAudioFontReverberator');
+		this.reverberator = new WebAudioFontReverberator(this.audioContext);
+		this.reverberator.output.connect(this.audioContext.destination);
+		this.master.output.connect(this.reverberator.input);
+	} else {
+		console.log('skip WebAudioFontReverberator');
+		this.master.output.connect(this.audioContext.destination);
+	}
 	for (var i = 0; i < 8; i++) {
 		this.trackInfo[i].audioNode = this.audioContext.createGain();
 		this.trackInfo[i].audioNode.connect(this.master.input);
@@ -338,7 +360,7 @@ RiffShareFlat.prototype.saveState = function () {
 	//flatstate.svcntr=this.svcntr;
 	for (var i = 0; i < 8; i++) {
 		flatstate.orders.push(this.trackInfo[i].order);
-	}	
+	}
 	saveObject2localStorage('flatstate', flatstate);
 	saveText2localStorage('tempo', '' + this.tempo);
 	for (var i = 0; i < 8; i++) {
@@ -940,19 +962,19 @@ RiffShareFlat.prototype.stopPlay = function () {
 };
 RiffShareFlat.prototype.resetNodeValues = function () {
 	for (var i = 0; i < 8; i++) {
-		this.trackInfo[i].audioNode.gain.setValueAtTime( this.trackInfo[i].volume / 100,0);
-		this.drumInfo[i].audioNode.gain.setValueAtTime( this.drumVolumes[i] / 100,0);
+		this.trackInfo[i].audioNode.gain.setValueAtTime(this.trackInfo[i].volume / 100, 0);
+		this.drumInfo[i].audioNode.gain.setValueAtTime(this.drumVolumes[i] / 100, 0);
 	}
-	this.master.band32.gain.setValueAtTime(this.equalizer[0],0);
-	this.master.band64.gain.setValueAtTime(this.equalizer[1],0);
-	this.master.band128.gain.setValueAtTime(this.equalizer[2],0);
-	this.master.band256.gain.setValueAtTime(this.equalizer[3],0);
-	this.master.band512.gain.setValueAtTime(this.equalizer[4],0);
-	this.master.band1k.gain.setValueAtTime(this.equalizer[5],0);
-	this.master.band2k.gain.setValueAtTime(this.equalizer[6],0);
-	this.master.band4k.gain.setValueAtTime(this.equalizer[7],0);
-	this.master.band8k.gain.setValueAtTime(this.equalizer[8],0);
-	this.master.band16k.gain.setValueAtTime(this.equalizer[9],0);
+	this.master.band32.gain.setValueAtTime(this.equalizer[0], 0);
+	this.master.band64.gain.setValueAtTime(this.equalizer[1], 0);
+	this.master.band128.gain.setValueAtTime(this.equalizer[2], 0);
+	this.master.band256.gain.setValueAtTime(this.equalizer[3], 0);
+	this.master.band512.gain.setValueAtTime(this.equalizer[4], 0);
+	this.master.band1k.gain.setValueAtTime(this.equalizer[5], 0);
+	this.master.band2k.gain.setValueAtTime(this.equalizer[6], 0);
+	this.master.band4k.gain.setValueAtTime(this.equalizer[7], 0);
+	this.master.band8k.gain.setValueAtTime(this.equalizer[8], 0);
+	this.master.band16k.gain.setValueAtTime(this.equalizer[9], 0);
 	//this.master.output.gain.value = 0.1;
 };
 RiffShareFlat.prototype.cauntMeasures = function () {
@@ -1043,7 +1065,7 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			}
 		];
 		var r = 0.6 - Math.random() * 0.2;
-		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, 0.075+note.length * beatLen, r * channel.volumeRatio, shift);
+		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, 0.075 + note.length * beatLen, r * channel.volumeRatio, shift);
 		inChordCount++;
 	}
 };
@@ -1078,17 +1100,16 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		window.open('export.html', '_self')
 		});*/
 		this.tileCircle(g, 11 * this.tapSize, 13 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
-		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
+		this.tileText(g, 10.75 * this.tapSize, 13.75 * this.tapSize, 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
 		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+this.svcntr, modeDrumColor(this.bgMode));
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
 			riffshareflat.saveState();
 			var encoded = encodeState();
 			var url = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
-			var tiny='https://tinyurl.com/create.php?url='+url;
+			var tiny = 'https://tinyurl.com/create.php?url=' + url;
 			window.open(tiny, '_self')
 		});
-		
-		
+
 		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, modeDrumShadow(this.bgMode));
 		this.tileText(g, 3 * this.tapSize, y + this.tapSize * 17, 7 * this.tapSize, 'File', modeDrumColor(this.bgMode));
 		this.addSpot('flop', 0, 12 * this.tapSize, 10 * this.tapSize, this.tapSize * 6, function () {
@@ -1232,10 +1253,10 @@ RiffShareFlat.prototype.tileDrumMeasure = function (n, left, top, width, height)
 			this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + 3 * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.40)');
 		}
 		/*for (var i = 0; i < 8; i++) {
-			for (var k = 0; k < 4; k++) {
-				this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + k * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.55)');
-				this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + k * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.55)');
-			}
+		for (var k = 0; k < 4; k++) {
+		this.tileRectangle(g, x + this.tapSize * (0 + i * 2), y + this.tapSize * (0 + k * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.55)');
+		this.tileRectangle(g, x + this.tapSize * (1 + i * 2), y + this.tapSize * (1 + k * 2), this.tapSize * 1, this.tapSize * 1, 'rgba(127,127,127,0.55)');
+		}
 		}*/
 		for (var i = 0; i < this.storeDrums.length; i++) {
 			if (this.storeDrums[i].beat >= n * 16 && this.storeDrums[i].beat < (n + 1) * 16) {
@@ -1276,7 +1297,7 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 	var h = this.tapSize * 12 * 5;
 	var g = this.rakeGroup(x, y, w, h, 'pnlins', this.linesGroup, left, top, width, height);
 	if (g) {
-		if(this.bgMode==2){
+		if (this.bgMode == 2) {
 			for (var i = 0; i < 5; i++) {
 				this.tileRectangle(g, x, y + this.tapSize * (10 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
 				this.tileRectangle(g, x, y + this.tapSize * (8 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
@@ -1292,7 +1313,7 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 				//this.tileRectangle(g, x, y + this.tapSize * (9 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
 				//this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(0,0,0,0.05)');
 			}
-		}else{
+		} else {
 			for (var i = 0; i < 5; i++) {
 				this.tileRectangle(g, x, y + this.tapSize * (0 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
 				this.tileRectangle(g, x, y + this.tapSize * (2 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
@@ -1303,7 +1324,7 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 				this.tileRectangle(g, x, y + this.tapSize * (11 + i * 12), w, this.tapSize * 0.9, 'rgba(255,255,255,0.05)');
 			}
 		}
-		
+
 		//for (var i = 0; i < 5; i++) {
 		//for (var k = 0; k < 16 * 16; k++) {
 		//this.tileText(g, x + this.tapSize * k*16, y + this.tapSize * (i*12+11+0.75), 1.4*this.tapSize, 'C' + (5-i) , '#000');
@@ -1323,11 +1344,11 @@ RiffShareFlat.prototype.tilePianoLines = function (left, top, width, height) {
 			this.tileRectangle(g, x, y + this.tapSize * (11.94 + i * 12), w, this.tapSize * 0.03, track.color);
 		}
 		for (var i = 16; i < 16 * 16; i = i + 16) {
-			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.05, this.tapSize * (8 + 5 * 12 + 1 ), track.color);
+			this.tileRectangle(g, x + this.tapSize * i, y, this.tapSize * 0.05, this.tapSize * (8 + 5 * 12 + 1), track.color);
 		}
 		for (var i = 0; i < 16 * 16; i = i + 16) {
 
-			this.tileRectangle(g, x + this.tapSize * (i + 8.05), y, this.tapSize * 0.007, this.tapSize * (8 + 5 * 12  ), track.color); //modeBackground(this.bgMode));
+			this.tileRectangle(g, x + this.tapSize * (i + 8.05), y, this.tapSize * 0.007, this.tapSize * (8 + 5 * 12), track.color); //modeBackground(this.bgMode));
 		}
 	}
 };
@@ -1520,26 +1541,26 @@ RiffShareFlat.prototype.setModeBackground = function (bgMode) {
 };
 /*
 RiffShareFlat.prototype.modeDrumColor = function (bgMode) {
-	if (bgMode == 2) {
-		return '#033';
-	}
-	return '#ccc';
+if (bgMode == 2) {
+return '#033';
+}
+return '#ccc';
 };
 RiffShareFlat.prototype.modeDrumShadow = function (bgMode) {
-	if (bgMode == 2) {
-		return '#9a9';
-	}
-	return '#666';
+if (bgMode == 2) {
+return '#9a9';
+}
+return '#666';
 };
 RiffShareFlat.prototype.modeBackground = function (bgMode) {
-	if (bgMode == 1) {
-		return '#31424C';
-	}
-	if (bgMode == 2) {
-		//return '#C8D1D2';
-		return '#eef';
-	}
-	return '#000609';
+if (bgMode == 1) {
+return '#31424C';
+}
+if (bgMode == 2) {
+//return '#C8D1D2';
+return '#eef';
+}
+return '#000609';
 };*/
 RiffShareFlat.prototype.tileColorMode = function (left, top, width, height) {
 	var x = this.tapSize * (this.marginLeft - 12);
@@ -1705,14 +1726,14 @@ RiffShareFlat.prototype.tileFrets = function (left, top, width, height) {
 		var g = this.rakeGroup(x + m * 16 * this.tapSize, y, w, h, 'frts' + m, this.textGroup, left, top, width, height);
 		if (g) {
 			for (var i = 0; i < 6; i++) {
-				this.tileRectangle(g, x + m * 16 * this.tapSize, y + (1 + i) * this.tapSize//
-					, w , this.tapSize * (0.01 + i / 100)//
-					, modeDrumColor(this.bgMode));
+				this.tileRectangle(g, x + m * 16 * this.tapSize, y + (1 + i) * this.tapSize //
+				, w, this.tapSize * (0.01 + i / 100) //
+				, modeDrumColor(this.bgMode));
 			}
 			for (var i = 1; i < 16; i++) {
-				this.tileRectangle(g, x + (i+m * 16) * this.tapSize, y+1* this.tapSize//
-					,  0.005 * this.tapSize, h-1* this.tapSize//
-					, modeDrumColor(this.bgMode));
+				this.tileRectangle(g, x + (i + m * 16) * this.tapSize, y + 1 * this.tapSize //
+				, 0.005 * this.tapSize, h - 1 * this.tapSize //
+				, modeDrumColor(this.bgMode));
 			}
 		}
 	}
@@ -1826,7 +1847,8 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 		 || x1 > x2 + w2 //
 		 || y1 + h1 < y2 //
 		 || y1 > y2 + h2 //
-	) {
+	)
+	{
 		return false;
 	} else {
 		return true;
@@ -1835,7 +1857,7 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 };
 RiffShareFlat.prototype.resetSize = function () {
 	this.innerWidth = (this.marginLeft + this.marginRight + 16 * 16) * this.tapSize;
-	this.innerHeight = (this.marginTop + this.marginBottom + 8 + 5 * 12 ) * this.tapSize;
+	this.innerHeight = (this.marginTop + this.marginBottom + 8 + 5 * 12) * this.tapSize;
 	this.contentSVG.style.width = this.contentDiv.clientWidth + 'px';
 	this.contentSVG.style.height = this.contentDiv.clientHeight + 'px';
 	document.getElementById('undobutton').style.width = this.tapSize + 'px';
