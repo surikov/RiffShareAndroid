@@ -19,7 +19,7 @@ RiffShareFlat.prototype.init = function () {
 	this.tickID = -1;
 	this.onAir = false;
 	this.queueAhead = 0.75;
-	this.tickerDelay = 3333;
+	this.tickerDelay = 1;
 	this.tickerStep=0;
 	console.log('queueAhead', this.queueAhead);
 	this.svgns = "http://www.w3.org/2000/svg";
@@ -934,14 +934,13 @@ RiffShareFlat.prototype.queueNextBeats = function () {
 		}
 		//console.log('	envelopes', this.player.envelopes.length);
 		var wait = 0.5 * 1000 * (this.nextWhen - this.audioContext.currentTime);
-		//if(this.echoOn){
-		this.tickerStep++;
-		if(this.tickerStep>=this.tickerDelay){
-			this.moveBeatCounter();
-			this.tickerStep=0;
+		if(this.echoOn){
+			this.tickerStep++;
+			if(this.tickerStep>=this.tickerDelay){
+				this.moveBeatCounter();
+				this.tickerStep=0;
+			}			
 		}
-			
-		//}
 		this.tickID = setTimeout(function () {
 				riffshareflat.queueNextBeats();
 			}, wait);
@@ -1491,7 +1490,7 @@ RiffShareFlat.prototype.tileCounter = function (left, top, width, height) {
 			this.tileRectangle(g, 0, 0, this.tapSize * 0.001, this.tapSize * 0.001, '#000');
 			this.tileRectangle(g, this.innerWidth, this.innerHeight, this.tapSize * 0.001, this.tapSize * 0.001, '#000');
 
-			this.counterLine = this.tileRectangle(g, x + this.tapSize * 0.3, y, this.tapSize *0.2* this.tickerDelay, h, this.findTrackInfo(0).shadow);
+			this.counterLine = this.tileRectangle(g, x + this.tapSize * 0.3, y, this.tapSize *0.4, h, this.findTrackInfo(0).shadow);
 		}
 	}
 };
