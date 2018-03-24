@@ -306,7 +306,7 @@ RiffShareFlat.prototype.init = function () {
 	var AudioContextFunc = window.AudioContext || window.webkitAudioContext;
 	this.audioContext = new AudioContextFunc();
 	this.player = new WebAudioFontPlayer();
-	this.player.afterTime = 0.1;
+	//this.player.afterTime = 0.1;
 	this.master = new WebAudioFontChannel(this.audioContext);
 	this.echoOn = false;
 	try {
@@ -938,7 +938,7 @@ RiffShareFlat.prototype.queueNextBeats = function () {
 			}
 		}
 		//console.log('	envelopes', this.player.envelopes.length);
-		var wait = 0.5 * 1000 * (this.nextWhen - this.audioContext.currentTime);
+		var wait = 0.5 * 1000 * (this.nextWhen - t);//this.audioContext.currentTime);
 		//if (this.echoOn) {
 			this.tickerStep++;
 			if (this.tickerStep >= this.tickerDelay) {
