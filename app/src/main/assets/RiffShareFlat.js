@@ -324,6 +324,7 @@ RiffShareFlat.prototype.init = function () {
 	} catch (noch) {
 		console.log(noch);
 	}
+	this.echoOn = true;
 	if (this.echoOn) {
 		console.log('init WebAudioFontReverberator');
 		this.reverberator = new WebAudioFontReverberator(this.audioContext);
