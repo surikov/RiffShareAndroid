@@ -19,6 +19,8 @@ RiffShareFlat.prototype.init = function () {
 	this.tickID = -1;
 	this.onAir = false;
 	this.queueAhead = 0.75;
+	this.tickerDelay = 3;
+	this.tickerStep=0;
 	console.log('queueAhead', this.queueAhead);
 	this.svgns = "http://www.w3.org/2000/svg";
 	this.contentDiv = document.getElementById('contentDiv');
@@ -304,6 +306,7 @@ RiffShareFlat.prototype.init = function () {
 	var AudioContextFunc = window.AudioContext || window.webkitAudioContext;
 	this.audioContext = new AudioContextFunc();
 	this.player = new WebAudioFontPlayer();
+	this.player.afterTime=0.1;
 	this.master = new WebAudioFontChannel(this.audioContext);
 	this.echoOn = false;
 	try {
@@ -931,7 +934,14 @@ RiffShareFlat.prototype.queueNextBeats = function () {
 		}
 		//console.log('	envelopes', this.player.envelopes.length);
 		var wait = 0.5 * 1000 * (this.nextWhen - this.audioContext.currentTime);
-		this.moveBeatCounter();
+		//if(this.echoOn){
+		this.tickerStep++;
+		if(this.tickerStep>=this.tickerDelay){
+			this.moveBeatCounter();
+			this.tickerStep=0;
+		}
+			
+		//}
 		this.tickID = setTimeout(function () {
 				riffshareflat.queueNextBeats();
 			}, wait);
@@ -940,6 +950,7 @@ RiffShareFlat.prototype.queueNextBeats = function () {
 RiffShareFlat.prototype.moveBeatCounter = function () {
 	if (this.onAir) {
 		if (this.counterLine) {
+			console.log('moveBeatCounter');
 			var N = 4 * 60 / this.tempo;
 			var beatLen = 1 / 16 * N;
 			var c16 = 16 * this.cauntMeasures();
@@ -1022,7 +1033,7 @@ RiffShareFlat.prototype.cauntToneMeasures = function (nn) {
 	return le;
 }
 RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
-	//console.log('sendNextBeats',when, startBeat, endBeat,this.player.envelopes.length);
+	console.log('sendNextBeats',when, startBeat, endBeat,this.player.envelopes.length);
 	this.sentWhen = when;
 	this.sentBeat = startBeat;
 	var N = 4 * 60 / this.tempo;
@@ -1480,7 +1491,7 @@ RiffShareFlat.prototype.tileCounter = function (left, top, width, height) {
 			this.tileRectangle(g, 0, 0, this.tapSize * 0.001, this.tapSize * 0.001, '#000');
 			this.tileRectangle(g, this.innerWidth, this.innerHeight, this.tapSize * 0.001, this.tapSize * 0.001, '#000');
 
-			this.counterLine = this.tileRectangle(g, x + this.tapSize * 0.3, y, this.tapSize * 0.4, h, this.findTrackInfo(0).color);
+			this.counterLine = this.tileRectangle(g, x + this.tapSize * 0.3, y, this.tapSize *0.2* this.tickerDelay, h, this.findTrackInfo(0).shadow);
 		}
 	}
 };
