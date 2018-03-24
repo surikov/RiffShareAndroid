@@ -227,10 +227,10 @@ RiffShareFlat.prototype.init = function () {
 	window.onresize = function () {
 		riffshareflat.resetSize();
 	};
-	window.unload = function () {
+	window.onunload = function () {
 		riffshareflat.saveState();
 	};
-	window.pagehide = function () {
+	window.onpagehide = function () {
 		riffshareflat.saveState();
 	};
 	window.onbeforeunload = function () {
@@ -328,10 +328,11 @@ RiffShareFlat.prototype.saveState = function () {
 		tz: this.translateZ,
 		orders: []
 	};
+	this.svcntr++;
+	flatstate.svcntr=this.svcntr;
 	for (var i = 0; i < 8; i++) {
 		flatstate.orders.push(this.trackInfo[i].order);
-	}
-	flatstate.svcntr=this.svcntr++;
+	}	
 	saveObject2localStorage('flatstate', flatstate);
 	saveText2localStorage('tempo', '' + this.tempo);
 	for (var i = 0; i < 8; i++) {
