@@ -375,6 +375,12 @@ FretShare.prototype.init = function () {
 	window.onblur = function () {
 		fretshare.saveState();
 	};
+	window.pagehide = function () {
+		fretshare.saveState();
+	};
+	window.unload = function () {
+		fretshare.saveState();
+	};
 	var flatstate = readObjectFromlocalStorage('fretflatstate');
 	//console.log(flatstate);
 	if (flatstate) {
