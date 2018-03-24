@@ -227,6 +227,12 @@ RiffShareFlat.prototype.init = function () {
 	window.onresize = function () {
 		riffshareflat.resetSize();
 	};
+	window.unload = function () {
+		riffshareflat.saveState();
+	};
+	window.pagehide = function () {
+		riffshareflat.saveState();
+	};
 	window.onbeforeunload = function () {
 		riffshareflat.saveState();
 	};
@@ -1058,8 +1064,8 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		window.open('export.html', '_self')
 		});*/
 		this.tileCircle(g, 11 * this.tapSize, 13 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
-		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
-		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+this.translateZ, modeDrumColor(this.bgMode));
+		this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
+		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+Math.round(1000*(20-this.translateZ)/19)+'%', modeDrumColor(this.bgMode));
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
 			riffshareflat.saveState();
 			var encoded = encodeState();
