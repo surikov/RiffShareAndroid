@@ -1107,8 +1107,10 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			if (riffshareflat.onAir) {
 				riffshareflat.stopPlay();
 			} else {
+				//saveString2IndexedDB('testing','123');
 				riffshareflat.startPlay();
 			}
+			
 		});
 		/*
 		this.tileCircle(g, 1.5 * this.tapSize, (9 + 1.5 * 1) * this.tapSize, 0.5 * this.tapSize, '#999');

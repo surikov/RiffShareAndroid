@@ -1,3 +1,50 @@
+function saveString2IndexedDB(name, text) {
+	console.log('saveString2IndexedDB', name, text);
+	try {
+		var idbFactory = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+		var idbTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {
+			READ_WRITE: "readwrite"
+		};
+		var idbKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+		var idbOpenDBRequest = idbFactory.open('indexedDB', 1);
+		idbOpenDBRequest.onupgradeneeded = function (event) {
+			console.log('idbOpenDBRequest.onupgradeneeded', event);
+			var idbDatabase = event.target.result;
+			console.log(idbDatabase);
+			var idbObjectStore = idbDatabase.createObjectStore('objectStore', {
+					keyPath: 'keyPath'
+				});
+		}
+		idbOpenDBRequest.onerror = function (event) {
+			console.log('idbOpenDBRequest.onerror', event);
+		};
+		idbOpenDBRequest.onsuccess = function (event) {
+			console.log('idbOpenDBRequest.onsuccess', event);
+			var idbDatabase = event.target.result;
+			console.log(idbDatabase);
+			var idbTransaction = idbDatabase.transaction('objectStore', 'readwrite');
+			console.log(idbTransaction);
+			var idbObjectStore = idbTransaction.objectStore('objectStore');
+			console.log(idbObjectStore);
+			var idbRequest = idbObjectStore.delete (name);
+			idbRequest.onerror = function (event) {
+				console.log('idbRequest.onerror', event);
+			};
+			idbRequest.onsuccess = function (event) {
+				console.log('idbRequest.onsuccess ', event);
+				var idbRequest2 = idbObjectStore.add(text, name);
+				idbRequest2.onerror = function (event) {
+					console.log('idbRequest2.onerror', event);
+				};
+				idbRequest2.onsuccess = function (event) {
+					console.log('idbRequest2.onsuccess ', event);
+				}
+			};
+		};
+	} catch (e) {
+		console.log(e);
+	}
+}
 function saveObject2localStorage(name, o) {
 	console.log('saveObject2localStorage', name, o);
 	localStorage.setItem(name, JSON.stringify(o));
@@ -230,13 +277,13 @@ function encodeState() {
 				var shift = 64 + storeTracks[i].shift;
 				var track = storeTracks[i].track;
 				if (beat == bi) {
-					var nd=pad0(beat.toString(16), 2) + track.toString(16) + pad0(length.toString(16), 2) + pad0(pitch.toString(16), 2) + pad0(shift.toString(16), 2);
+					var nd = pad0(beat.toString(16), 2) + track.toString(16) + pad0(length.toString(16), 2) + pad0(pitch.toString(16), 2) + pad0(shift.toString(16), 2);
 					pitchData = pitchData + nd;
 					//console.log(beat,track.toString(16),shift,nd);
 				}
 			}
 		}
-		txt = txt +'-'+pitchData;
+		txt = txt + '-' + pitchData;
 	} catch (ex) {
 		console.log(ex);
 	}
@@ -249,7 +296,7 @@ function addStateToHistory(nocut) {
 	state.label = '' + new Date();
 	state.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
 	state.storeTracks = sureArray(readObjectFromlocalStorage('storeTracks'), []);
-	
+
 	for (var i = 0; i < 10; i++) {
 		state['equalizer' + i] = readTextFromlocalStorage('equalizer' + i);
 	}
@@ -260,9 +307,9 @@ function addStateToHistory(nocut) {
 	state['tempo'] = readTextFromlocalStorage('tempo');
 	state['flatstate'] = readObjectFromlocalStorage('flatstate');
 	hstry.push(state);
-	if(nocut){
+	if (nocut) {
 		//
-	}else{
+	} else {
 		while (hstry.length > 23) {
 			hstry.shift();
 		}
@@ -289,25 +336,25 @@ function removeStateFromHistory(n) {
 	}
 }
 
-function modeDrumColor  (bgMode) {
+function modeDrumColor(bgMode) {
 	if (bgMode == 2) {
 		return '#233';
 	}
 	return '#ccc';
 }
-function modeDrumShadow  (bgMode) {
+function modeDrumShadow(bgMode) {
 	if (bgMode == 2) {
 		return '#9a9';
 	}
 	return '#566';
 }
-function modeNoteName  (bgMode) {
+function modeNoteName(bgMode) {
 	if (bgMode == 0) {
 		return '#000';
 	}
 	return '#fff';
 }
-function modeBackground  (bgMode) {
+function modeBackground(bgMode) {
 	if (bgMode == 1) {
 		return '#31424C';
 	}
