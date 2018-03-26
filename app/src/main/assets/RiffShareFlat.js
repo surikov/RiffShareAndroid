@@ -70,17 +70,17 @@ RiffShareFlat.prototype.init = function () {
 	this.marginRight = 17;
 	this.marginTop = 1;
 	this.marginBottom = 1;
-	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
-	this.bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
+	this.tempo = 120; //sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
+	this.bgMode = 0; //sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
 	this.contentDiv.style.background = modeBackground(this.bgMode);
-	this.drumVolumes = [];
-	for (var i = 0; i < 8; i++) {
-		this.drumVolumes.push(sureNumeric(readObjectFromlocalStorage('drum' + i), 0, 70, 100));
-	}
-	this.equalizer = [];
-	for (var i = 0; i < 10; i++) {
-		this.equalizer.push(sureNumeric(readObjectFromlocalStorage('equalizer' + i), -10, 0, 10));
-	}
+	this.drumVolumes = [70, 70, 70, 70, 70, 70, 70, 70];
+	/*for (var i = 0; i < 8; i++) {
+	this.drumVolumes.push(sureNumeric(readObjectFromlocalStorage('drum' + i), 0, 70, 100));
+	}*/
+	this.equalizer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	/*for (var i = 0; i < 10; i++) {
+	this.equalizer.push(sureNumeric(readObjectFromlocalStorage('equalizer' + i), -10, 0, 10));
+	}*/
 	this.drumInfo = drumInfo;
 	this.trackInfo = trackInfo;
 	/*
@@ -247,47 +247,9 @@ RiffShareFlat.prototype.init = function () {
 	window.onblur = function () {
 		riffshareflat.saveState();
 	};
-	var flatstate = readObjectFromlocalStorage('flatstate');
-	//console.log(flatstate);
-	if (flatstate) {
-		try {
-			/*if(flatstate.svcntr){
-			this.svcntr=flatstate.svcntr;
-			}else{
-			this.svcntr=0;
-			}
-			this.svcntr++;*/
-			if (flatstate.tx) {
-				this.translateX = flatstate.tx;
-			}
-			if (flatstate.ty) {
-				this.translateY = flatstate.ty;
-			}
-			if (flatstate.tz) {
-				this.translateZ = flatstate.tz;
-			}
-			if (flatstate.orders) {
-				for (var i = 0; i < 8; i++) {
-					var o = sureNumeric(flatstate.orders[i], 0, i, 7);
-					riffshareflat.trackInfo[i].order = o;
-				}
-				flatstate.orders.sort();
-				for (var i = 0; i < 8; i++) {
-					if (flatstate.orders[i] == i) {
-						//
-					} else {
-						for (var n = 0; n < 8; n++) {
-							riffshareflat.trackInfo[n].order = riffshareflat.trackInfo[n].nn;
-						}
-						break;
-					}
-				}
-			}
-		} catch (ex) {
-			console.log(ex);
-		}
-	}
-	this.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
+	this.storeDrums = [0, 1, 2, 3, 4, 5, 6, 7];
+	this.storeTracks = [0, 1, 2, 3, 4, 5, 6, 7];
+	//this.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
 	//console.log(this.storeDrums, readObjectFromlocalStorage('storeDrums'));
 	/*try {
 	var le = this.storeDrums.length;
@@ -295,7 +257,7 @@ RiffShareFlat.prototype.init = function () {
 	console.log(t);
 	this.storeDrums = [];
 	}*/
-	this.storeTracks = sureArray(readObjectFromlocalStorage('storeTracks'), []);
+	//this.storeTracks = sureArray(readObjectFromlocalStorage('storeTracks'), []);
 	//console.log(this.storeTracks, readObjectFromlocalStorage('storeTracks'));
 	/*try {
 	var le = this.storeTracks.length;
@@ -349,11 +311,112 @@ RiffShareFlat.prototype.init = function () {
 	this.resetSize();
 	//setInterval(riffshareflat.moveCounter, 100);
 	setInterval(riffshareflat.moveBeatCounter, 100);
-
+	this.loadState();
+	
 	console.log('done init');
+};
+RiffShareFlat.prototype.loadState = function () {
+	var me = this;
+	var check = readTextFromlocalStorage('tempo');
+	console.log('check', check);
+	if (check) {
+		this.loadStorageState();
+	} else {
+		readStringFromWebDB('fullState', function (text) {
+			if (text) {
+				me.saveCopyStorageState(text);
+			} else {
+				readStringFromIndexedDB('fullState', function (text) {
+					if (text) {
+						me.saveCopyStorageState(text);
+					};
+				});
+			}
+		});
+	}
+	/*
+	readStringFromWebDB('fullState',function(text){
+	//console.log('readStringFromWebDB',text);
+	});
+	readStringFromIndexedDB('fullState',function(text){
+	//console.log('readStringFromIndexedDB',text);
+	});*/
+	//var fullState=
+};
+RiffShareFlat.prototype.saveCopyStorageState = function (fullState) {
+	var o = JSON.parse(fullState);
+	saveObject2localStorage('flatstate', o.flatstate);
+	saveText2localStorage('tempo', '' + o.tempo);
+	for (var i = 0; i < 8; i++) {
+		saveText2localStorage('drum' + i, o['drum' + i]);
+		saveText2localStorage('track' + i, o['track' + i]);
+	}
+	for (var i = 0; i < 10; i++) {
+		saveText2localStorage('equalizer' + i, o['equalizer' + i]);
+	}
+	saveObject2localStorage('storeDrums', o.storeDrums);
+	saveObject2localStorage('storeTracks', o.storeTracks);
+	this.loadStorageState();
+};
+RiffShareFlat.prototype.loadStorageState = function () {
+	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
+	this.bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
+	this.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
+	this.storeTracks = sureArray(readObjectFromlocalStorage('storeTracks'), []);
+	this.drumVolumes = [];
+	for (var i = 0; i < 8; i++) {
+		this.drumVolumes.push(sureNumeric(readObjectFromlocalStorage('drum' + i), 0, 70, 100));
+	}
+	this.equalizer = [];
+	for (var i = 0; i < 10; i++) {
+		this.equalizer.push(sureNumeric(readObjectFromlocalStorage('equalizer' + i), -10, 0, 10));
+	}
+	var flatstate = readObjectFromlocalStorage('flatstate');
+
+	//console.log(flatstate);
+	if (flatstate) {
+		try {
+			/*if(flatstate.svcntr){
+			this.svcntr=flatstate.svcntr;
+			}else{
+			this.svcntr=0;
+			}
+			this.svcntr++;*/
+			if (flatstate.tx) {
+				this.translateX = flatstate.tx;
+			}
+			if (flatstate.ty) {
+				this.translateY = flatstate.ty;
+			}
+			if (flatstate.tz) {
+				this.translateZ = flatstate.tz;
+			}
+			if (flatstate.orders) {
+				for (var i = 0; i < 8; i++) {
+					var o = sureNumeric(flatstate.orders[i], 0, i, 7);
+					riffshareflat.trackInfo[i].order = o;
+				}
+				flatstate.orders.sort();
+				for (var i = 0; i < 8; i++) {
+					if (flatstate.orders[i] == i) {
+						//
+					} else {
+						for (var n = 0; n < 8; n++) {
+							riffshareflat.trackInfo[n].order = riffshareflat.trackInfo[n].nn;
+						}
+						break;
+					}
+				}
+			}
+		} catch (ex) {
+			console.log(ex);
+		}
+	}
+	this.resetAllLayersNow();
 };
 RiffShareFlat.prototype.saveState = function () {
 	this.stopPlay();
+	var fullState = {};
 	var flatstate = {
 		tx: this.translateX,
 		ty: this.translateY,
@@ -366,16 +429,31 @@ RiffShareFlat.prototype.saveState = function () {
 		flatstate.orders.push(this.trackInfo[i].order);
 	}
 	saveObject2localStorage('flatstate', flatstate);
+	fullState.flatstate = flatstate;
 	saveText2localStorage('tempo', '' + this.tempo);
+	fullState.tempo = this.tempo;
 	for (var i = 0; i < 8; i++) {
 		saveText2localStorage('drum' + i, '' + this.drumVolumes[i]);
 		saveText2localStorage('track' + i, '' + this.trackInfo[7 - i].volume);
+		fullState['drum' + i] = '' + this.drumVolumes[i];
+		fullState['track' + i] = '' + this.trackInfo[7 - i].volume;
 	}
 	for (var i = 0; i < 10; i++) {
 		saveText2localStorage('equalizer' + i, '' + this.equalizer[i]);
+		fullState['equalizer' + i] = '' + this.equalizer[i];
 	}
 	saveObject2localStorage('storeDrums', this.storeDrums);
+	fullState.storeDrums = this.storeDrums;
 	saveObject2localStorage('storeTracks', this.storeTracks);
+	fullState.storeTracks = this.storeTracks;
+	console.log('start copy ----------------------------------------------------------------');
+
+	saveString2WebDB('fullState', JSON.stringify(fullState), function () {
+		console.log('done saveString2WebDB');
+	});
+	saveString2IndexedDB('fullState', JSON.stringify(fullState), function () {
+		console.log('done saveString2IndexedDB');
+	});
 	window.onunload = null;
 };
 RiffShareFlat.prototype.copyDrums = function () {
@@ -882,6 +960,7 @@ RiffShareFlat.prototype.resetTiles = function () {
 	var yy = lt.y;
 	var ww = rb.x - lt.x;
 	var hh = rb.y - lt.y;
+	//console.log(xx, yy, ww, hh);
 	this.addContent(xx, yy, ww, hh);
 	this.reLayoutVertical();
 };
@@ -939,13 +1018,13 @@ RiffShareFlat.prototype.queueNextBeats = function () {
 			}
 		}
 		//console.log('	envelopes', this.player.envelopes.length);
-		var wait = 0.5 * 1000 * (this.nextWhen - t);//this.audioContext.currentTime);
+		var wait = 0.5 * 1000 * (this.nextWhen - t); //this.audioContext.currentTime);
 		//if (this.echoOn) {
-			this.tickerStep++;
-			if (this.tickerStep >= this.tickerDelay) {
-				this.moveBeatCounter();
-				this.tickerStep = 0;
-			}
+		this.tickerStep++;
+		if (this.tickerStep >= this.tickerDelay) {
+			this.moveBeatCounter();
+			this.tickerStep = 0;
+		}
 		//}
 		this.tickID = setTimeout(function () {
 				riffshareflat.queueNextBeats();
@@ -1110,7 +1189,7 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 				//saveString2IndexedDB('testing','123');
 				riffshareflat.startPlay();
 			}
-			
+
 		});
 		/*
 		this.tileCircle(g, 1.5 * this.tapSize, (9 + 1.5 * 1) * this.tapSize, 0.5 * this.tapSize, '#999');
@@ -1670,9 +1749,10 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 						riffshareflat.userActionUpTrack(this.order);
 					});
 				s.order = i;
-				if (this.trackInfo[i].sound.zones[0].buffer) {
-					this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
-				}
+				//console.log(track,this.trackInfo[i].sound.zones[0].buffer);
+				//if (this.trackInfo[i].sound.zones[0].buffer) {
+				this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				//}
 				/*for (var v = 0; v < 11; v++) {
 				var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
 				riffshareflat.userActionToneVolume(this.track, this.volume);
@@ -1688,9 +1768,9 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				riffshareflat.userActionUpTrack(this.order);
 				});
 				s.order = i;*/
-				if (this.trackInfo[i].sound.zones[0].buffer) {
-					this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
-				}
+				//if (this.trackInfo[i].sound.zones[0].buffer) {
+				this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				//}
 				for (var v = 0; v < 11; v++) {
 					var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
 							riffshareflat.userActionToneVolume(this.track, this.volume);
@@ -1712,6 +1792,9 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 		for (var i = 0; i < 8; i++) {
 			this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * i, this.tapSize * 11, this.tapSize * 0.9, modeDrumShadow(this.bgMode));
 			var n = this.drumVolumes[i] / 10;
+			if (!(n)) {
+				n = 0;
+			}
 			this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * i, this.tapSize * (1 + n), this.tapSize * 0.9, modeDrumColor(this.bgMode));
 			for (var v = 0; v < 11; v++) {
 				var s = this.addSpot('voldru' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * i, this.tapSize, this.tapSize, function () {
@@ -1720,9 +1803,9 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 				s.drum = i;
 				s.volume = v * 10;
 			}
-			if (this.drumInfo[i].sound.zones[0].buffer) {
-				this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, modeDrumColor(this.bgMode));
-			}
+			//if (this.drumInfo[i].sound.zones[0].buffer) {
+			this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, modeDrumColor(this.bgMode));
+			//}
 		}
 		/*
 		this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * 0.75, this.tapSize * 0.9, 'Bass drum', '#ffffff');
@@ -1768,6 +1851,9 @@ RiffShareFlat.prototype.tileEqualizer = function (left, top, width, height) {
 		for (var i = 0; i < 10; i++) {
 			this.tileRectangle(g, x + this.tapSize * i * sz, y, this.tapSize * 0.95 * sz, this.tapSize * 21, modeDrumShadow(this.bgMode));
 			var n = this.equalizer[i];
+			if (!(n)) {
+				n = 0;
+			}
 			var ey = n < 0 ? y + this.tapSize * 10 : y + this.tapSize * 10 - this.tapSize * n;
 			this.tileRectangle(g, x + this.tapSize * i * sz, ey, this.tapSize * 0.95 * sz, this.tapSize * (1 + Math.abs(n)), modeDrumColor(this.bgMode));
 			for (var v = -10; v <= 10; v++) {

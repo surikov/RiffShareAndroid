@@ -1,50 +1,157 @@
-function saveString2IndexedDB(name, text) {
-	console.log('saveString2IndexedDB', name, text);
+function testing() {
+	console.log('testing');
+
+	/*saveString2IndexedDB('somedata', 'dsrnj \n\n\n\dsfbgdrn dgfs' + (new Date()), function () {
+	console.log('done save')
+	});
+	readStringFromIndexedDB('somedata', function (text) {
+	console.log('done read', text)
+	});*/
+	/*saveString2WebDB('somedata', 'dsrnj \n\n\n\dsfbgdrn dgfs' + (new Date()), function () {
+	console.log('done save')
+	});*/
+	/*readStringFromWebDB('somedata', function (text) {
+		console.log('done read', text)
+	});*/
+}
+
+function readStringFromWebDB(name, ondone) {
+	try {
+		var database = getWebDB();
+		database.transaction(function (sqlTransaction) {
+			try {
+				var sql = 'select ftext from cfg where fname=\'' + name + '\';';
+				sqlTransaction.executeSql(sql, [], function (a, b) {
+					console.log(sql,b);
+					if(b.rows.length>0){
+						ondone(b.rows[0].ftext);
+					}else{
+						ondone(null);
+					}
+				}, function (a, b) {
+					console.log(a, b);
+					ondone(null);
+				});
+			} catch (e) {
+				console.log(e);
+				ondone(null);
+			}
+		});
+	} catch (e) {
+		console.log(e);
+		ondone(null);
+	}
+}
+function saveString2WebDB(name, text, ondone) {
+	try {
+		var database = getWebDB();
+		database.transaction(function (sqlTransaction) {
+			try {
+				sqlTransaction.executeSql('create table if not exists cfg(fname text, ftext text)');
+				sqlTransaction.executeSql('delete from cfg where fname="' + name + '"');
+				sqlTransaction.executeSql('insert into cfg (fname,ftext) values(\'' + name + '\',\'' + text + '\');');
+			} catch (e) {
+				console.log(e);
+			}
+			ondone();
+		});
+	} catch (e) {
+		console.log(e);
+		ondone();
+	}
+}
+function saveString2IndexedDB(name, text, ondone) {
+	try {
+		doStoreIndexedDB(function (idbObjectStore) {
+			saveString2ObjectStore(idbObjectStore, name, text, ondone);
+		});
+	} catch (e) {
+		console.log(e);
+		ondone(null);
+	}
+}
+function readStringFromIndexedDB(name, ondone) {
+	try {
+		doStoreIndexedDB(function (idbObjectStore) {
+			readStringFromObjectStore(idbObjectStore, name, ondone);
+		});
+	} catch (e) {
+		console.log(e);
+		ondone(null);
+	}
+}
+function getWebDB() {
+	var database = window.openDatabase('websql', 1, 'CfgDB', 256 * 1024);
+	return database;
+}
+function doStoreIndexedDB(ondone) {
 	try {
 		var idbFactory = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-		var idbTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {
-			READ_WRITE: "readwrite"
-		};
-		var idbKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-		var idbOpenDBRequest = idbFactory.open('indexedDB', 1);
+		var idbOpenDBRequest = idbFactory.open('indexedDB', 2);
 		idbOpenDBRequest.onupgradeneeded = function (event) {
-			console.log('idbOpenDBRequest.onupgradeneeded', event);
+			console.log(event);
 			var idbDatabase = event.target.result;
-			console.log(idbDatabase);
-			var idbObjectStore = idbDatabase.createObjectStore('objectStore', {
-					keyPath: 'keyPath'
-				});
+			var idbObjectStore = idbDatabase.createObjectStore('objectStore');
 		}
 		idbOpenDBRequest.onerror = function (event) {
-			console.log('idbOpenDBRequest.onerror', event);
+			console.log(event);
+			ondone(null);
 		};
 		idbOpenDBRequest.onsuccess = function (event) {
-			console.log('idbOpenDBRequest.onsuccess', event);
 			var idbDatabase = event.target.result;
-			console.log(idbDatabase);
 			var idbTransaction = idbDatabase.transaction('objectStore', 'readwrite');
-			console.log(idbTransaction);
 			var idbObjectStore = idbTransaction.objectStore('objectStore');
-			console.log(idbObjectStore);
-			var idbRequest = idbObjectStore.delete (name);
-			idbRequest.onerror = function (event) {
-				console.log('idbRequest.onerror', event);
-			};
-			idbRequest.onsuccess = function (event) {
-				console.log('idbRequest.onsuccess ', event);
-				var idbRequest2 = idbObjectStore.add(text, name);
-				idbRequest2.onerror = function (event) {
-					console.log('idbRequest2.onerror', event);
-				};
-				idbRequest2.onsuccess = function (event) {
-					console.log('idbRequest2.onsuccess ', event);
-				}
-			};
+			ondone(idbObjectStore);
 		};
 	} catch (e) {
 		console.log(e);
+		ondone(null);
 	}
 }
+function saveString2ObjectStore(idbObjectStore, name, text, ondone) {
+	try {
+		var idbRequest = idbObjectStore.delete (name);
+		idbRequest.onerror = function (event) {
+			ondone();
+		};
+		idbRequest.onsuccess = function (event) {
+
+			try {
+				var idbRequest2 = idbObjectStore.add(text, name);
+				idbRequest2.onerror = function (event) {
+					console.log(event);
+					ondone();
+				};
+				idbRequest2.onsuccess = function (event) {
+					ondone();
+				}
+			} catch (e) {
+				console.log(e);
+				ondone();
+			}
+		};
+	} catch (e) {
+		console.log(e);
+		ondone();
+	}
+}
+function readStringFromObjectStore(idbObjectStore, name, ondone) {
+	try {
+		var idbRequest = idbObjectStore.get(name);
+		idbRequest.onerror = function (event) {
+			console.log(event);
+			ondone(null);
+		};
+		idbRequest.onsuccess = function (event) {
+			ondone(idbRequest.result);
+		};
+	} catch (e) {
+		console.log(e);
+		ondone(null);
+	}
+}
+
+////////////////////////////////////
 function saveObject2localStorage(name, o) {
 	console.log('saveObject2localStorage', name, o);
 	localStorage.setItem(name, JSON.stringify(o));
