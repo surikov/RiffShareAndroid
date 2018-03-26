@@ -247,8 +247,8 @@ RiffShareFlat.prototype.init = function () {
 	window.onblur = function () {
 		riffshareflat.saveState();
 	};
-	this.storeDrums = [0, 1, 2, 3, 4, 5, 6, 7];
-	this.storeTracks = [0, 1, 2, 3, 4, 5, 6, 7];
+	this.storeDrums = [];
+	this.storeTracks = [];
 	//this.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
 	//console.log(this.storeDrums, readObjectFromlocalStorage('storeDrums'));
 	/*try {
