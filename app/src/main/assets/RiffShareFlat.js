@@ -1203,9 +1203,14 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
 			riffshareflat.saveState();
 			var encoded = encodeState();
+			/*
 			var url = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
 			var tiny = 'https://tinyurl.com/create.php?url=' + url;
 			window.open(tiny, '_self')
+			*/
+			
+			var url = "http://molgav.nn.ru/share.php?riff=" + encoded;
+			window.open(url, '_self')
 		});
 
 		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, modeDrumShadow(this.bgMode));
