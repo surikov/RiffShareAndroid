@@ -312,7 +312,7 @@ RiffShareFlat.prototype.init = function () {
 	//setInterval(riffshareflat.moveCounter, 100);
 	setInterval(riffshareflat.moveBeatCounter, 100);
 	this.loadState();
-	
+
 	console.log('done init');
 };
 RiffShareFlat.prototype.loadState = function () {
@@ -321,14 +321,17 @@ RiffShareFlat.prototype.loadState = function () {
 	console.log('check', check);
 	if (check) {
 		this.loadStorageState();
+		this.resetAllLayersNow();
 	} else {
 		readStringFromWebDB('fullState', function (text) {
 			if (text) {
 				me.saveCopyStorageState(text);
+				me.resetAllLayersNow();
 			} else {
 				readStringFromIndexedDB('fullState', function (text) {
 					if (text) {
 						me.saveCopyStorageState(text);
+						me.resetAllLayersNow();
 					};
 				});
 			}
@@ -359,8 +362,10 @@ RiffShareFlat.prototype.saveCopyStorageState = function (fullState) {
 	this.loadStorageState();
 };
 RiffShareFlat.prototype.loadStorageState = function () {
+	console.log('loadStorageState');
 	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
-	this.bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
+	this.bgMode = 1*sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
+	console.log('bgMode',this.bgMode);
 	this.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
 	this.storeTracks = sureArray(readObjectFromlocalStorage('storeTracks'), []);
 	this.drumVolumes = [];
@@ -412,6 +417,7 @@ RiffShareFlat.prototype.loadStorageState = function () {
 			console.log(ex);
 		}
 	}
+	this.setModeBackground(this.bgMode);
 	this.resetAllLayersNow();
 };
 RiffShareFlat.prototype.saveState = function () {
@@ -1172,6 +1178,7 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 	var w = this.innerWidth;
 	var h = this.innerHeight;
 	var g = this.rakeGroup(x, y, w, h, 'grdlin', this.paneGroup, left, top, width, height);
+	var me = this;
 	if (g) {
 		//this.tileRectangle(g, 0, 0, this.innerWidth, this.innerHeight, 'rgba(0,0,0,0.8)');
 		//this.tileText(g, x - this.tapSize * 0.5, y + this.tapSize * 4, this.tapSize * 7, 'RiffShare', '#333');
@@ -1207,10 +1214,17 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			var url = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
 			var tiny = 'https://tinyurl.com/create.php?url=' + url;
 			window.open(tiny, '_self')
-			*/
-			
-			var url = "http://molgav.nn.ru/share.php?riff=" + encoded;
+			 */
+			var top = 0;
+			for (var i = 0; i < me.trackInfo.length; i++) {
+				if (me.trackInfo[i].order == 0) {
+					top = i;
+					break;
+				}
+			}
+			var url = "http://molgav.nn.ru/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
 			window.open(url, '_self')
+			//console.log(me.trackInfo,url);
 		});
 
 		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, modeDrumShadow(this.bgMode));
@@ -1637,6 +1651,7 @@ RiffShareFlat.prototype.tileTones = function (left, top, width, height) {
 	});
 };
 RiffShareFlat.prototype.setModeBackground = function (bgMode) {
+	console.log('setModeBackground', bgMode);
 	this.bgMode = bgMode;
 	saveText2localStorage('bgMode', '' + bgMode);
 	//console.log(this.bgMode,modeBackground(this.bgMode));
@@ -1957,7 +1972,8 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 		 || x1 > x2 + w2 //
 		 || y1 + h1 < y2 //
 		 || y1 > y2 + h2 //
-	) {
+	)
+	{
 		return false;
 	} else {
 		return true;
