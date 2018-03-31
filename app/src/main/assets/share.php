@@ -218,8 +218,11 @@ try {
 	if($len * 16 * $mltpl>1100){
 		$mltpl=round(1100/($len * 16));
 	}
-	if($mltpl<12){
-		$mltpl=12;
+	if($mltpl<9){
+		$mltpl=9;
+	}
+	if($mltpl%2>0){
+		$mltpl=$mltpl+1;
 	}
 	$ww = $len * 16 * $mltpl;
 	$hh=1;
@@ -408,7 +411,7 @@ try {
 	$html=$html . "\r\n" . '    <body>';
 	$html=$html . "\r\n" . "		<p><a href='https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" . $riff . "'>Open in editor</a></p>";
 	$html=$html . "\r\n" . "		<p><img src='".$fileName.".png' /></p>";
-	$html=$html . "\r\n" . "		<p>v1.09.".$mltpl."</p>";
+	$html=$html . "\r\n" . "		<p>v1.11.".$mltpl."</p>";
 	
 	$html=$html . "\r\n" . '		<div class="sharethis-inline-share-buttons"></div>';
 	
