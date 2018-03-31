@@ -265,6 +265,11 @@ try {
 	//drawALine($im,32, 300,50,70,130, $text_color);
 	//
 	if ($hh > 1) {
+		//$pimage->drawFilledRectangle(0, 0,100, 200, array("R" => 127, "G" => 127, "B" => 127));//, "Alpha" => 0.5));
+		for($xx=$mltpl*16;$xx<$ww;$xx=$xx+$mltpl*16){
+			$pimage->drawFilledRectangle($xx, 0,$xx+0.1*$mltpl, $hh, array("R" => 127, "G" => 127, "B" => 127, "Alpha" => 10));
+			//$pimage->drawFilledRectangle(0, 0,100, 200, array("R" => 255, "G" => 127, "B" => 127));//, "Alpha" => 0.5));
+		}
 		if ($hasDrums) {
 			/*for ($i = 0; $i < 8; $i++) {
 				if ($drumUses[$i]) {
@@ -272,13 +277,23 @@ try {
 					$pimage->drawText(0.5 * $mltpl, $hh-$i*$mltpl, "drum".$i, array("R" => 0, "G" => 99, "B" => 55));
 				}
 			}*/
+			for ($xx = 0; $xx < $ww; $xx = $xx + $mltpl * 2) {
+				for ($d = 0; $d < $drCount; $d++) {
+					$odd = $d % 2;
+					$pimage->drawFilledRectangle($xx + $odd * $mltpl, $hh - ($d + 1) * $mltpl, $xx + ($odd + 1) * $mltpl, $hh - ($d + 0) * $mltpl, array("R" => 127, "G" => 127, "B" => 127, "Alpha" => 10));
+				}
+			}
 			for ($i = 0; $i < count($drums); $i++) {
 				$x1 = $drums[$i][0] * $mltpl ;
 				$y1 = $hh - $drCount * $mltpl + $drumUses[$drums[$i][1]] * $mltpl ;				
 				//$y1=100;
 				//drawALine($im,$mltpl * 0.8,$x1,$y1, $x1+1, $y1,$text_color);
 				//drawLine($pimage, $x1,$y1, $x1+1, $y1, $mltpl * 0.45, 99, 66, 99);
-				$pimage->drawFilledCircle(round($x1+$mltpl/2) , round($y1-$mltpl/2) ,round($mltpl/2-1), array("R" => 0, "G" => 0, "B" => 0));
+				if($mode==2){
+					$pimage->drawFilledCircle(round($x1+$mltpl/2) , round($y1-$mltpl/2) ,round($mltpl/2-1), array("R" => 0, "G" => 0, "B" => 0));
+				}else{
+					$pimage->drawFilledCircle(round($x1+$mltpl/2) , round($y1-$mltpl/2) ,round($mltpl/2-1), array("R" => 255, "G" => 255, "B" => 255));
+				}
 			}
 			$pimage->setFontProperties(array("FontName" => "pChart2.1.4/fonts/Forgotte.ttf", "FontSize" => round($mltpl*0.7)));
 			//$pimage->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>99,"G"=>99,"B"=>99,"Alpha"=>90));
@@ -286,7 +301,7 @@ try {
 			for ($i = 0; $i < count($drumUses); $i++) {
 				$ordr=$drumUses[$i];
 				if($ordr>0){
-					$pimage->drawText($mltpl/3, round($hh-$mltpl*($drCount-$ordr)-$mltpl*0.2), drumTitle($i).$mode, array("R" => 99, "G" => 99, "B" => 255));
+					$pimage->drawText($mltpl/3, round($hh-$mltpl*($drCount-$ordr)-$mltpl*0.2), drumTitle($i), array("R" => 99, "G" => 99, "B" => 255));
 					//$n++;
 				}
 			}
@@ -294,6 +309,11 @@ try {
 		//$pimage->drawRoundedFilledRectangle(50 , 100 , round($x1 + $mltpl), round($y1) , round(15), array("R" => 0, "G" => 0, "B" => 0));
 		//$pimage->setShadow(TRUE,array("X"=>3,"Y"=>3,"R"=>99,"G"=>99,"B"=>99,"Alpha"=>0));
 		//$top=1;
+		for ($i = 1; $i < 6; $i++) {
+			//$yy=$hh-$i*12*$mltpl;
+			$yy=($maxPitch - $i*12+1) * $mltpl;
+			$pimage->drawFilledRectangle(0, $yy, $ww, $yy+0.1*$mltpl, array("R" => 127, "G" => 127, "B" => 127, "Alpha" => 10));
+		}
 		for ($i = 0; $i < count($tracks); $i++) {
 			if($tracks[$i][1]!=$top){
 				$bhnd=1+$tracks[$i][1]*1;
@@ -303,7 +323,7 @@ try {
 				$y2 = $y1 - $tracks[$i][4] * $mltpl;
 				$c=trackColor( $tracks[$i][1]);
 				drawLine($pimage, $x1+$bhnd,$y1+$bhnd, $x2+$bhnd, $y2+$bhnd, $mltpl , $c[0],$c[1], $c[2]);
-				$pimage->drawText($x1-$mltpl*0.2,$y1+$mltpl*0.3, pitchName($tracks[$i][3]), array("R" => 255, "G" => 255, "B" => 255));
+				$pimage->drawText($x1-$mltpl*0.2+$bhnd,$y1+$mltpl*0.3+$bhnd, pitchName($tracks[$i][3]), array("R" => 255, "G" => 255, "B" => 255));
 			}
 		}
 		$pimage->setFontProperties(array("FontName" => "pChart2.1.4/fonts/Forgotte.ttf", "FontSize" => round($mltpl*0.8)));
