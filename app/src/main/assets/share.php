@@ -187,7 +187,7 @@ try {
     //echo "<p>" . $riff . "</p>";
     $ww = 500;
     $hh = 100;
-	$mltpl = 30;
+	
 	$lvlsh = 0.75;
 	$maxBeat = 1;
 	$minPitch = 12 * 5;
@@ -214,6 +214,13 @@ try {
 		}
 	}
 	$len = floor($maxBeat / 16) + 1;
+	$mltpl = 30;
+	if($len * 16 * $mltpl>1100){
+		$mltpl=round(1100/($len * 16));
+	}
+	if($mltpl<12){
+		$mltpl=12;
+	}
 	$ww = $len * 16 * $mltpl;
 	$hh=1;
 	$drumUses = array(false, false, false, false, false, false, false, false);
@@ -352,20 +359,46 @@ try {
 			$bgcolor='#eef';
 		}
 	}
+	$linkColor='#ddd';
+	if ($mode == 2) {
+		$linkColor='#222';
+	}
     $file = fopen("share/".$fileName.".html", "w");
 	$html='';
 	$html=$html . '<!DOCTYPE html>';
 	$html=$html . "\r\n" . '<html>';
 	$html=$html . "\r\n" . '    <head>';
 	$html=$html . "\r\n" . '		<meta charset="UTF-8">';
+	
+	$html=$html . "\r\n" . '		<meta name="twitter:card" content="product" />';
+	$html=$html . "\r\n" . '		<meta name="twitter:title" content="My RiffShare song" />';
+	$html=$html . "\r\n" . '		<meta name="twitter:description" content="Open my song in online sequencer." />';
+	$html=$html . "\r\n" . '		<meta name="twitter:site" content="@sssurikov" />';
+	$html=$html . "\r\n" . '		<meta name="twitter:creator" content="@sssurikov" />';
+	$html=$html . "\r\n" . '		<meta name="twitter:image" content="http://molgav.nn.ru/share/'.$fileName.'.png">';
+	
+	$html=$html . "\r\n" . '		<meta property="og:url" content="http://molgav.nn.ru/share/'.$fileName.'.html" />';
+	$html=$html . "\r\n" . '		<meta property="og:title" content="My RiffShare song" />';
+	$html=$html . "\r\n" . '		<meta property="og:description" content="Open my song in online sequencer." />';
+	$html=$html . "\r\n" . '		<meta property="og:type" content="article" />';
+	$html=$html . "\r\n" . '		<meta property="og:image" content="http://molgav.nn.ru/share/'.$fileName.'.png" />';
+	$html=$html . "\r\n" . '		<meta property="og:image:type" content="image/png" />';
+	$html=$html . "\r\n" . '		<meta property="og:image:width" content="'.$ww.'" />';
+	$html=$html . "\r\n" . '		<meta property="og:image:height" content="'.$hh.'" />';
+	$html=$html . "\r\n" . '		<meta property="og:image:alt" content="Pianoroll preview" />';
+	
 	$html=$html . "\r\n" . '        <title>RiffShare</title>';
 	$html=$html . "\r\n" . '		<script type="text/javascript" src="http://platform-api.sharethis.com/js/sharethis.js#property=5abcf2eece89f00013641c95&product=inline-share-buttons"></script>';
 	$html=$html . "\r\n" . '		<style>';
 	$html=$html . "\r\n" . '			body {';
 	$html=$html . "\r\n" . '				background-color: '.$bgcolor.';';
 	$html=$html . "\r\n" . '			}';
+	$html=$html . "\r\n" . '			a {';
+	$html=$html . "\r\n" . '				color: '.$linkColor.';';
+	$html=$html . "\r\n" . '			}';
 	$html=$html . "\r\n" . '			p {';
 	$html=$html . "\r\n" . '				text-align: center;';
+	$html=$html . "\r\n" . '				color: '.$linkColor.';';
 	$html=$html . "\r\n" . '			} ';
 	$html=$html . "\r\n" . '			img {';
 	$html=$html . "\r\n" . '				width: 7.5cm;';
@@ -373,9 +406,12 @@ try {
 	$html=$html . "\r\n" . '		</style>';
 	$html=$html . "\r\n" . '    </head>';
 	$html=$html . "\r\n" . '    <body>';
-	$html=$html . "\r\n" . "		<p><a href='https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" . $riff . "'><img src='".$fileName.".png' /></a></p>";
-	$html=$html . "\r\n" . '		<div class="sharethis-inline-share-buttons"></div>';
 	$html=$html . "\r\n" . "		<p><a href='https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" . $riff . "'>Open in editor</a></p>";
+	$html=$html . "\r\n" . "		<p><img src='".$fileName.".png' /></p>";
+	$html=$html . "\r\n" . "		<p>v1.09.".$mltpl."</p>";
+	
+	$html=$html . "\r\n" . '		<div class="sharethis-inline-share-buttons"></div>';
+	
 	$html=$html . "\r\n" . '    </body>';
 	$html=$html . "\r\n" . '</html>';
 	$html=$html . "\r\n" . '<html>';
