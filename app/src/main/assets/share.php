@@ -219,8 +219,8 @@ try {
 	if($len * 16 * $mltpl>1200){
 		$mltpl=round(1200/($len * 16));
 	}
-	if($mltpl<9){
-		$mltpl=9;
+	if($mltpl<12){
+		$mltpl=12;
 	}
 	if($mltpl%2>0){
 		$mltpl=$mltpl-1;
@@ -292,12 +292,12 @@ try {
 					$pimage->drawFilledCircle(round($x1+$mltpl/2) , round($y1-$mltpl/2) ,round($mltpl/2-1), array("R" => 255, "G" => 255, "B" => 255));
 				}
 			}
-//---			$pimage->setFontProperties(array("FontName" => "pChart2.1.4/fonts/Forgotte.ttf", "FontSize" => round($mltpl*0.7)));
+			$pimage->setFontProperties(array("FontName" => "pChart2.1.4/fonts/Forgotte.ttf", "FontSize" => round($mltpl*0.7)));
 
 			for ($i = 0; $i < count($drumUses); $i++) {
 				$ordr=$drumUses[$i];
 				if($ordr>0){
-//----					$pimage->drawText($mltpl/3, round($hh-$mltpl*($drCount-$ordr)-$mltpl*0.2), drumTitle($i), array("R" => 99, "G" => 99, "B" => 255));
+					$pimage->drawText($mltpl/3, round($hh-$mltpl*($drCount-$ordr)-$mltpl*0.2), drumTitle($i), array("R" => 99, "G" => 99, "B" => 255));
 					//$n++;
 				}
 			}
@@ -310,6 +310,7 @@ try {
 			$yy=($maxPitch - $i*12+1) * $mltpl;
 			$pimage->drawFilledRectangle(0, $yy, $ww, $yy+0.1*$mltpl, array("R" => 127, "G" => 127, "B" => 127, "Alpha" => 10));
 		}
+		$pimage->setFontProperties(array("FontName" => "pChart2.1.4/fonts/Forgotte.ttf", "FontSize" => round($mltpl*0.6)));
 		for ($i = 0; $i < count($tracks); $i++) {
 			if($tracks[$i][1]!=$top){
 				$bhnd=1+$tracks[$i][1]*1;
@@ -319,10 +320,10 @@ try {
 				$y2 = $y1 - $tracks[$i][4] * $mltpl;
 				$c=trackColor( $tracks[$i][1]);
 				drawLine($pimage, $x1+$bhnd,$y1+$bhnd, $x2+$bhnd, $y2+$bhnd, $mltpl , $c[0],$c[1], $c[2]);
-//----				$pimage->drawText($x1-$mltpl*0.2+$bhnd,$y1+$mltpl*0.3+$bhnd, pitchName($tracks[$i][3]), array("R" => 255, "G" => 255, "B" => 255));
+				$pimage->drawText($x1-$mltpl*0.2+$bhnd,$y1+$mltpl*0.3+$bhnd, pitchName($tracks[$i][3]), array("R" => 255, "G" => 255, "B" => 255));
 			}
 		}
-//-----		$pimage->setFontProperties(array("FontName" => "pChart2.1.4/fonts/Forgotte.ttf", "FontSize" => round($mltpl*0.8)));
+		
 		for ($i = 0; $i < count($tracks); $i++) {
 			if($tracks[$i][1]==$top){
 				$x1 = $tracks[$i][0] * $mltpl + 0.5 * $mltpl;
@@ -331,7 +332,7 @@ try {
 				$y2 = $y1 - $tracks[$i][4] * $mltpl;
 				$c=trackColor( $tracks[$i][1]);
 				drawLine($pimage, $x1,$y1, $x2, $y2, $mltpl , $c[0],$c[1], $c[2]);
-//---				$pimage->drawText($x1-$mltpl*0.2,$y1+$mltpl*0.3, pitchName($tracks[$i][3]), array("R" => 255, "G" => 255, "B" => 255));
+				$pimage->drawText($x1-$mltpl*0.2,$y1+$mltpl*0.3, pitchName($tracks[$i][3]), array("R" => 255, "G" => 255, "B" => 255));
 			}
 		}
 	}
@@ -398,7 +399,7 @@ try {
 	$html=$html . "\r\n" . '    <body>';
 	$html=$html . "\r\n" . "		<p><a href='https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" . $riff . "'>Open in editor</a></p>";
 	$html=$html . "\r\n" . "		<p><img src='".$fileName.".png' /></p>";
-	$html=$html . "\r\n" . "		<p>v1.14.".$mltpl."</p>";
+	$html=$html . "\r\n" . "		<p>v1.15.".$mltpl."</p>";
 	
 	$html=$html . "\r\n" . '		<div class="sharethis-inline-share-buttons"></div>';
 	
