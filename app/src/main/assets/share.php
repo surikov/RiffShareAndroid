@@ -215,14 +215,14 @@ try {
 	}
 	$len = floor($maxBeat / 16) + 1;
 	$mltpl = 30;
-	if($len * 16 * $mltpl>1100){
-		$mltpl=round(1100/($len * 16));
+	if($len * 16 * $mltpl>1200){
+		$mltpl=round(1200/($len * 16));
 	}
 	if($mltpl<9){
 		$mltpl=9;
 	}
 	if($mltpl%2>0){
-		$mltpl=$mltpl+1;
+		$mltpl=$mltpl-1;
 	}
 	$ww = $len * 16 * $mltpl;
 	$hh=1;
@@ -373,7 +373,7 @@ try {
 	$html=$html . "\r\n" . '    <head>';
 	$html=$html . "\r\n" . '		<meta charset="UTF-8">';
 	
-	$html=$html . "\r\n" . '		<meta name="twitter:card" content="product" />';
+	$html=$html . "\r\n" . '		<meta name="twitter:card" content="summary_large_image" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:title" content="My RiffShare song" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:description" content="Open my song in online sequencer." />';
 	$html=$html . "\r\n" . '		<meta name="twitter:site" content="@sssurikov" />';
@@ -383,6 +383,7 @@ try {
 	$html=$html . "\r\n" . '		<meta property="og:url" content="http://molgav.nn.ru/share/'.$fileName.'.html" />';
 	$html=$html . "\r\n" . '		<meta property="og:title" content="My RiffShare song" />';
 	$html=$html . "\r\n" . '		<meta property="og:description" content="Open my song in online sequencer." />';
+	$html=$html . "\r\n" . '		<meta property="og:site_name" content="molgav.nn.ru" />';
 	$html=$html . "\r\n" . '		<meta property="og:type" content="article" />';
 	$html=$html . "\r\n" . '		<meta property="og:image" content="http://molgav.nn.ru/share/'.$fileName.'.png" />';
 	$html=$html . "\r\n" . '		<meta property="og:image:type" content="image/png" />';
@@ -411,7 +412,7 @@ try {
 	$html=$html . "\r\n" . '    <body>';
 	$html=$html . "\r\n" . "		<p><a href='https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" . $riff . "'>Open in editor</a></p>";
 	$html=$html . "\r\n" . "		<p><img src='".$fileName.".png' /></p>";
-	$html=$html . "\r\n" . "		<p>v1.11.".$mltpl."</p>";
+	$html=$html . "\r\n" . "		<p>v1.14.".$mltpl."</p>";
 	
 	$html=$html . "\r\n" . '		<div class="sharethis-inline-share-buttons"></div>';
 	
