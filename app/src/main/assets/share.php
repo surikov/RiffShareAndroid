@@ -176,7 +176,7 @@ function pitchName($pitch) {
 	return '' . $t;
 }
 try {
-	$description='Open my song in online sequencer';
+	$description='RiffShare: ';
 	$comma='';
     $riff = htmlspecialchars($_GET["riff"]);
 	$top = 7-1*$_GET["top"];
@@ -287,7 +287,7 @@ try {
 					$pimage->drawText(0.5 * $mltpl, $hh-$i*$mltpl, "drum".$i, array("R" => 0, "G" => 99, "B" => 55));
 				}
 			}*/
-			$description='Drums';
+			$description='RiffShare: Drums';
 			$comma=', ';
 			for ($xx = 0; $xx < $ww; $xx = $xx + $mltpl * 2) {
 				for ($d = 0; $d < $drCount; $d++) {
@@ -389,14 +389,14 @@ try {
 	$html=$html . "\r\n" . '		<meta charset="UTF-8">';
 	
 	$html=$html . "\r\n" . '		<meta name="twitter:card" content="summary_large_image" />';
-	$html=$html . "\r\n" . '		<meta name="twitter:title" content="RiffShare song" />';
+	$html=$html . "\r\n" . '		<meta name="twitter:title" content="Song tweet" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:description" content="'.$description.'" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:site" content="@sssurikov" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:creator" content="@sssurikov" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:image" content="http://molgav.nn.ru/share/'.$fileName.'.png">';
 	
 	$html=$html . "\r\n" . '		<meta property="og:url" content="http://molgav.nn.ru/share/'.$fileName.'.html" />';
-	$html=$html . "\r\n" . '		<meta property="og:title" content="My RiffShare song" />';
+	$html=$html . "\r\n" . '		<meta property="og:title" content="My new song" />';
 	$html=$html . "\r\n" . '		<meta property="og:description" content="'.$description.'" />';
 	$html=$html . "\r\n" . '		<meta property="og:site_name" content="molgav.nn.ru" />';
 	$html=$html . "\r\n" . '		<meta property="og:type" content="article" />';
@@ -427,7 +427,7 @@ try {
 	$html=$html . "\r\n" . '    <body>';
 	$html=$html . "\r\n" . "		<p><a href='https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" . $riff . "'>Open in editor</a></p>";
 	$html=$html . "\r\n" . "		<p><img src='".$fileName.".png' /></p>";
-	$html=$html . "\r\n" . "		<p>v1.18.".$mltpl."</p>";
+	$html=$html . "\r\n" . "		<p>v1.19.".$mltpl."</p>";
 	
 	$html=$html . "\r\n" . '		<div class="sharethis-inline-share-buttons"></div>';
 	

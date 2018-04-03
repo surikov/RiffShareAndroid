@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.12');
+console.log('riffshareflat v1.0.13');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -363,7 +363,7 @@ RiffShareFlat.prototype.saveCopyStorageState = function (fullState) {
 };
 RiffShareFlat.prototype.loadStorageState = function () {
 	console.log('loadStorageState');
-	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
+	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220, 240]);
 	this.bgMode = 1*sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
 	console.log('bgMode',this.bgMode);
 	this.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
@@ -1707,12 +1707,12 @@ RiffShareFlat.prototype.tileTempo = function (left, top, width, height) {
 	var w = this.tapSize * 12;
 	var h = this.tapSize * 8;
 	var g = this.rakeGroup(x, y, w, h, 'tmpo', this.textGroup, left, top, width, height);
-	var cw = 11 / 8;
+	var cw = 11 / 9;
 	if (g) {
 		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * 11, this.tapSize * 0.9, modeDrumShadow(this.bgMode));
 		this.tileRectangle(g, x, y + this.tapSize * 0, this.tapSize * cw * (this.tempo - 60) / 20, this.tapSize * 0.9, modeDrumColor(this.bgMode));
 		this.tileText(g, x - this.tapSize * 5.5, y + this.tapSize * 0.75, this.tapSize, 'Tempo ' + this.tempo + ' bpm', modeDrumColor(this.bgMode));
-		for (var i = 0; i < 8; i++) {
+		for (var i = 0; i < 9; i++) {
 			var s = this.addSpot('tempo' + i, x + this.tapSize * cw * i, y, this.tapSize * cw, this.tapSize, function () {
 					riffshareflat.userActionTempo(this.tempo);
 				});
