@@ -114,6 +114,17 @@ function trackColor($nn){
 	if($nn==0){return array(255,0,0);}
 	return array(127,127,127);
 }
+function trackTitle($nn){
+	if($nn==7){return 'Synth Bass';}
+	if($nn==6){return 'String Ensemble';}
+	if($nn==5){return 'Bass guitar';}
+	if($nn==4){return 'Acoustic Piano';}
+	if($nn==3){return 'PalmMute guitar';}
+	if($nn==2){return 'Percussive Organ';}
+	if($nn==1){return 'Acoustic guitar';}
+	if($nn==0){return 'Distortion guitar';}
+	return 'Wave';
+}
 function drumTitle($nn){
 	if($nn==7){return 'Splash Cymbal';};
 	if($nn==6){return 'Ride Cymbal';}
@@ -165,6 +176,8 @@ function pitchName($pitch) {
 	return '' . $t;
 }
 try {
+	$description='Open my song in online sequencer';
+	$comma='';
     $riff = htmlspecialchars($_GET["riff"]);
 	$top = 7-1*$_GET["top"];
 	$mode = 1*$_GET["mode"];
@@ -219,8 +232,8 @@ try {
 	if($len * 16 * $mltpl>1200){
 		$mltpl=round(1200/($len * 16));
 	}
-	if($mltpl<12){
-		$mltpl=12;
+	if($mltpl<14){
+		$mltpl=14;
 	}
 	if($mltpl%2>0){
 		$mltpl=$mltpl-1;
@@ -274,6 +287,8 @@ try {
 					$pimage->drawText(0.5 * $mltpl, $hh-$i*$mltpl, "drum".$i, array("R" => 0, "G" => 99, "B" => 55));
 				}
 			}*/
+			$description='Drums';
+			$comma=', ';
 			for ($xx = 0; $xx < $ww; $xx = $xx + $mltpl * 2) {
 				for ($d = 0; $d < $drCount; $d++) {
 					$odd = $d % 2;
@@ -310,6 +325,8 @@ try {
 			$yy=($maxPitch - $i*12+1) * $mltpl;
 			$pimage->drawFilledRectangle(0, $yy, $ww, $yy+0.1*$mltpl, array("R" => 127, "G" => 127, "B" => 127, "Alpha" => 10));
 		}
+		
+		
 		$pimage->setFontProperties(array("FontName" => "pChart2.1.4/fonts/Forgotte.ttf", "FontSize" => round($mltpl*0.6)));
 		for ($i = 0; $i < count($tracks); $i++) {
 			if($tracks[$i][1]!=$top){
@@ -333,6 +350,17 @@ try {
 				$c=trackColor( $tracks[$i][1]);
 				drawLine($pimage, $x1,$y1, $x2, $y2, $mltpl , $c[0],$c[1], $c[2]);
 				$pimage->drawText($x1-$mltpl*0.2,$y1+$mltpl*0.3, pitchName($tracks[$i][3]), array("R" => 255, "G" => 255, "B" => 255));
+			}
+		}
+		
+		$insUses = array(false, false, false, false, false, false, false, false);
+		for ($i = 0; $i < count($tracks); $i++) {
+			$insUses[$tracks[$i][1]] = true;
+		}
+		for ($i = 0; $i < 8; $i++) {
+			if($insUses[$i]){
+				$description=$description.$comma.trackTitle($i);
+				$comma=', ';
 			}
 		}
 	}
@@ -361,15 +389,15 @@ try {
 	$html=$html . "\r\n" . '		<meta charset="UTF-8">';
 	
 	$html=$html . "\r\n" . '		<meta name="twitter:card" content="summary_large_image" />';
-	$html=$html . "\r\n" . '		<meta name="twitter:title" content="My RiffShare song" />';
-	$html=$html . "\r\n" . '		<meta name="twitter:description" content="Open my song in online sequencer." />';
+	$html=$html . "\r\n" . '		<meta name="twitter:title" content="RiffShare song" />';
+	$html=$html . "\r\n" . '		<meta name="twitter:description" content="'.$description.'" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:site" content="@sssurikov" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:creator" content="@sssurikov" />';
 	$html=$html . "\r\n" . '		<meta name="twitter:image" content="http://molgav.nn.ru/share/'.$fileName.'.png">';
 	
 	$html=$html . "\r\n" . '		<meta property="og:url" content="http://molgav.nn.ru/share/'.$fileName.'.html" />';
 	$html=$html . "\r\n" . '		<meta property="og:title" content="My RiffShare song" />';
-	$html=$html . "\r\n" . '		<meta property="og:description" content="Open my song in online sequencer." />';
+	$html=$html . "\r\n" . '		<meta property="og:description" content="'.$description.'" />';
 	$html=$html . "\r\n" . '		<meta property="og:site_name" content="molgav.nn.ru" />';
 	$html=$html . "\r\n" . '		<meta property="og:type" content="article" />';
 	$html=$html . "\r\n" . '		<meta property="og:image" content="http://molgav.nn.ru/share/'.$fileName.'.png" />';
@@ -392,14 +420,14 @@ try {
 	$html=$html . "\r\n" . '				color: '.$linkColor.';';
 	$html=$html . "\r\n" . '			} ';
 	$html=$html . "\r\n" . '			img {';
-	$html=$html . "\r\n" . '				width: 7.5cm;';
+	$html=$html . "\r\n" . '				width: 80%;';
 	$html=$html . "\r\n" . '			} ';
 	$html=$html . "\r\n" . '		</style>';
 	$html=$html . "\r\n" . '    </head>';
 	$html=$html . "\r\n" . '    <body>';
 	$html=$html . "\r\n" . "		<p><a href='https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" . $riff . "'>Open in editor</a></p>";
 	$html=$html . "\r\n" . "		<p><img src='".$fileName.".png' /></p>";
-	$html=$html . "\r\n" . "		<p>v1.15.".$mltpl."</p>";
+	$html=$html . "\r\n" . "		<p>v1.18.".$mltpl."</p>";
 	
 	$html=$html . "\r\n" . '		<div class="sharethis-inline-share-buttons"></div>';
 	
