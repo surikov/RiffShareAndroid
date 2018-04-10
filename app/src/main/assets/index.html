@@ -38,7 +38,7 @@
 				height:100%;
 			}
 			a {
-				color: #f00;
+				color: #666;
 				text-decoration: none;
 			}
 			.undob {
@@ -63,6 +63,17 @@
 				margin-right:5px;
 				margin-bottom:5px;
 			}
+			.menub {
+				position:absolute;
+				top:20px;
+				right:0px;
+				width:10px;
+				height:10px;
+				margin-left:5px;
+				margin-top:5px;
+				margin-right:5px;
+				margin-bottom:5px;
+			}
 			@font-face {
 			  font-family: 'Yesteryear';
 			  font-style: normal;
@@ -76,6 +87,85 @@
 			  font-weight: 400;
 			  src: local('Gidugu'), url(gidugu.woff2) format('woff2');
 			  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+			}
+			.mainmenu {
+				height: 100%;
+				width: 0;
+				position: fixed;
+				z-index: 1;
+				top: 0;
+				right: 0;
+				background-color: #eef;
+				overflow-x: hidden;
+				overflow-y: auto;
+				transition: 0.5s;
+				margin: 0px;
+				padding:0px;
+				box-shadow: 0px 0px 0.3cm grey;
+				font-size: 0.75cm;
+			}
+			.menucontent {
+				margin: 0px;
+				padding:0px;
+				border-left-style1: solid;
+				border-left-color1: #abc;
+				border-left-width1: 1px;
+			}
+			.menuheader {
+				border-bottom-style: solid;
+				border-bottom-width: 1px;
+				border-bottom-color:#abc;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				text-shadow2: 0 2px white;
+				font-size2: 1.5rem;
+				font-weight2: bold;
+				color2: #999999;
+				display2: flex;
+				justify-content2: center;
+				align-items2: center;
+			}
+			.menuelements {
+				margin-left: 0.2cm;
+				margin-right: 0.2cm;
+				padding:0px;
+			}
+			.buttonicon {
+				height: 1cm;
+				width:1cm;
+				vertical-align: middle;
+			}
+			.menubutton {
+				margin: 0;
+				padding-top:0.1cm;
+				border-bottom-style: solid;
+				border-bottom-width: 1px;
+				border-bottom-color:#abc;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+
+			}
+			.menubuttonHead {
+				margin: 0;
+				padding-top:0.1cm;
+			}
+			.menubuttonRow {
+				margin: 0;
+				padding-top:0.1cm;
+				font-size: 75%;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+			}
+			.menubuttonFoot {
+				margin: 0;
+				padding-top:0.1cm;
+				border-bottom-style: solid;
+				border-bottom-width: 1px;
+				border-bottom-color:#abc;
+				font-size: 75%;
 			}
 		</style>
 	</head>
@@ -105,7 +195,33 @@
 				</svg>
 			</div>
 		</div>
+		
 		<div id="undobutton" class="undob" onclick='riffshareflat.undoLast();'><img id="undoimg" src='undo.png' width='100%' height='100%' /></div>
 		<div id="redobutton" class="redob" onclick='riffshareflat.redoNext();'><img id="redoimg" src='redo.png' width='100%' height='100%' /></div>
+		<!--<div id='menubutton' class='menub' onclick='riffshareflat.openMenu();'><img id='menuimg' src='setting.png' width='100%' height='100%' /></div>-->
+		<div id='menuDiv' class='mainmenu'>
+			<div class='menucontent' id='subDivMenu'>
+				<div class='menuheader'>
+					<a href='javascript:void(0)' id='closeMenuB' onclick='riffshareflat.closeMenu();'><img class='buttonicon' src='right.png' /><span id='menuTitle'>Instruments and drums</span></a>
+				</div>
+				<div class='menuelements' id='menuitems'>
+					<div id='channel1' class='menubuttonRow'>1gnsgndrgb nrsn </div>
+					<div id='channel2' class='menubuttonRow'>2stgn drmnj dy</div>
+					<div id='channel3' class='menubuttonRow'>3dsrtyj dym</div>
+					<div id='channel4' class='menubuttonRow'>4dymnj drymg </div>
+					<div id='channel5' class='menubuttonRow'>5xd jdrgfmn </div>
+					<div id='channel6' class='menubuttonRow'>6xdrftgnj drtgfn </div>
+					<div id='channel7' class='menubuttonRow'>7xsdtgn dfgn</div>
+					<div id='channel8' class='menubuttonRow'>8xftgj xtygn </div>
+					<div id='allVolumes' class='menubuttonRow'>Drums</div>					
+					<div id='feelLabel' class='menubuttonRow'>feel</div>
+					<div id='tpnLabel' class='menubuttonRow'>tpn</div>
+					<div id='breaksLabel' class='menubuttonRow'>tpn</div>
+					<div id='clearSongB' class='menubuttonRow'>Clear song</div>
+					<div id='importSongB' class='menubuttonRow'>Merge MusicXML</div>
+					<div id='panelsMode' class='menubuttonRow'>Panels</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

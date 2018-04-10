@@ -364,8 +364,8 @@ RiffShareFlat.prototype.saveCopyStorageState = function (fullState) {
 RiffShareFlat.prototype.loadStorageState = function () {
 	console.log('loadStorageState');
 	this.tempo = sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220, 240]);
-	this.bgMode = 1*sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
-	console.log('bgMode',this.bgMode);
+	this.bgMode = 1 * sureInList(readTextFromlocalStorage('bgMode'), 0, [0, 1, 2]);
+	console.log('bgMode', this.bgMode);
 	this.storeDrums = sureArray(readObjectFromlocalStorage('storeDrums'), []);
 	this.storeTracks = sureArray(readObjectFromlocalStorage('storeTracks'), []);
 	this.drumVolumes = [];
@@ -1132,8 +1132,14 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 		var hit = this.storeDrums[i];
 		if (hit.beat >= startBeat && hit.beat <= endBeat) {
 			var channel = this.drumInfo[hit.drum];
+			var zones=channel.sound;
+			if(channel.info){
+				zones=window[channel.info.variable];
+				//console.log(channel.sound,channel.info,channel.info.variable,zones);
+			}
 			var r = 1.0 - Math.random() * 0.2;
-			this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (hit.beat - startBeat), channel.pitch, channel.length, r * channel.volumeRatio);
+			//this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (hit.beat - startBeat), channel.pitch, channel.length, r * channel.volumeRatio);
+			this.player.queueWaveTable(this.audioContext, channel.audioNode, zones, when + beatLen * (hit.beat - startBeat), channel.pitch, channel.length, r * channel.volumeRatio);
 		}
 	}
 	var notes = [];
@@ -1161,13 +1167,19 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			inChordCount = 0;
 		}
 		var channel = this.trackInfo[7 - note.track];
+		var zones=channel.sound;
+			if(channel.info){
+				zones=window[channel.info.variable];
+				//console.log(channel.sound,channel.info,channel.info.variable,zones);
+			}
 		var shift = [{
 				when: note.length * beatLen,
 				pitch: note.shift + channel.octave * 12 + note.pitch
 			}
 		];
 		var r = 0.6 - Math.random() * 0.2;
-		this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, 0.075 + note.length * beatLen, r * channel.volumeRatio, shift);
+		//this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, 0.075 + note.length * beatLen, r * channel.volumeRatio, shift);
+		this.player.queueWaveTable(this.audioContext, channel.audioNode, zones, when + beatLen * (note.beat - startBeat) + inChordCount * channel.inChordDelay, channel.octave * 12 + note.pitch, 0.075 + note.length * beatLen, r * channel.volumeRatio, shift);
 		inChordCount++;
 	}
 };
@@ -1720,6 +1732,15 @@ RiffShareFlat.prototype.tileTempo = function (left, top, width, height) {
 		}
 	}
 };
+RiffShareFlat.prototype.findTrackNum = function (order) {
+	//console.log(this.trackInfo);
+	for (var i = 0; i < 8; i++) {
+		if (this.trackInfo[i].order == order) {
+			return i;
+		}
+	}
+	return -1;
+};
 RiffShareFlat.prototype.findTrackInfo = function (order) {
 	//console.log(this.trackInfo);
 	for (var i = 0; i < 8; i++) {
@@ -1757,6 +1778,7 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 	var h = this.tapSize * 8;
 	var g = this.rakeGroup(x, y, w, h, 'tnvlm', this.linesGroup, left, top, width, height);
 	var sk = 0;
+	var me = this;
 	if (g) {
 		for (var i = 0; i < 8; i++) {
 			var track = this.findTrackInfo(i);
@@ -1764,14 +1786,15 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				sk = 2;
 				//this.tileRectangle(g, x + this.tapSize * (0 + 6), y + this.tapSize * (i + sk), this.tapSize * 11, this.tapSize * 0.9, 'rgba(255,255,255,0.3)');
 				this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * (i + sk), this.tapSize * (1 + track.volume / 10), this.tapSize * 0.9, track.color);
-				this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5 + sk), this.tapSize * 0.5, modeDrumShadow(this.bgMode));
+				//this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5 + sk), this.tapSize * 0.5, modeDrumShadow(this.bgMode));
 				var s = this.addSpot('up' + i, x + this.tapSize * 0.0, y + this.tapSize * (i + 0.2 + sk), this.tapSize * 17, this.tapSize * 1, function () {
 						riffshareflat.userActionUpTrack(this.order);
 					});
 				s.order = i;
 				//console.log(track,this.trackInfo[i].sound.zones[0].buffer);
 				//if (this.trackInfo[i].sound.zones[0].buffer) {
-				this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				//console.log(i,me.findTrackNum(i));
+				this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, me.findTrackTitle(me.findTrackNum(i)), track.color);
 				//}
 				/*for (var v = 0; v < 11; v++) {
 				var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
@@ -1789,7 +1812,7 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				});
 				s.order = i;*/
 				//if (this.trackInfo[i].sound.zones[0].buffer) {
-				this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, track.title, track.color);
+				this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75 + sk), this.tapSize * 1.0, me.findTrackTitle(me.findTrackNum(i)), track.color);
 				//}
 				for (var v = 0; v < 11; v++) {
 					var s = this.addSpot('volton' + i + 'x' + v, x + this.tapSize * (6 + v), y + this.tapSize * (i + sk), this.tapSize, this.tapSize, function () {
@@ -1800,6 +1823,10 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				}
 			}
 		}
+		this.addSpot('insUpReplaceSelect', x + this.tapSize * 0, y + this.tapSize * 0, this.tapSize * 2, this.tapSize * 1, function () {
+			//console.log('insUpReplaceSelect');
+			me.openMenuUpperInstrument();
+		});
 	}
 };
 RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
@@ -1808,6 +1835,7 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 	var w = this.tapSize * 12;
 	var h = this.tapSize * 8;
 	var g = this.rakeGroup(x, y, w, h, 'drvlm', this.textGroup, left, top, width, height);
+	var me = this;
 	if (g) {
 		for (var i = 0; i < 8; i++) {
 			this.tileRectangle(g, x + this.tapSize * 6, y + this.tapSize * i, this.tapSize * 11, this.tapSize * 0.9, modeDrumShadow(this.bgMode));
@@ -1824,7 +1852,13 @@ RiffShareFlat.prototype.tileDrumVolumes = function (left, top, width, height) {
 				s.volume = v * 10;
 			}
 			//if (this.drumInfo[i].sound.zones[0].buffer) {
-			this.tileText(g, x + this.tapSize * 0.5, y + this.tapSize * (i + 0.75), this.tapSize, this.drumInfo[i].title, modeDrumColor(this.bgMode));
+			this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5), this.tapSize * 0.5, modeDrumShadow(this.bgMode));
+			this.tileText(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.75), this.tapSize, this.findDrumTitle(i), modeDrumColor(this.bgMode));
+			var s = this.addSpot('drumReplaceSelect' + i, x + this.tapSize * 0.0, y + this.tapSize * i, this.tapSize * 2, this.tapSize * 1, function () {
+					//console.log('drumReplaceSelect',this.order);
+					me.openMenuDrum(this.order);
+				});
+			s.order = i;
 			//}
 		}
 		/*
@@ -1972,13 +2006,155 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 		 || x1 > x2 + w2 //
 		 || y1 + h1 < y2 //
 		 || y1 > y2 + h2 //
-	)
-	{
+	) {
 		return false;
 	} else {
 		return true;
 
 	}
+};
+RiffShareFlat.prototype.openMenu = function () {
+	var o = document.getElementById('menuitems');
+	var html = '';
+	for (var i = 0; i < trackInfo.length; i++) {
+		html = html + "<div id='insLine" + i + "' class='menubuttonRow'>" + trackInfo[i].title + "</div>";
+	}
+	for (var i = 0; i < drumInfo.length; i++) {
+		html = html + "<div id='drmLine" + i + "' class='menubuttonRow'>" + drumInfo[i].title + "</div>";
+	}
+	o.innerHTML = html;
+	o.scrollTop = 0;
+	document.getElementById('menuDiv').style.width = '7cm';
+	document.getElementById('menuDiv').style.background = modeBackground(this.bgMode);
+	document.getElementById('menuDiv').style.color = modeDrumColor(this.bgMode);
+	for (var i = 0; i < trackInfo.length; i++) {
+		this.setMenuInsAction(i);
+	}
+	for (var i = 0; i < drumInfo.length; i++) {
+		this.setMenuDrumAction(i);
+	}
+};
+RiffShareFlat.prototype.setMenuInsAction = function (n) {
+	var me = this;
+	document.getElementById('insLine' + n).onclick = function (e) {
+		me.openMenuInstrument(n);
+	};
+}
+RiffShareFlat.prototype.setMenuDrumAction = function (n) {
+	var me = this;
+	document.getElementById('drmLine' + n).onclick = function (e) {
+		me.openMenuDrum(n);
+	};
+}
+RiffShareFlat.prototype.findTrackTitle = function (n) {
+	var title=trackInfo[n].title;
+	if(trackInfo[n].replacement){
+		title = ''+(trackInfo[n].replacement-1)+': '+trackInfo[n].info.title;
+	}
+	return title;
+};
+RiffShareFlat.prototype.findDrumTitle = function (n) {
+	var title=drumInfo[n].title;
+	if(drumInfo[n].replacement){
+		title = ''+(drumInfo[n].replacement-1)+': '+drumInfo[n].info.title;
+	}
+	return title;
+};
+RiffShareFlat.prototype.openMenuUpperInstrument = function () {
+	var me=this;
+	var n = 0;
+	for (var i = 0; i < this.trackInfo.length; i++) {
+		if (this.trackInfo[i].order == 0) {
+			n = i;
+			break;
+		}
+	}
+	document.getElementById('menuTitle').innerText = this.findTrackTitle(n);
+	/*console.log(trackInfo[n]);
+	if(trackInfo[n].replacement){
+		document.getElementById('menuTitle').innerText = ''+trackInfo[n].replacement+': '+trackInfo[n].info.title;
+	}else{
+		document.getElementById('menuTitle').innerText = trackInfo[n].title;
+	}*/
+	var o = document.getElementById('menuitems');
+	var html = '';
+	html = html + "<div id='insLineDefault' class='menubuttonRow'>Default</div>";
+	for (var i = 0; i < this.player.loader.instrumentKeys().length; i++) {
+		var info = this.player.loader.instrumentInfo(i);
+		html = html + "<div id='insSel" + i + "' class='menubuttonRow'>" + i + ': ' + info.title + "</div>";
+	}
+	o.innerHTML = html;
+	
+	document.getElementById('menuDiv').scrollTop = 0;
+	document.getElementById('menuDiv').style.width = '7cm';
+	document.getElementById('menuDiv').style.background = modeBackground(this.bgMode);
+	document.getElementById('menuDiv').style.color = modeDrumColor(this.bgMode);
+	for (var i = 0; i < this.player.loader.instrumentKeys().length; i++) {
+		this.setMenuInsSelect(n, i);
+	}
+	document.getElementById('insLineDefault').onclick = function (e) {
+		//trackInfo[n].replacement=0;
+		me.userActionReplaceIns(n, 0);
+		me.resetAllLayersNow();
+	};
+
+}
+RiffShareFlat.prototype.openMenuDrum = function (n) {
+	var me=this;
+	document.getElementById('menuTitle').innerText = this.findDrumTitle(n);
+	//console.log(drumInfo[n]);
+	/*if(drumInfo[n].replacement){
+		document.getElementById('menuTitle').innerText = ''+trackInfo[n].replacement+': '+drumInfo[n].info.title;
+	}else{
+		document.getElementById('menuTitle').innerText = drumInfo[n].title;
+	}*/
+	var o = document.getElementById('menuitems');
+	var html = '';
+	html = html + "<div id='drmLineDefault' class='menubuttonRow'>Default</div>";
+	for (var i = 0; i < this.player.loader.drumKeys().length; i++) {
+		var info = this.player.loader.drumInfo(i);
+		html = html + "<div id='drmSel" + i + "' class='menubuttonRow'>" + i + ': ' + info.title + "</div>";
+	}
+	o.innerHTML = html;
+	document.getElementById('menuDiv').scrollTop = 0;
+	document.getElementById('menuDiv').style.width = '7cm';
+	document.getElementById('menuDiv').style.background = modeBackground(this.bgMode);
+	document.getElementById('menuDiv').style.color = modeDrumColor(this.bgMode);
+	for (var i = 0; i < this.player.loader.drumKeys().length; i++) {
+		this.setMenuDrumSelect(n, i);
+	}
+	document.getElementById('drmLineDefault').onclick = function (e) {
+		//trackInfo[n].replacement=0;
+		me.userActionReplaceDrum(n, 0);
+		me.resetAllLayersNow();
+	};
+}
+RiffShareFlat.prototype.setMenuInsSelect = function (n, i) {
+	var me = this;
+	document.getElementById('insSel' + i).onclick = function (e) {
+		var info = me.player.loader.instrumentInfo(i);
+		me.player.loader.startLoad(me.audioContext, info.url, info.variable);
+		me.player.loader.waitLoad(function () {
+			//trackInfo[n].replacement=i+1;
+			me.userActionReplaceIns(n, i+1);
+			me.resetAllLayersNow();
+		});
+	};
+}
+RiffShareFlat.prototype.setMenuDrumSelect = function (n, i) {
+	var me = this;
+	document.getElementById('drmSel' + i).onclick = function (e) {
+		var info = me.player.loader.drumInfo(i);
+		me.player.loader.startLoad(me.audioContext, info.url, info.variable);
+		me.player.loader.waitLoad(function () {
+			//drumInfo[n].replacement=i+1;
+			me.userActionReplaceDrum(n, i + 1);
+			me.resetAllLayersNow();
+		});
+	};
+}
+RiffShareFlat.prototype.closeMenu = function () {
+	document.getElementById('menuDiv').style.width = '0cm';
 };
 RiffShareFlat.prototype.resetSize = function () {
 	this.innerWidth = (this.marginLeft + this.marginRight + 16 * 16) * this.tapSize;
@@ -1990,6 +2166,9 @@ RiffShareFlat.prototype.resetSize = function () {
 	document.getElementById('redobutton').style.width = this.tapSize + 'px';
 	document.getElementById('redobutton').style.height = this.tapSize + 'px';
 	document.getElementById('redobutton').style.top = (5 * 2 + this.tapSize) + 'px';
+	//document.getElementById('menubutton').style.width = this.tapSize + 'px';
+	//document.getElementById('menubutton').style.height = this.tapSize + 'px';
+	//document.getElementById('menubutton').style.top = (5 * 2 + 2*this.tapSize) + 'px';
 	this.adjustContentPosition();
 	this.queueTiles();
 };
@@ -2608,6 +2787,52 @@ RiffShareFlat.prototype.userActionChangeScheme = function (nn) {
 		},
 		redo: function () {
 			riffshareflat.setModeBackground(news)
+		}
+	});
+};
+RiffShareFlat.prototype.userActionReplaceDrum = function (drmNum, smplNum) {
+	var me = this;
+	var smplOld = drumInfo[drmNum].replacement;
+	riffshareflat.pushAction({
+		caption: 'Replace drum ' + smplNum,
+		undo: function () {
+			drumInfo[drmNum].replacement = smplOld;
+			if (smplOld) {
+				drumInfo[drmNum].info = me.player.loader.drumInfo(smplOld - 1);
+			} else {
+				drumInfo[drmNum].info = null;
+			}
+		},
+		redo: function () {
+			drumInfo[drmNum].replacement = smplNum;
+			if (smplNum) {
+				drumInfo[drmNum].info = me.player.loader.drumInfo(smplNum - 1);
+			} else {
+				drumInfo[drmNum].info = null;
+			}
+		}
+	});
+};
+RiffShareFlat.prototype.userActionReplaceIns = function (insNum, smplNum) {
+	var me = this;
+	var smplOld = trackInfo[insNum].replacement;
+	riffshareflat.pushAction({
+		caption: 'Replace instrument ' + smplNum,
+		undo: function () {
+			trackInfo[insNum].replacement = smplOld;
+			if (smplOld) {
+				trackInfo[insNum].info = me.player.loader.instrumentInfo(smplOld - 1);
+			} else {
+				trackInfo[insNum].info = null;
+			}
+		},
+		redo: function () {
+			trackInfo[insNum].replacement = smplNum;
+			if (smplNum) {
+				trackInfo[insNum].info = me.player.loader.instrumentInfo(smplNum - 1);
+			} else {
+				trackInfo[insNum].info = null;
+			}
 		}
 	});
 };

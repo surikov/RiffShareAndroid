@@ -5,28 +5,28 @@ var drumInfo = [{
 		title: 'Bass drum',
 		id: 0,
 		volumeRatio: 0.95,
-		length: 0.15
+		length: 0.3
 	}, {
 		sound: _drum_41_26_JCLive_sf2_file,
 		pitch: 41, //43
 		title: 'Low Tom',
 		id: 1,
 		volumeRatio: 0.5,
-		length: 0.15
+		length: 0.3
 	}, {
 		sound: _drum_38_22_FluidR3_GM_sf2_file,
 		pitch: 38, //40
 		title: 'Snare drum',
 		id: 2,
 		volumeRatio: 1.0,
-		length: 0.15
+		length: 0.3
 	}, {
 		sound: _drum_45_26_JCLive_sf2_file,
 		pitch: 45, //47,48,50
 		title: 'Mid Tom',
 		id: 3,
 		volumeRatio: 0.75,
-		length: 0.15
+		length: 0.3
 	}, {
 		sound: _drum_42_26_JCLive_sf2_file,
 		pitch: 42, //44
