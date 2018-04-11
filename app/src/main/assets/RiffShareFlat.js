@@ -1132,9 +1132,9 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 		var hit = this.storeDrums[i];
 		if (hit.beat >= startBeat && hit.beat <= endBeat) {
 			var channel = this.drumInfo[hit.drum];
-			var zones=channel.sound;
-			if(channel.info){
-				zones=window[channel.info.variable];
+			var zones = channel.sound;
+			if (channel.info) {
+				zones = window[channel.info.variable];
 				//console.log(channel.sound,channel.info,channel.info.variable,zones);
 			}
 			var r = 1.0 - Math.random() * 0.2;
@@ -1167,11 +1167,11 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 			inChordCount = 0;
 		}
 		var channel = this.trackInfo[7 - note.track];
-		var zones=channel.sound;
-			if(channel.info){
-				zones=window[channel.info.variable];
-				//console.log(channel.sound,channel.info,channel.info.variable,zones);
-			}
+		var zones = channel.sound;
+		if (channel.info) {
+			zones = window[channel.info.variable];
+			//console.log(channel.sound,channel.info,channel.info.variable,zones);
+		}
 		var shift = [{
 				when: note.length * beatLen,
 				pitch: note.shift + channel.octave * 12 + note.pitch
@@ -1789,6 +1789,7 @@ RiffShareFlat.prototype.tileToneVolumes = function (left, top, width, height) {
 				//this.tileCircle(g, x + this.tapSize * 1, y + this.tapSize * (i + 0.5 + sk), this.tapSize * 0.5, modeDrumShadow(this.bgMode));
 				var s = this.addSpot('up' + i, x + this.tapSize * 0.0, y + this.tapSize * (i + 0.2 + sk), this.tapSize * 17, this.tapSize * 1, function () {
 						riffshareflat.userActionUpTrack(this.order);
+						riffshareflat.closeMenuIns();
 					});
 				s.order = i;
 				//console.log(track,this.trackInfo[i].sound.zones[0].buffer);
@@ -2006,155 +2007,170 @@ RiffShareFlat.prototype.collision = function (x1, y1, w1, h1, x2, y2, w2, h2) {
 		 || x1 > x2 + w2 //
 		 || y1 + h1 < y2 //
 		 || y1 > y2 + h2 //
-	) {
+	)
+	{
 		return false;
 	} else {
 		return true;
 
 	}
 };
+/*
 RiffShareFlat.prototype.openMenu = function () {
-	var o = document.getElementById('menuitems');
-	var html = '';
-	for (var i = 0; i < trackInfo.length; i++) {
-		html = html + "<div id='insLine" + i + "' class='menubuttonRow'>" + trackInfo[i].title + "</div>";
-	}
-	for (var i = 0; i < drumInfo.length; i++) {
-		html = html + "<div id='drmLine" + i + "' class='menubuttonRow'>" + drumInfo[i].title + "</div>";
-	}
-	o.innerHTML = html;
-	o.scrollTop = 0;
-	document.getElementById('menuDiv').style.width = '7cm';
-	document.getElementById('menuDiv').style.background = modeBackground(this.bgMode);
-	document.getElementById('menuDiv').style.color = modeDrumColor(this.bgMode);
-	for (var i = 0; i < trackInfo.length; i++) {
-		this.setMenuInsAction(i);
-	}
-	for (var i = 0; i < drumInfo.length; i++) {
-		this.setMenuDrumAction(i);
-	}
+var o = document.getElementById('menuitems');
+var html = '';
+for (var i = 0; i < trackInfo.length; i++) {
+html = html + "<div id='insLine" + i + "' class='menubuttonRow'>" + trackInfo[i].title + "</div>";
+}
+for (var i = 0; i < drumInfo.length; i++) {
+html = html + "<div id='drmLine" + i + "' class='menubuttonRow'>" + drumInfo[i].title + "</div>";
+}
+o.innerHTML = html;
+o.scrollTop = 0;
+document.getElementById('menuDiv').style.width = '7cm';
+document.getElementById('menuDiv').style.background = modeBackground(this.bgMode);
+document.getElementById('menuDiv').style.color = modeDrumColor(this.bgMode);
+for (var i = 0; i < trackInfo.length; i++) {
+this.setMenuInsAction(i);
+}
+for (var i = 0; i < drumInfo.length; i++) {
+this.setMenuDrumAction(i);
+}
 };
 RiffShareFlat.prototype.setMenuInsAction = function (n) {
-	var me = this;
-	document.getElementById('insLine' + n).onclick = function (e) {
-		me.openMenuInstrument(n);
-	};
+var me = this;
+document.getElementById('insLine' + n).onclick = function (e) {
+me.openMenuInstrument(n);
+};
 }
 RiffShareFlat.prototype.setMenuDrumAction = function (n) {
-	var me = this;
-	document.getElementById('drmLine' + n).onclick = function (e) {
-		me.openMenuDrum(n);
-	};
-}
+var me = this;
+document.getElementById('drmLine' + n).onclick = function (e) {
+me.openMenuDrum(n);
+};
+}*/
 RiffShareFlat.prototype.findTrackTitle = function (n) {
-	var title=trackInfo[n].title;
-	if(trackInfo[n].replacement){
-		title = ''+(trackInfo[n].replacement-1)+': '+trackInfo[n].info.title;
+	var title = trackInfo[n].title;
+	if (trackInfo[n].replacement) {
+		title = '' + (trackInfo[n].replacement - 1) + ': ' + trackInfo[n].info.title;
 	}
 	return title;
 };
 RiffShareFlat.prototype.findDrumTitle = function (n) {
-	var title=drumInfo[n].title;
-	if(drumInfo[n].replacement){
-		title = ''+(drumInfo[n].replacement-1)+': '+drumInfo[n].info.title;
+	var title = drumInfo[n].title;
+	if (drumInfo[n].replacement) {
+		title = '' + (drumInfo[n].replacement - 1) + ': ' + drumInfo[n].info.title;
 	}
 	return title;
 };
+var menuInstrumentLibFilled = false;
+var menuInstrumentLibKey = 0;
 RiffShareFlat.prototype.openMenuUpperInstrument = function () {
-	var me=this;
-	var n = 0;
+	var me = this;
+	this.closeMenuDrum();
 	for (var i = 0; i < this.trackInfo.length; i++) {
 		if (this.trackInfo[i].order == 0) {
-			n = i;
+			menuInstrumentLibKey = i;
 			break;
 		}
 	}
-	document.getElementById('menuTitle').innerText = this.findTrackTitle(n);
-	/*console.log(trackInfo[n]);
-	if(trackInfo[n].replacement){
-		document.getElementById('menuTitle').innerText = ''+trackInfo[n].replacement+': '+trackInfo[n].info.title;
-	}else{
-		document.getElementById('menuTitle').innerText = trackInfo[n].title;
-	}*/
-	var o = document.getElementById('menuitems');
-	var html = '';
-	html = html + "<div id='insLineDefault' class='menubuttonRow'>Default</div>";
-	for (var i = 0; i < this.player.loader.instrumentKeys().length; i++) {
-		var info = this.player.loader.instrumentInfo(i);
-		html = html + "<div id='insSel" + i + "' class='menubuttonRow'>" + i + ': ' + info.title + "</div>";
-	}
-	o.innerHTML = html;
-	
-	document.getElementById('menuDiv').scrollTop = 0;
-	document.getElementById('menuDiv').style.width = '7cm';
-	document.getElementById('menuDiv').style.background = modeBackground(this.bgMode);
-	document.getElementById('menuDiv').style.color = modeDrumColor(this.bgMode);
-	for (var i = 0; i < this.player.loader.instrumentKeys().length; i++) {
-		this.setMenuInsSelect(n, i);
-	}
-	document.getElementById('insLineDefault').onclick = function (e) {
-		//trackInfo[n].replacement=0;
-		me.userActionReplaceIns(n, 0);
-		me.resetAllLayersNow();
-	};
+	document.getElementById('menuTitle1').innerText = this.findTrackTitle(menuInstrumentLibKey);
+	if (menuInstrumentLibFilled) {
+		console.log('skip ins chooser');
+	} else {
+		console.log('create ins chooser');
+		var o = document.getElementById('menuitems1');
+		var html = '';
+		html = html + "<div id='insLineDefault' class='menubuttonRow'>Default</div>";
+		for (var i = 0; i < this.player.loader.instrumentKeys().length; i++) {
+			var info = this.player.loader.instrumentInfo(i);
+			html = html + "<div id='insSel" + i + "' class='menubuttonRow'>" + i + ': ' + info.title + "</div>";
+		}
+		html = html + "<div class='menubuttonRow'>&nbsp;</div>";
+		html = html + "<div class='menubuttonRow'>&nbsp;</div>";
+		html = html + "<div class='menubuttonRow'>&nbsp;</div>";
+		o.innerHTML = html;
 
-}
-RiffShareFlat.prototype.openMenuDrum = function (n) {
-	var me=this;
-	document.getElementById('menuTitle').innerText = this.findDrumTitle(n);
-	//console.log(drumInfo[n]);
-	/*if(drumInfo[n].replacement){
-		document.getElementById('menuTitle').innerText = ''+trackInfo[n].replacement+': '+drumInfo[n].info.title;
-	}else{
-		document.getElementById('menuTitle').innerText = drumInfo[n].title;
-	}*/
-	var o = document.getElementById('menuitems');
-	var html = '';
-	html = html + "<div id='drmLineDefault' class='menubuttonRow'>Default</div>";
-	for (var i = 0; i < this.player.loader.drumKeys().length; i++) {
-		var info = this.player.loader.drumInfo(i);
-		html = html + "<div id='drmSel" + i + "' class='menubuttonRow'>" + i + ': ' + info.title + "</div>";
+		for (var i = 0; i < this.player.loader.instrumentKeys().length; i++) {
+			this.setMenuInsSelect(i);
+		}
+		document.getElementById('insLineDefault').onclick = function (e) {
+			me.closeMenuIns();
+			me.userActionReplaceIns(menuInstrumentLibKey, 0);
+			me.resetAllLayersNow();
+		};
+		menuInstrumentLibFilled = true;
 	}
-	o.innerHTML = html;
-	document.getElementById('menuDiv').scrollTop = 0;
-	document.getElementById('menuDiv').style.width = '7cm';
-	document.getElementById('menuDiv').style.background = modeBackground(this.bgMode);
-	document.getElementById('menuDiv').style.color = modeDrumColor(this.bgMode);
-	for (var i = 0; i < this.player.loader.drumKeys().length; i++) {
-		this.setMenuDrumSelect(n, i);
-	}
-	document.getElementById('drmLineDefault').onclick = function (e) {
-		//trackInfo[n].replacement=0;
-		me.userActionReplaceDrum(n, 0);
-		me.resetAllLayersNow();
-	};
+	document.getElementById('menuDiv1').style.width = '7cm';
+	document.getElementById('menuDiv1').style.background = modeBackground(this.bgMode);
+	document.getElementById('menuDiv1').style.color = modeDrumColor(this.bgMode);
 }
-RiffShareFlat.prototype.setMenuInsSelect = function (n, i) {
+var menuDrumLibFilled = false;
+var menuDrumLibKey = 0;
+RiffShareFlat.prototype.openMenuDrum = function (ndrum) {
 	var me = this;
-	document.getElementById('insSel' + i).onclick = function (e) {
-		var info = me.player.loader.instrumentInfo(i);
+	this.closeMenuIns();
+	menuDrumLibKey = ndrum;
+	document.getElementById('menuTitle2').innerText = this.findDrumTitle(menuDrumLibKey);
+	if (menuDrumLibFilled) {
+		console.log('skip ins chooser');
+	} else {
+		var o = document.getElementById('menuitems2');
+		var html = '';
+		html = html + "<div id='drmLineDefault' class='menubuttonRow'>Default</div>";
+		for (var i = 0; i < this.player.loader.drumKeys().length; i++) {
+			var info = this.player.loader.drumInfo(i);
+			html = html + "<div id='drmSel" + i + "' class='menubuttonRow'>" + i + ': ' + info.title + "</div>";
+		}
+		html = html + "<div class='menubuttonRow'>&nbsp;</div>";
+		html = html + "<div class='menubuttonRow'>&nbsp;</div>";
+		html = html + "<div class='menubuttonRow'>&nbsp;</div>";
+		o.innerHTML = html;
+		
+		for (var i = 0; i < this.player.loader.drumKeys().length; i++) {
+			this.setMenuDrumSelect(i);
+		}
+		document.getElementById('drmLineDefault').onclick = function (e) {
+			me.closeMenuDrum();
+			me.userActionReplaceDrum(menuDrumLibKey, 0);
+			me.resetAllLayersNow();
+		};
+		menuDrumLibFilled = true;
+	}
+	document.getElementById('menuDiv2').style.width = '7cm';
+		document.getElementById('menuDiv2').style.background = modeBackground(this.bgMode);
+		document.getElementById('menuDiv2').style.color = modeDrumColor(this.bgMode);
+}
+RiffShareFlat.prototype.setMenuInsSelect = function (inskey) {
+	var me = this;
+	document.getElementById('insSel' + inskey).onclick = function (e) {
+		var info = me.player.loader.instrumentInfo(inskey);
 		me.player.loader.startLoad(me.audioContext, info.url, info.variable);
 		me.player.loader.waitLoad(function () {
-			//trackInfo[n].replacement=i+1;
-			me.userActionReplaceIns(n, i+1);
+			me.closeMenuIns();
+			me.userActionReplaceIns(menuInstrumentLibKey, inskey + 1);
 			me.resetAllLayersNow();
 		});
 	};
 }
-RiffShareFlat.prototype.setMenuDrumSelect = function (n, i) {
+RiffShareFlat.prototype.setMenuDrumSelect = function ( i) {
 	var me = this;
 	document.getElementById('drmSel' + i).onclick = function (e) {
 		var info = me.player.loader.drumInfo(i);
 		me.player.loader.startLoad(me.audioContext, info.url, info.variable);
 		me.player.loader.waitLoad(function () {
-			//drumInfo[n].replacement=i+1;
-			me.userActionReplaceDrum(n, i + 1);
+			me.closeMenuDrum();
+			me.userActionReplaceDrum(menuDrumLibKey, i + 1);
 			me.resetAllLayersNow();
 		});
 	};
 }
-RiffShareFlat.prototype.closeMenu = function () {
-	document.getElementById('menuDiv').style.width = '0cm';
+RiffShareFlat.prototype.closeMenuIns = function () {
+
+	document.getElementById('menuDiv1').style.width = '0cm';
+};
+RiffShareFlat.prototype.closeMenuDrum = function () {
+	document.getElementById('menuDiv2').style.width = '0cm';
 };
 RiffShareFlat.prototype.resetSize = function () {
 	this.innerWidth = (this.marginLeft + this.marginRight + 16 * 16) * this.tapSize;
