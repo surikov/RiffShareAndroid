@@ -316,6 +316,10 @@ function decodeState(encoded) {
 				pitch: pitch
 			});
 		}
+		for(var i=0;i<8;i++){
+				saveText2localStorage('reDrum'+i, '0');
+				saveText2localStorage('reTrack'+i, '0');
+			}
 		if(strings[6]){
 			for(var i=0;i<8;i++){
 				var r = parseInt(strings[6].substring(i * 3, i * 3 + 3), 16);
