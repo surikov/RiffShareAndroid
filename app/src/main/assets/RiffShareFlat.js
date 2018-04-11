@@ -371,7 +371,20 @@ RiffShareFlat.prototype.loadStorageState = function () {
 	this.drumVolumes = [];
 	for (var i = 0; i < 8; i++) {
 		this.drumVolumes.push(sureNumeric(readObjectFromlocalStorage('drum' + i), 0, 70, 100));
+		this.drumInfo[i].replacement=sureNumeric(readObjectFromlocalStorage('reDrum' + i));
+		if(this.drumInfo[i].replacement){
+			var info = this.player.loader.drumInfo(this.drumInfo[i].replacement-1);
+			this.player.loader.startLoad(this.audioContext, info.url, info.variable);
+			this.drumInfo[i].info=info;
+		}
+		this.trackInfo[7 - i].replacement=sureNumeric(readObjectFromlocalStorage('reTrack' + i));
+		if(this.trackInfo[7 - i].replacement){
+			var info = this.player.loader.instrumentInfo(this.trackInfo[7-i].replacement-1);
+			this.player.loader.startLoad(this.audioContext, info.url, info.variable);
+			this.trackInfo[7-i].info=info;
+		}
 	}
+	console.log(this.trackInfo,this.drumInfo);
 	this.equalizer = [];
 	for (var i = 0; i < 10; i++) {
 		this.equalizer.push(sureNumeric(readObjectFromlocalStorage('equalizer' + i), -10, 0, 10));
@@ -441,8 +454,10 @@ RiffShareFlat.prototype.saveState = function () {
 	for (var i = 0; i < 8; i++) {
 		saveText2localStorage('drum' + i, '' + this.drumVolumes[i]);
 		saveText2localStorage('track' + i, '' + this.trackInfo[7 - i].volume);
-		fullState['drum' + i] = '' + this.drumVolumes[i];
+		fullState['drum' + i] = '' + this.drumVolumes[i];		
 		fullState['track' + i] = '' + this.trackInfo[7 - i].volume;
+		saveText2localStorage('reDrum' + i, '' + this.drumInfo[i].replacement);
+		saveText2localStorage('reTrack' + i, '' + this.trackInfo[7 - i].replacement);
 	}
 	for (var i = 0; i < 10; i++) {
 		saveText2localStorage('equalizer' + i, '' + this.equalizer[i]);
@@ -1133,7 +1148,7 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 		if (hit.beat >= startBeat && hit.beat <= endBeat) {
 			var channel = this.drumInfo[hit.drum];
 			var zones = channel.sound;
-			if (channel.info) {
+			if (channel.info && window[channel.info.variable]) {
 				zones = window[channel.info.variable];
 				//console.log(channel.sound,channel.info,channel.info.variable,zones);
 			}
@@ -1168,7 +1183,7 @@ RiffShareFlat.prototype.sendNextBeats = function (when, startBeat, endBeat) {
 		}
 		var channel = this.trackInfo[7 - note.track];
 		var zones = channel.sound;
-		if (channel.info) {
+		if (channel.info && window[channel.info.variable]) {
 			zones = window[channel.info.variable];
 			//console.log(channel.sound,channel.info,channel.info.variable,zones);
 		}
@@ -2052,7 +2067,9 @@ me.openMenuDrum(n);
 RiffShareFlat.prototype.findTrackTitle = function (n) {
 	var title = trackInfo[n].title;
 	if (trackInfo[n].replacement) {
-		title = '' + (trackInfo[n].replacement - 1) + ': ' + trackInfo[n].info.title;
+		if(trackInfo[n].info){
+			title = '' + (trackInfo[n].replacement - 1) + ': ' + trackInfo[n].info.title;
+		}
 	}
 	return title;
 };
