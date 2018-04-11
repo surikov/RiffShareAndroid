@@ -371,13 +371,13 @@ RiffShareFlat.prototype.loadStorageState = function () {
 	this.drumVolumes = [];
 	for (var i = 0; i < 8; i++) {
 		this.drumVolumes.push(sureNumeric(readObjectFromlocalStorage('drum' + i), 0, 70, 100));
-		this.drumInfo[i].replacement=sureNumeric(readObjectFromlocalStorage('reDrum' + i));
+		this.drumInfo[i].replacement=sureNumeric(readObjectFromlocalStorage('reDrum' + i),0,0,1000);
 		if(this.drumInfo[i].replacement){
 			var info = this.player.loader.drumInfo(this.drumInfo[i].replacement-1);
 			this.player.loader.startLoad(this.audioContext, info.url, info.variable);
 			this.drumInfo[i].info=info;
 		}
-		this.trackInfo[7 - i].replacement=sureNumeric(readObjectFromlocalStorage('reTrack' + i));
+		this.trackInfo[7 - i].replacement=sureNumeric(readObjectFromlocalStorage('reTrack' + i),0,0,2000);
 		if(this.trackInfo[7 - i].replacement){
 			var info = this.player.loader.instrumentInfo(this.trackInfo[7-i].replacement-1);
 			this.player.loader.startLoad(this.audioContext, info.url, info.variable);

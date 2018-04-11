@@ -11,7 +11,7 @@ function testing() {
 	console.log('done save')
 	});*/
 	/*readStringFromWebDB('somedata', function (text) {
-		console.log('done read', text)
+	console.log('done read', text)
 	});*/
 }
 
@@ -22,10 +22,10 @@ function readStringFromWebDB(name, ondone) {
 			try {
 				var sql = 'select ftext from cfg where fname=\'' + name + '\';';
 				sqlTransaction.executeSql(sql, [], function (a, b) {
-					console.log(sql,b);
-					if(b.rows.length>0){
+					console.log(sql, b);
+					if (b.rows.length > 0) {
 						ondone(b.rows[0].ftext);
-					}else{
+					} else {
 						ondone(null);
 					}
 				}, function (a, b) {
@@ -316,10 +316,26 @@ function decodeState(encoded) {
 				pitch: pitch
 			});
 		}
+		if(strings[6]){
+			for(var i=0;i<8;i++){
+				var r = parseInt(strings[6].substring(i * 3, i * 3 + 3), 16);
+				//drumInfo[i].replacement=r;
+				saveText2localStorage('reDrum'+i, '' + r);
+			}
+		}
+		if(strings[7]){
+			for(var i=0;i<8;i++){
+				var r = parseInt(strings[7].substring(i * 3, i * 3 + 3), 16);
+				//trackInfo[7-i].replacement=r;
+				saveText2localStorage('reTrack'+(7-i), '' + r);
+			}
+		}
 		saveObject2localStorage('storeTracks', storeTracks);
+		
 	} catch (ex) {
 		console.log(ex);
 	}
+	//vvv.rfff();
 }
 function pad0(value, size) {
 	for (var i = value.length; i < size; i++) {
@@ -391,11 +407,32 @@ function encodeState() {
 			}
 		}
 		txt = txt + '-' + pitchData;
+		var drumreplacements = '';
+		for (var r = 0; r < 8; r++) {
+			drumreplacements = drumreplacements + hex3(sureNumeric(readTextFromlocalStorage('reDrum' + r), 0, 0, 1000));
+		}
+		txt = txt + '-' + drumreplacements;
+		var ireplacements = '';
+		for (var r = 0; r < 8; r++) {
+			ireplacements = ireplacements + hex3(sureNumeric(readTextFromlocalStorage('reTrack' + (7 - r)), 0, 0, 2000));
+		}
+		txt = txt + '-' + ireplacements;
 	} catch (ex) {
 		console.log(ex);
 	}
 	console.log(txt);
 	return txt;
+}
+function hex3(n) {
+	var nn = 1 * n;
+	var s = nn.toString(16);
+	if (s.length < 2) {
+		return '00' + s;
+	}
+	if (s.length < 3) {
+		return '0' + s;
+	}
+	return s;
 }
 function addStateToHistory(nocut) {
 	var hstry = sureArray(readObjectFromlocalStorage('history'), []);
