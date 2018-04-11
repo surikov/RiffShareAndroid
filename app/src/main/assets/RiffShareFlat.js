@@ -1266,7 +1266,9 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		});
 
 		this.tileCircle(g, 7 * this.tapSize, 52 * this.tapSize, 0.5 * this.tapSize, this.findTrackInfo(0).color);
-		this.tileText(g, 7 * this.tapSize, y + this.tapSize * 52.3, this.tapSize * 1.0, 'Swap with ' + this.findTrackInfo(1).title, this.findTrackInfo(1).color);
+		//this.tileText(g, 7 * this.tapSize, y + this.tapSize * 52.3, this.tapSize * 1.0, 'Swap with ' + this.findTrackInfo(1).title, this.findTrackInfo(1).color);
+		this.tileText(g, 7 * this.tapSize, y + this.tapSize * 52.3, this.tapSize * 1.0, 'Swap with ' + this.findTrackTitle(this.findTrackNum(1)), this.findTrackInfo(1).color);
+		
 		this.addSpot('swp', 6.5 * this.tapSize, 51.5 * this.tapSize, (this.marginLeft - 7.5) * this.tapSize, this.tapSize, function () {
 			//console.log(riffshareflat.findTrackInfo(0).title,'<->',riffshareflat.findTrackInfo(1).title);
 			riffshareflat.userActionSwap(); //riffshareflat.findTrackInfo(0).nn,riffshareflat.findTrackInfo(1).nn);
