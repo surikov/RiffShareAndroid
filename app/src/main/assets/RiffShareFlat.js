@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.13');
+console.log('riffshareflat v1.0.14');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -992,11 +992,16 @@ RiffShareFlat.prototype.addContent = function (x, y, w, h) {
 	this.addSmallTiles(x, y, w, h);
 };
 RiffShareFlat.prototype.startPlay = function () {
+	
 	if (this.onAir) {
 		console.log('on air already');
 		return;
 	}
 	console.log('startPlay');
+	if(this.audioContext.state=='suspended'){
+		console.log('audioContext.resume');
+		this.audioContext.resume();
+	}
 	//var N = 4 * 60 / this.tempo;
 	//var beatLen = 1 / 16 * N;
 	//this.queueAhead=beatLen;
