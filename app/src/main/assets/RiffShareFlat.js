@@ -1242,6 +1242,8 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
 			riffshareflat.saveState();
 			var encoded = encodeState();
+			//console.log(encoded);
+			//return;
 			/*
 			var url = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
 			var tiny = 'https://tinyurl.com/create.php?url=' + url;

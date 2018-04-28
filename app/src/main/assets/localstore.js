@@ -350,8 +350,11 @@ function pad0(value, size) {
 function encodeState() {
 	var txt = '';
 	try {
-		var tempo = 1 * sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220]);
+		var tempo = 1 * sureInList(readTextFromlocalStorage('tempo'), 120, [80, 100, 120, 140, 160, 180, 200, 220, 240]);
+		
 		txt = tempo.toString(16);
+		//console.log(txt,tempo,readTextFromlocalStorage('tempo'));
+		
 		var tracks = '';
 		for (var i = 0; i < 8; i++) {
 			var n = Math.round(sureNumeric(readTextFromlocalStorage('track' + i), 0, 60, 100) / 10).toString(16);

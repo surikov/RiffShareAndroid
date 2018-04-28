@@ -352,7 +352,7 @@ if (typeof window !== 'undefined') {
 
 },{}],3:[function(require,module,exports){
 'use strict'
-console.log('WebAudioFont Player v2.72');
+console.log('WebAudioFont Player v2.76');
 var WebAudioFontLoader = require('./loader');
 var WebAudioFontChannel = require('./channel');
 var WebAudioFontReverberator = require('./reverberator')
@@ -361,7 +361,7 @@ function WebAudioFontPlayer() {
 	this.loader = new WebAudioFontLoader(this);
 	this.onCacheFinish = null;
 	this.onCacheProgress = null;
-	this.afterTime = 0.01;
+	this.afterTime = 0.05;
 	this.nearZero = 0.000001;
 	this.createChannel = function (audioContext) {
 		return new WebAudioFontChannel(audioContext);
@@ -401,11 +401,15 @@ function WebAudioFontPlayer() {
 		}
 	};
 	this.queueSnap = function (audioContext, target, preset, when, pitches, duration, volume, slides) {
-		volume = 1.5 * (volume | 1.0);
+		volume = 1.5 * (volume || 1.0);
 		duration = 0.05;
 		this.queueChord(audioContext, target, preset, when, pitches, duration, volume, slides);
 	};
 	this.queueWaveTable = function (audioContext, target, preset, when, pitch, duration, volume, slides) {
+		if (audioContext.state == 'suspended') {
+			console.log('audioContext.resume');
+			audioContext.resume();
+		}
 		if (volume) {
 			volume = 1.0 * volume;
 		} else {
@@ -436,7 +440,7 @@ function WebAudioFontPlayer() {
 		var envelope = this.findEnvelope(audioContext, target, startWhen, waveDuration);
 		this.setupEnvelope(audioContext, envelope, zone, volume, startWhen, waveDuration, duration);
 		envelope.audioBufferSourceNode = audioContext.createBufferSource();
-		envelope.audioBufferSourceNode.playbackRate.setValueAtTime(playbackRate,0);
+		envelope.audioBufferSourceNode.playbackRate.setValueAtTime(playbackRate, 0);
 		if (slides) {
 			if (slides.length > 0) {
 				envelope.audioBufferSourceNode.playbackRate.setValueAtTime(playbackRate, when);
@@ -559,7 +563,6 @@ function WebAudioFontPlayer() {
 					envelope.duration = 0;
 				}
 			};
-			//console.log('create',when);
 			this.envelopes.push(envelope);
 		}
 		return envelope;
