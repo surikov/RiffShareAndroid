@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.14');
+console.log('riffshareflat v1.0.15');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -286,7 +286,7 @@ RiffShareFlat.prototype.init = function () {
 	} catch (noch) {
 		console.log(noch);
 	}
-	this.echoOn = true;
+	//this.echoOn = true;
 	if (this.echoOn) {
 		console.log('init WebAudioFontReverberator');
 		this.reverberator = new WebAudioFontReverberator(this.audioContext);
