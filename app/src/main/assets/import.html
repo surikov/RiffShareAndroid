@@ -4,7 +4,7 @@
 		<title>Molgav import</title>
 		<meta charset="utf-8">
 		<script src="localstore.js"></script>
-		<script src="MidiParser.js"></script>
+		<script src="MIDIFile.js"></script>
 		<script src="WebAudioFontPlayer.js"></script>
 		<script src="0300_LesPaul_sf2_file.js"></script>
 		<script src="0280_LesPaul_sf2_file.js"></script>
@@ -100,7 +100,7 @@
 				return true;
 			}
 			function openSong(evt) {
-				console.log("openSong",evt);
+				console.log("openSong v2",evt);
 				//console.log(encodeState());
 				var skp=1*document.getElementById("skip16").value;
 				
@@ -112,6 +112,96 @@
 						console.log(progressEvent);
 						if (progressEvent.target.readyState == FileReader.DONE) {
 							var arrayBuffer = progressEvent.target.result;
+							var midiFile = new MIDIFile(arrayBuffer);
+							console.log(midiFile);
+							
+							var song = midiFile.parseSong();							
+							console.log(song);
+							//console.log(midiFile.header.getTicksPerBeat());
+							//console.log(midiFile.header.getTimeDivision());
+							//console.log(midiFile.header.getSMPTEFrames());
+							//console.log(midiFile.header.getTicksPerFrame());
+							//console.log(midiFile.header.setSMTPEDivision());
+							//console.log(midiFile.header.getTicksPerBeat(),':',midiFile.header.getTimeDivision());
+							var ticksPerBeat=480;//midiFile.header.getTicksPerBeat();
+							console.log('ticksPerBeat',ticksPerBeat);
+							if(midiFile.header.getTimeDivision() === MIDIFile.Header.TICKS_PER_BEAT) {
+								ticksPerBeat=midiFile.header.getTicksPerBeat();
+								console.log('now ticksPerBeat',ticksPerBeat);
+							}
+							
+							/*if(midiFile.header.getTimeDivision() === MIDIFile.Header.TICKS_PER_BEAT) {
+								console.log(midiFile.header.getTicksPerBeat());
+							} else {
+								console.log(midiFile.header.getSMPTEFrames());
+								console.log(midiFile.header.getTicksPerFrame());
+							}*/
+							var storeTracks = [];//sureArray(readObjectFromlocalStorage('storeTracks'), []);
+							for (var t = 0; t < song.tracks.length; t++) {
+								var track = song.tracks[t];
+								var ins = 4;
+								if (track.program + 1 == 31) {
+									ins = 0;
+								}
+								if (track.program + 1 >= 25 && track.program + 1 <= 28) {
+									ins = 1;
+								}
+								if (track.program + 1 >= 17 && track.program + 1 <= 24) {
+									ins = 2;
+								}
+								if (track.program + 1 == 30) {
+									ins = 3;
+								}
+								if (track.program + 1 >= 33 && track.program + 1 <= 38) {
+									ins= 5;
+								}
+								if (track.program + 1 >= 41 && track.program + 1 <= 88) {
+									ins = 6;
+								}
+								if (track.program + 1 >= 39 && track.program + 1 <= 40) {
+									ins = 7;
+								}
+								for (var n = 0; n < track.notes.length; n++) {
+									var note = track.notes[n];
+									var beat = Math.round(4 * note.tick / ticksPerBeat);
+									if (beat >= skp && beat < skp + 256) {
+										if (noTone(storeTracks, ins, beat - skp, adjustPitch(note.pitch))) {
+											storeTracks.push({
+												track: ins,
+												beat: beat - skp,
+												pitch: adjustPitch(note.pitch),
+												length: Math.round(4 * note.tickDuration / ticksPerBeat),
+												shift: 0
+											});
+										}
+									}
+								}
+							}
+							saveObject2localStorage('storeTracks', storeTracks);
+							var storeDrums = [];//sureArray(readObjectFromlocalStorage('storeDrums'), []);
+							for (var t = 0; t < song.beats.length; t++) {
+								var track = song.beats[t];
+								var ins = 6;
+								if(track.n>=35 && track.n<=36){ins=0;}
+								if(track.n==41 || track.n==43){ins=1;}
+								if(track.n==38 || track.n==40){ins=2;}
+								if(track.n==45 || track.n==47 || track.n==48 || track.n==50){ins=3;}
+								if(track.n==42 || track.n==44){ins=4;}
+								if(track.n==46){ins=5;}
+								if(track.n==49){ins=7;}
+								for (var n = 0; n < track.notes.length; n++) {
+									var note = track.notes[n];
+									var beat = Math.round(4 * note.tick / ticksPerBeat);
+									if (beat >= skp && beat < skp + 256) {
+										if(noDrum(storeDrums,n,beat-skp)){
+											storeDrums.push({drum:ins,beat:beat - skp});
+										}
+									}
+								}
+							}
+							saveObject2localStorage('storeDrums',storeDrums);
+							window.location='index.html';
+							/*
 							var midiParser = new MidiParser(arrayBuffer);
 							midiParser.parse();
 							console.log('slice from',skp);
@@ -161,6 +251,7 @@
 							}
 							saveObject2localStorage('storeTracks',storeTracks);
 							window.location='index.html';
+							*/
 						} else {
 							console.log(progressEvent.target.readyState);
 						}
@@ -171,7 +262,7 @@
 			document.getElementById('filesOpen').addEventListener('change', openSong, false);
 			var ns = "http://www.w3.org/2000/svg";
 			var h = sureArray(readObjectFromlocalStorage('history'), []);
-			console.log(h);
+			//console.log(h);
 			var bgMode = sureInList(readTextFromlocalStorage('bgMode'), 0, [0,1,2]);
 			var bg=modeBackground(bgMode);
 			var fg=modeDrumColor(bgMode);
@@ -192,7 +283,7 @@
 			}
 			
 			function addEntry(label, num, storeDrums, storeTracks) {
-				console.log(storeTracks);
+				//console.log(storeTracks);
 				var svg = entry(label,num);
 				for (var i = 0; i < storeDrums.length; i++) {
 					if(bgMode==2){
