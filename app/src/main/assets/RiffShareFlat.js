@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.15');
+console.log('riffshareflat v1.0.16');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -1259,6 +1259,13 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			var url = "http://molgav.nn.ru/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
 			window.open(url, '_self')
 			//console.log(me.trackInfo,url);
+		});
+		
+		this.tileCircle(g, 13 * this.tapSize, 17 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
+		this.tileText(g, 12.75 * this.tapSize, 17.75 * this.tapSize, 2.5 * this.tapSize, 'Help', modeDrumColor(this.bgMode));
+		this.addSpot('helpshareriff', 12 * this.tapSize, 16 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
+			riffshareflat.saveState();
+			window.open('http://molgav.nn.ru/', '_self')
 		});
 
 		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, modeDrumShadow(this.bgMode));
