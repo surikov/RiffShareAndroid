@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.16');
+console.log('riffshareflat v1.0.17');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -1344,6 +1344,28 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 			//console.log('rptdrms');
 			riffshareflat.userRepeatDrums();
 		});
+		for (var i = 0; i < dr16; i++) {
+			var bx=(16 * i + this.marginLeft + 15.5) * this.tapSize;
+			var by=(12 * 5 + 8 + 1.5) * this.tapSize;
+			this.tileCircle(g, bx, by, 0.5 * this.tapSize, modeDrumShadow(this.bgMode));
+			this.tileLine(g, bx - 0.2 * this.tapSize, by - 0.2 * this.tapSize, bx + 0.2 * this.tapSize, by + 0.2 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+			this.tileLine(g, bx + 0.2 * this.tapSize, by - 0.2 * this.tapSize, bx - 0.2 * this.tapSize, by + 0.2 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+			s=this.addSpot('clrdrmmsr'+i, bx - 0.5 * this.tapSize, by- 0.5 * this.tapSize, this.tapSize, this.tapSize, function () {
+				//console.log('clrdrmmsr',this.i);
+				riffshareflat.userClearDrumMeasure(this.i);
+			});			
+			s.i = i;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		this.tileCircle(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.5) * this.tapSize, 0.5 * this.tapSize, modeDrumShadow(this.bgMode));
 		this.tileText(g, (this.marginLeft + 0.5) * this.tapSize, (12 * 5 + 8 + 1.75) * this.tapSize, this.tapSize * 1.0, 'Clear Drums', modeDrumColor(this.bgMode));
 		this.addSpot('clrdrms', (this.marginLeft) * this.tapSize, (12 * 5 + 8 + 1) * this.tapSize, this.tapSize, this.tapSize, function () {
@@ -1369,6 +1391,21 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 					riffshareflat.userDownMeasure(this.i);
 				});
 			s.i = i;
+			
+			var bx=(16 * i + this.marginLeft + 15.5) * this.tapSize;
+			/*
+			*/
+			
+			var by=0.5* this.tapSize;
+			this.tileCircle(g, bx, by, 0.5 * this.tapSize, this.findTrackInfo(0).color);
+			this.tileLine(g, bx - 0.2 * this.tapSize, by - 0.2 * this.tapSize, bx + 0.2 * this.tapSize, by + 0.2 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+			this.tileLine(g, bx + 0.2 * this.tapSize, by - 0.2 * this.tapSize, bx - 0.2 * this.tapSize, by + 0.2 * this.tapSize, modeBackground(this.bgMode), 0.1 * this.tapSize);
+			s=this.addSpot('clrinsmsr'+i, bx - 0.5 * this.tapSize, by- 0.5 * this.tapSize, this.tapSize, this.tapSize, function () {
+				//console.log('clrinsmsr',this.i);
+				riffshareflat.userClearMeasure(this.i);
+			});
+			s.i = i;
+			
 		}
 
 	}
@@ -2647,6 +2684,57 @@ RiffShareFlat.prototype.userDownInstrument = function () {
 		}
 	});
 };
+RiffShareFlat.prototype.userClearDrumMeasure = function (msr) {
+	var pre = this.copyDrums();
+	var after = [];
+	var c16 = 16 * this.cauntDrumMeasures();
+	for (var i = 0; i < pre.length; i++) {
+		if (pre[i].beat >= msr * 16 && pre[i].beat < (1 + msr) * 16 ) {
+			//
+		}else{
+			after.push({
+				beat: pre[i].beat ,
+				drum: pre[i].drum
+			});
+		}
+	}
+	riffshareflat.pushAction({
+		caption: 'clear drum measure '+msr,
+		undo: function () {
+			riffshareflat.storeDrums = pre;
+		},
+		redo: function () {
+			riffshareflat.storeDrums = after;
+		}
+	});
+};
+RiffShareFlat.prototype.userClearMeasure = function (msr) {
+	var nn = this.findTrackInfo(0).nn;
+	var pre = this.copyTones();
+	var after = [];
+	for (var i = 0; i < pre.length; i++) {
+		if (pre[i].beat >= msr * 16 && pre[i].beat < (1 + msr) * 16 && nn == pre[i].track) {
+			//
+		} else {
+			after.push({
+				beat: pre[i].beat,
+				pitch: pre[i].pitch,
+				track: pre[i].track,
+				shift: pre[i].shift,
+				length: pre[i].length
+			});
+		}
+	}
+	riffshareflat.pushAction({
+		caption: 'clear measure ' + msr + ' for instrument ' + nn,
+		undo: function () {
+			riffshareflat.storeTracks = pre;
+		},
+		redo: function () {
+			riffshareflat.storeTracks = after;
+		}
+	});
+};
 RiffShareFlat.prototype.userUpMeasure = function (msr) {
 	var nn = this.findTrackInfo(0).nn;
 	var pre = this.copyTones();
@@ -2719,6 +2807,7 @@ RiffShareFlat.prototype.userDownMeasure = function (msr) {
 		}
 	});
 };
+
 RiffShareFlat.prototype.userClearInstrument = function () {
 	var nn = this.findTrackInfo(0).nn;
 	var pre = this.copyTones();
@@ -2807,6 +2896,7 @@ RiffShareFlat.prototype.userRepeatDrums = function () {
 		}
 	});
 };
+
 RiffShareFlat.prototype.userActionClearAll = function () {
 	this.saveState();
 	addStateToHistory();
