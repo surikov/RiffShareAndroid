@@ -1,0 +1,17 @@
+{
+  "app": {
+    "background": {
+		"scripts": ["background.js"]
+    }
+  },
+  "manifest_version": 2,
+  "name": "Molgav RiffShare",
+  "short_name": "RiffShare",
+  "version": "2.113",
+  "default_locale": "en",
+  "permissions": [],
+  "description": "Pianoroll MIDI sequencer. Create music everywhere. Guitars, Pianos, Drums.",
+  "icons": {"16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png"}
+}
