@@ -1256,7 +1256,7 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 					break;
 				}
 			}
-			var url = "http://molgav.nn.ru/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
+			var url = "https://zvoog.app/x/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
 			window.open(url, '_self')
 			//console.log(me.trackInfo,url);
 		});
@@ -1265,7 +1265,7 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.tileText(g, 12.75 * this.tapSize, 17.75 * this.tapSize, 2.5 * this.tapSize, 'Help', modeDrumColor(this.bgMode));
 		this.addSpot('helpshareriff', 12 * this.tapSize, 16 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
 			riffshareflat.saveState();
-			window.open('http://molgav.nn.ru/', '_self')
+			window.open('https://zvoog.app/riffshare/', '_self')
 		});
 
 		this.tileCircle(g, 4 * this.tapSize, 15 * this.tapSize, 3 * this.tapSize, modeDrumShadow(this.bgMode));
