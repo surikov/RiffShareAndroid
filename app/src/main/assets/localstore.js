@@ -91,7 +91,11 @@ function doStoreIndexedDB(ondone) {
 		idbOpenDBRequest.onupgradeneeded = function (event) {
 			console.log(event);
 			var idbDatabase = event.target.result;
-			var idbObjectStore = idbDatabase.createObjectStore('objectStore');
+			try{
+				var idbObjectStore = idbDatabase.createObjectStore('objectStore');
+			}catch(e){
+				console.log('objectStore',e);
+			}
 		}
 		idbOpenDBRequest.onerror = function (event) {
 			console.log(event);
