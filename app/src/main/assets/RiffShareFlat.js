@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.17');
+console.log('riffshareflat v1.0.18');
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -1256,7 +1256,8 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 					break;
 				}
 			}
-			var url = "https://zvoog.app/x/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
+			//var url = "https://zvoog.app/x/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
+			var url = "http://molgav.nn.ru/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
 			window.open(url, '_self')
 			//console.log(me.trackInfo,url);
 		});
