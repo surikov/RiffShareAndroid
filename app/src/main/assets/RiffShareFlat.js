@@ -1,4 +1,42 @@
-console.log('riffshareflat v1.0.18');
+console.log('riffshareflat v1.0.19');
+function midiOnMIDImessage(event) {
+	var data = event.data;
+	var cmd = data[0] >> 4;
+	var channel = data[0] & 0xf;
+	var type = data[0] & 0xf0;
+	var pitch = data[1];
+	var velocity = data[2];
+	switch (type) {
+	case 144:
+		window.riffshareflat.midiNoteOn(pitch);
+		break;
+	case 128:
+		window.riffshareflat.midiNoteOff(pitch);
+		break;
+	}
+}
+function midiOnStateChange(event) {
+	console.log('midiOnStateChange', event);
+}
+function requestMIDIAccessSuccess(midi) {
+	var inputs = midi.inputs.values();
+	for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+		console.log('midi input', input);
+		input.value.onmidimessage = midiOnMIDImessage;
+	}
+	midi.onstatechange = midiOnStateChange;
+}
+function requestMIDIAccessFailure(e) {
+	console.log('requestMIDIAccessFailure', e);
+}
+function startListenMIDI() {
+	if (navigator.requestMIDIAccess) {
+		console.log('navigator.requestMIDIAccess ok');
+		navigator.requestMIDIAccess().then(requestMIDIAccessSuccess, requestMIDIAccessFailure);
+	} else {
+		console.log('navigator.requestMIDIAccess failed', e);
+	}
+}
 function RiffShareFlat() {
 	window.riffshareflat = this;
 	return this;
@@ -18,6 +56,7 @@ RiffShareFlat.prototype.init = function () {
 	console.log('tapSize', this.tapSize, 'devicePixelRatio', window.devicePixelRatio);
 	this.tickID = -1;
 	this.onAir = false;
+	this.midiKeys=[];
 	//this.queueAhead = 0.75;
 	this.tickerDelay = 1;
 	this.tickerStep = 0;
@@ -314,6 +353,7 @@ RiffShareFlat.prototype.init = function () {
 	this.loadState();
 
 	console.log('done init');
+	startListenMIDI();
 };
 RiffShareFlat.prototype.loadState = function () {
 	var me = this;
@@ -2975,6 +3015,22 @@ RiffShareFlat.prototype.userActionReplaceIns = function (insNum, smplNum) {
 			}
 		}
 	});
+};
+RiffShareFlat.prototype.midiNoteOn = function (pitch) {
+	this.midiNoteOff(pitch);
+	var channel=this.trackInfo[0];
+	for(var i=0;i<this.trackInfo.length;i++){
+		channel=this.trackInfo[i];
+		if(this.trackInfo[i].order==0){
+			break;
+		}
+	}
+	this.midiKeys[pitch]=this.player.queueWaveTable(this.audioContext, channel.audioNode, channel.sound, 0, pitch, 10, channel.volumeRatio);
+};
+RiffShareFlat.prototype.midiNoteOff = function (pitch) {
+	if(this.midiKeys[pitch]){
+		this.midiKeys[pitch].cancel();
+	}
 };
 window.onload = function () {
 	console.log('create riffshareflat');
