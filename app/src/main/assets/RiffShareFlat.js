@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.19');
+console.log('riffshareflat v1.0.20');
 function midiOnMIDImessage(event) {
 	var data = event.data;
 	var cmd = data[0] >> 4;
