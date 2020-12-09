@@ -1,4 +1,4 @@
-console.log('riffshareflat v1.0.19');
+console.log('riffshareflat v1.0.20');
 function midiOnMIDImessage(event) {
 	var data = event.data;
 	var cmd = data[0] >> 4;
@@ -1279,28 +1279,32 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		this.tileCircle(g, 11 * this.tapSize, 13 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
 		this.tileText(g, 10.75 * this.tapSize, 13.75 * this.tapSize, 2.5 * this.tapSize, 'Share riff', modeDrumColor(this.bgMode));
 		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+this.svcntr, modeDrumColor(this.bgMode));
+		
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
-			riffshareflat.saveState();
-			var encoded = encodeState();
-			//console.log(encoded);
-			//return;
-			/*
-			var url = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
-			var tiny = 'https://tinyurl.com/create.php?url=' + url;
-			window.open(tiny, '_self')
-			 */
-			var top = 0;
-			for (var i = 0; i < me.trackInfo.length; i++) {
-				if (me.trackInfo[i].order == 0) {
-					top = i;
-					break;
-				}
-			}
-			//var url = "https://zvoog.app/x/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
-			var url = "http://molgav.nn.ru/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
-			window.open(url, '_self')
-			//console.log(me.trackInfo,url);
-		});
+			window.open('file.html', '_self')
+			});
+		//this.addSpot('shareriffold', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
+		//	riffshareflat.saveState();
+		//	var encoded = encodeState();
+		//	//console.log(encoded);
+		//	//return;
+		//	/*
+		//	var url = "https://surikov.github.io/RiffShareAndroid/app/src/main/assets/load.html?riff=" + encoded;
+		//	var tiny = 'https://tinyurl.com/create.php?url=' + url;
+		//	window.open(tiny, '_self')
+		//	 */
+		//	var top = 0;
+		//	for (var i = 0; i < me.trackInfo.length; i++) {
+		//		if (me.trackInfo[i].order == 0) {
+		//			top = i;
+		//			break;
+		//		}
+		//	}
+		//	//var url = "https://zvoog.app/x/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
+		//	var url = "http://molgav.nn.ru/share.php?top=" + top + "&mode=" + me.bgMode + "&riff=" + encoded;
+		//	window.open(url, '_self')
+		//	//console.log(me.trackInfo,url);
+		//});
 		
 		this.tileCircle(g, 13 * this.tapSize, 17 * this.tapSize, 1 * this.tapSize, modeDrumShadow(this.bgMode));
 		this.tileText(g, 12.75 * this.tapSize, 17.75 * this.tapSize, 2.5 * this.tapSize, 'Help', modeDrumColor(this.bgMode));
