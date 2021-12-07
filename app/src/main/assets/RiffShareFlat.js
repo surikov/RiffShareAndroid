@@ -1281,6 +1281,7 @@ RiffShareFlat.prototype.addSmallTiles = function (left, top, width, height) {
 		//this.tileText(g, 10.75 * this.tapSize, 13.75 *this.tapSize , 2.5 * this.tapSize, 'Share '+this.svcntr, modeDrumColor(this.bgMode));
 		
 		this.addSpot('shareriff', 10 * this.tapSize, 12 * this.tapSize, 7 * this.tapSize, this.tapSize * 2, function () {
+			riffshareflat.saveState();
 			var encoded = encodeState();
 			var shareurl = "https://zvoog.app/x/shareriffpg.php?riff=" + encoded;
 			//window.open('file.html', '_self')
